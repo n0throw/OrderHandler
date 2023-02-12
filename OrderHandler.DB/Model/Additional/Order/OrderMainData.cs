@@ -1,8 +1,11 @@
-﻿namespace OrderHandler.DB.Model.Additional.Order;
+﻿using Microsoft.EntityFrameworkCore;
 
-public struct OrderMainData
+namespace OrderHandler.DB.Model.Additional.Order;
+
+[Owned]
+public class OrderMainData
 {
-    public int UserDataId { get; set; }
+    public string UserDataId { get; set; } // int id в бд с пользователями
     public string OrderIssue { get; set; }
     public DateOnly OrderDate { get; set; }
     public DateOnly DeliveryDate { get; set; }

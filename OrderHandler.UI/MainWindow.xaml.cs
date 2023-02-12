@@ -14,7 +14,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        //DataContext = new MainWindowContext(MainFrame.NavigationService);
-        MainFrame.Navigate(new TableOrderManager());
+        DataContext = new MainWindowContext(MainFrame.NavigationService);
+        //MainFrame.Navigate(new TableOrderManager());
     }
 }

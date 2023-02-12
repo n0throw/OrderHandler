@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 #region OrderHandler_Using
 using OrderHandler.UI.Pages;
+using OrderHandler.UI.Pages.Tables;
 #endregion OrderHandler_Using
 
 namespace OrderHandler.UI.Core.Resolver;
@@ -19,7 +20,8 @@ internal sealed class PageResolver : Resolver<Page>
     internal PageResolver() : base(new Dictionary<string, Func<Page>>()
     {
         { nameof(Login), () => new Login() },
-        { nameof(DefaultPage), () => new DefaultPage() }
+        { nameof(DefaultPage), () => new DefaultPage() },
+        { nameof(TableOrderManager), () => new TableOrderManager() }
     })
     { }
 }

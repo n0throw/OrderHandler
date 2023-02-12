@@ -5,27 +5,22 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:OrderHandler.UI.Pages.Tables"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="1600"
       Title="TableOrderManager" Background="Black">
 
     <Grid Background="White">
         <Menu Height="20" VerticalAlignment="Top">
             <MenuItem Header="Меню" Height="20" ToolTip="Основные для всех страниц функции">
-                <MenuItem Header="Обновить" ToolTip="Обновляет данные на странице"/>
+                <MenuItem Header="Обновить" ToolTip="Обновляет данные на странице"  Command="{Binding UpdateCommand}"/>
                 <MenuItem Header="Назад" ToolTip="Возвращает на предыдущую страницу"/>
                 <MenuItem Header="Закрыть" ToolTip="Возвращает на начальный экран"/>
                 <Separator/>
                 <MenuItem Header="Статусы" ToolTip="Показыват статусы системы"/>
-                <MenuItem Header="Выход" ToolTip="Возвращает на экран авторизации"/>
-                <MenuItem Header="Закрыть программу"/>
-            </MenuItem>
-            <MenuItem Header="Обработать" Height="20" ToolTip="Действия с выделенными заказами">
-                <MenuItem Header="Изменить" ToolTip="Изменить данные выделенного заказа"/>
-                <MenuItem Header="Удалить" ToolTip="Удалить выделенный заказ"/>
-                <MenuItem Header="Выгрузить в Excel" ToolTip="Выгрузить в Excel выделенные заказы"/>
+                <MenuItem Header="Выход" ToolTip="Возвращает на экран авторизации" Command="{Binding ExitCommand}"/>
+                <MenuItem Header="Закрыть программу" Command="{Binding ExitAppCommand}"/>
             </MenuItem>
             <MenuItem Header="Утилиты" Height="20" ToolTip="Основные для данной страницы функции">
-                <MenuItem Header="Добавить заказ" ToolTip="Добавляет новый заказ"/>
+                <MenuItem Header="Добавить заказ" ToolTip="Добавляет новый заказ" Command="{Binding AddOrderCommand}"/>
                 <MenuItem Header="Добавить заказы из Excel" ToolTip="Массовая загрузка новых заказов из Excel"/>
                 <MenuItem Header="Выгрузить в Excel" ToolTip="Выгрузка всех заказов из таблицы в Excel"/>
                 <Separator/>
@@ -35,6 +30,185 @@
             <MenuItem Header="Фильтры" Height="20" ToolTip="Устанавливает различные фильтры отображения"/>
         </Menu>
 
-
+        <StackPanel Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,20,0,0">
+            <StackPanel Orientation="Vertical" CanHorizontallyScroll="False" CanVerticallyScroll="False">
+                <Border BorderThickness="1 1 1 0.5" BorderBrush="Black" Width="{Binding Width, ElementName=OrderDG, Mode=OneWay}">
+                    <TextBlock Text="Заказ" TextAlignment="Center" Background="#DDEBF7"/>
+                </Border>
+                <DataGrid x:Name="OrderDG"
+                    ItemsSource="{Binding Order}"
+                    SelectedItem="{Binding SelectedOrder}"
+                    AutoGenerateColumns="False"
+                    CanUserResizeColumns="True"
+                    RowHeaderWidth="0"
+                    CanUserAddRows="False"
+                    IsReadOnly="True">
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="true">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="0 0 0 0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Изменить" Command="{Binding ChangeRowOrder}" CommandParameter="{Binding SelectedOrder}"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="№" Binding="{Binding Path=Id}" MinWidth="20" >
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#DDEBF7"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="0 0 1 1.5"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Менеджер Заказа" Binding="{Binding Path=UserName}" MinWidth="110">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#DDEBF7"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="0 0 1 1.5"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="№ Заказа" Binding="{Binding Path=OrderIssue}" MinWidth="65">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#DDEBF7"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="0 0 1 1.5"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Дата заказа" Binding="{Binding Path=OrderDate}" MinWidth="75">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#DDEBF7"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="0 0 1 1.5"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Дата доставки" Binding="{Binding Path=DeliveryDate}" MinWidth="90">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#DDEBF7"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="0 0 1 1.5"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Срок доставки (Дн.)" Binding="{Binding Path=NumberOfDays}" MinWidth="120">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#DDEBF7"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="0 0 1 1.5"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Тип изделия" Binding="{Binding Path=ProductType}" MinWidth="80">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#DDEBF7"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="0 0 1 1.5"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Сумма заказа" Binding="{Binding Path=ProductCost}" MinWidth="85">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#DDEBF7"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="0 0 1 1.5"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" CanHorizontallyScroll="False" CanVerticallyScroll="False">
+                <Border BorderThickness="1 1 1 0.5" BorderBrush="Black" Width="{Binding Width, ElementName=DocumentationConstructorDG, Mode=OneWay}">
+                    <TextBlock Text="Документация конструктор" TextAlignment="Center" Background="#C6E0B4"/>
+                </Border>
+                <DataGrid x:Name="DocumentationConstructorDG"
+                    ItemsSource="{Binding DocumentationConstructor}"
+                    SelectedItem="{Binding SelectedDocumentationConstructor}"
+                    AutoGenerateColumns="False"
+                    CanUserResizeColumns="True"
+                    RowHeaderWidth="0"
+                    CanUserAddRows="False"
+                    IsReadOnly="True">
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="true">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="0 0 0 0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Изменить" Command="{Binding ChangeRowDocumentationConstructor}" CommandParameter="{Binding SelectedDocumentationConstructor}"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Плановая дата" Binding="{Binding Path=PlannedDate}" MinWidth="95">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#C6E0B4"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="0 0 1 1.5"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="ФИО" Binding="{Binding Path=UserName}" MinWidth="35">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#C6E0B4"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="0 0 1 1.5"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Дата" Binding="{Binding Path=Date}" MinWidth="70" Visibility="Visible">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#C6E0B4"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="0 0 1 1.5"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </StackPanel>
+        
+        
     </Grid>
 </Page>

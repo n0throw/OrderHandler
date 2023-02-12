@@ -15,10 +15,4 @@ public struct FullName
         Name = name;
         Patronymic = patronymic;
     }
-
-    public override string ToString()
-        => $"{Surname} {Name} {Patronymic}";
-
-    public string ToShortString()
-        => $"{Surname.First()} {Name.First()} {Patronymic.First()}";
 }

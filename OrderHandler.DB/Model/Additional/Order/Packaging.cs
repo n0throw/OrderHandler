@@ -1,6 +1,9 @@
-﻿using OrderHandler.DB.Model.Additional.Order;
+﻿using Microsoft.EntityFrameworkCore;
 
-public struct Packaging
+namespace OrderHandler.DB.Model.Additional.Order;
+
+[Owned]
+public class Packaging
 {
     public StatusGeneric Status { get; set; }
     public decimal ChipboardOrMDF { get; set; }

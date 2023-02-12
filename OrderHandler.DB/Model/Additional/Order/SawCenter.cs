@@ -1,6 +1,9 @@
-﻿namespace OrderHandler.DB.Model.Additional.Order;
+﻿using Microsoft.EntityFrameworkCore;
 
-public struct SawCenter
+namespace OrderHandler.DB.Model.Additional.Order;
+
+[Owned]
+public class SawCenter
 {
     public StatusGeneric Status { get; set; }
     public decimal ChipboardOrMDF { get; set; }

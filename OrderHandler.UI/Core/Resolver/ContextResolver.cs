@@ -19,7 +19,8 @@ internal class ContextResolver : Resolver<PropertyChanger>
     internal ContextResolver() : base(new Dictionary<string, Func<PropertyChanger>>()
     {
         { nameof(LoginContext), () => new LoginContext() },
-        { nameof(DefaultPageContext), () => new DefaultPageContext() }
+        { nameof(DefaultPageContext), () => new DefaultPageContext() },
+        { nameof(TableOrderManagerContext), () => new TableOrderManagerContext() }
     })
     { }
 }

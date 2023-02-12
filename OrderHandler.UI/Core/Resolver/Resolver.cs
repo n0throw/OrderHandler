@@ -26,6 +26,9 @@ internal abstract class Resolver<T> : IResolver<T>
         else
             alias = $"{alias}{DefaultPostfixAlias}";
 
+        if (!contexts.ContainsKey(alias))
+            alias = DefaultInstance;
+
         return contexts[alias]();
     }
 }

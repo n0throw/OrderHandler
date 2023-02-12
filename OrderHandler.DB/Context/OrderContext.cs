@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace OrderHandler.DB.Context;
 
-internal class OrderContext : DbContext
+public class OrderContext : DbContext
 {
-    public DbSet<UserData> Users => Set<UserData>();
+    public DbSet<Order> Orders => Set<Order>();
     public OrderContext()
         => Database.EnsureCreated();
 

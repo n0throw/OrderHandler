@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace OrderHandler.DB.Context;
 
-internal class UserDataContext : DbContext
+public class UserDataContext : DbContext
 {
     public DbSet<UserData> Users => Set<UserData>();
     public UserDataContext()

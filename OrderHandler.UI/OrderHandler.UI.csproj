@@ -7,4 +7,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\OrderHandler.DB\OrderHandler.DB.csproj" />
+  </ItemGroup>
+
 </Project>

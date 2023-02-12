@@ -1,6 +1,9 @@
-﻿namespace OrderHandler.DB.Model.Additional.Order;
+﻿using Microsoft.EntityFrameworkCore;
 
-public struct Press
+namespace OrderHandler.DB.Model.Additional.Order;
+
+[Owned]
+public class Press
 {
     public StatusGeneric Status { get; set; }
     public decimal MDF { get; set; }

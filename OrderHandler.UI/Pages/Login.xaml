@@ -3,16 +3,21 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
       xmlns:local="clr-namespace:OrderHandler.UI.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="850" d:DesignWidth="1400"
       Title="Login">
 
     <Grid Background="White">
-        <ComboBox Margin="0,198,0,230" HorizontalAlignment="Center" Width="120"/>
-        <PasswordBox HorizontalAlignment="Center" Margin="0,230,0,0" Password="" VerticalAlignment="Top" Width="120"/>
-        <TextBlock HorizontalAlignment="Center" Margin="0,177,0,0" TextWrapping="Wrap" Text="Авторизация" VerticalAlignment="Top"/>
-        <CheckBox HorizontalAlignment="Left" Margin="465,231,0,0" VerticalAlignment="Top" IsChecked="False" IsEnabled="False" ToolTip="CapsLock"/>
-        <Button Content="Close" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Command="{Binding ClosePageCommand}"/>
+        <ComboBox Margin="0,403,0,0" HorizontalAlignment="Center" Width="120" Height="22" VerticalAlignment="Top">
+            <sys:String>Admin</sys:String>
+            <sys:String>Рязанов Ярослав Сергеевич</sys:String>
+        </ComboBox>
+        <PasswordBox HorizontalAlignment="Center" Password="" VerticalAlignment="Top" Width="120" Height="18" Margin="0,430,0,0"/>
+        <CheckBox HorizontalAlignment="Left" Margin="765,432,0,0" VerticalAlignment="Top" IsChecked="False" IsEnabled="False" ToolTip="CapsLock" Height="16" Width="16"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0,382,0,0" TextWrapping="Wrap" Text="Авторизация" VerticalAlignment="Top" Height="16" Width="72"/>
+        <Button Content="Close" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Command="{Binding ClosePageCommand}" Height="20" Width="33"/>
+        <Button Content="Table" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Command="{Binding TablePageCommand}" Height="20" Width="31"/>
     </Grid>
 </Page>
