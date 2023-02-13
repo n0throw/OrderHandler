@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="BaseDataGrid" TargetType="DataGrid">
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="CanUserResizeColumns" Value="True" />
+        <Setter Property="RowHeaderWidth" Value="0" />
+        <Setter Property="CanUserAddRows" Value="False" />
+        <Setter Property="IsReadOnly" Value="True" />
+    </Style>
+    <Style x:Key="BaseDataGridCell" TargetType="DataGridCell">
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="true">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="BorderBrush" Value="Black"/>
+                <Setter Property="BorderThickness" Value="0 0 0 0"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="BaseDataGridColumnHeader" TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="#DDEBF7"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="0 0 1 1.5"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="SecondDataGridColumnHeader" TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="#C6E0B4"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="0 0 1 1.5"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="HeaderBorder" TargetType="Border">
+        <Setter Property="BorderThickness" Value="1 1 1 0.5"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+    </Style>
+</ResourceDictionary>

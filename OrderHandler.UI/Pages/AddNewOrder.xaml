@@ -14,41 +14,142 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="33"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" ScrollViewer.VerticalScrollBarVisibility="Auto">
-            <WrapPanel>
-                <Label Content="Менеджер заказа"/>
-                <TextBox MinWidth="150" Text="{Binding Path=ViewOrder.UserName, Mode=TwoWay}"/>
+        <ScrollViewer Grid.Row="0">
+            <StackPanel Orientation="Vertical" Margin="5,5,5,0">
+                <GroupBox Header="Заказ">
+                    <StackPanel>
+                        <WrapPanel>
+                            <Label Content="Менеджер заказа:"/>
+                            <TextBox MinWidth="150" Text="{Binding Path=ViewOrder.UserName, Mode=TwoWay}"/>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label Content="№ Заказа:"/>
+                            <TextBox MinWidth="150" Text="{Binding Path=ViewOrder.OrderIssue, Mode=TwoWay}"/>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label Content="Дата заказа:"/>
+                            <!--<TextBox MinWidth="150" Text="{Binding Path=ViewOrder.OrderDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>-->
+                            <DatePicker SelectedDate="{Binding Path=ViewOrder.OrderDate, Mode=TwoWay}" />
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label Content="Дата доставки:"/>
+                            <TextBox MinWidth="150" Text="{Binding Path=ViewOrder.DeliveryDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label Content="Тип изделия:"/>
+                            <TextBox MinWidth="150" Text="{Binding Path=ViewOrder.ProductType, Mode=TwoWay}"/>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label Content="Сумма заказа:"/>
+                            <TextBox MinWidth="150" Text="{Binding Path=ViewOrder.ProductCost, Mode=TwoWay}"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Документация Конструктор">
+                    <WrapPanel>
+                        <Label Content="Плановая дата:"/>
+                        <TextBox MinWidth="150" Text="{Binding Path=DocumentationConstructor.PlannedDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Документация Технолог">
+                    <WrapPanel>
+                        <Label Content="Плановая дата:"/>
+                        <TextBox MinWidth="150" Text="{Binding Path=DocumentationTechnologist.PlannedDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Снабжение">
+                    <WrapPanel>
+                        <Label Content="Плановая дата:"/>
+                        <TextBox MinWidth="150" Text="{Binding Path=Supply.PlannedDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Пильный центр">
+                    <WrapPanel>
+                        <Label Content="Плановая дата:"/>
+                        <TextBox MinWidth="150" Text="{Binding Path=SawCenter.PlannedDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Кромка">
+                    <WrapPanel>
+                        <Label Content="Плановая дата:"/>
+                        <TextBox MinWidth="150" Text="{Binding Path=Edge.PlannedDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Присадка">
+                    <WrapPanel>
+                        <Label Content="Плановая дата:"/>
+                        <TextBox MinWidth="150" Text="{Binding Path=Additive.PlannedDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Фрезеровка">
+                    <WrapPanel>
+                        <Label Content="Плановая дата:"/>
+                        <TextBox MinWidth="150" Text="{Binding Path=Milling.PlannedDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Шлифовка">
+                    <WrapPanel>
+                        <Label Content="Плановая дата:"/>
+                        <TextBox MinWidth="150" Text="{Binding Path=Grinding.PlannedDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Пресс">
+                    <WrapPanel>
+                        <Label Content="Плановая дата:"/>
+                        <TextBox MinWidth="150" Text="{Binding Path=Press.PlannedDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Сборка">
+                    <WrapPanel>
+                        <Label Content="Плановая дата:"/>
+                        <TextBox MinWidth="150" Text="{Binding Path=Assembling.PlannedDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Упаковка">
+                    <WrapPanel>
+                        <Label Content="Плановая дата:"/>
+                        <TextBox MinWidth="150" Text="{Binding Path=Packaging.PlannedDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Комплектация">
+                    <WrapPanel>
+                        <Label Content="Плановая дата:"/>
+                        <TextBox MinWidth="150" Text="{Binding Path=Equipment.PlannedDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Отгрузка">
+                    <WrapPanel>
+                        <Label Content="Плановая дата:"/>
+                        <TextBox MinWidth="150" Text="{Binding Path=Shipment.PlannedDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Примечание">
+                    <WrapPanel>
+                        <Label Content="Примечание:"/>
+                        <TextBox MinWidth="150" Text="{Binding Path=Note.Note, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Монтаж">
+                    <StackPanel>
+                        <WrapPanel>
+                            <Label Content="Нужен монтаж:"/>
+                            <TextBox MinWidth="150" Text="{Binding Path=Mounting.IsMounting, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label Content="Дата:"/>
+                            <TextBox MinWidth="150" Text="{Binding Path=Mounting.Date, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+        <Border Grid.Row="1" BorderThickness="1" BorderBrush="Black" >
+            <WrapPanel VerticalAlignment="Center">
+                <Button Content="Добавить" Command="{Binding AddCommand}" Height="20" Margin="10,0,10,10" Click="Button_Click"/>
+                <Button Content="Отмена" IsCancel="True" Height="20" Margin="0,0,10,10"/>
             </WrapPanel>
-            <WrapPanel>
-                <Label Content="№ Заказа"/>
-                <TextBox MinWidth="150" Text="{Binding Path=ViewOrder.OrderIssue, Mode=TwoWay}"/>
-            </WrapPanel>
-            <WrapPanel>
-                <Label Content="Дата заказа"/>
-                <TextBox MinWidth="150" Text="{Binding Path=ViewOrder.OrderDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
-            </WrapPanel>
-            <WrapPanel>
-                <Label Content="Дата доставки"/>
-                <TextBox MinWidth="150" Text="{Binding Path=ViewOrder.DeliveryDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
-            </WrapPanel>
-            <WrapPanel>
-                <Label Content="Тип изделия"/>
-                <TextBox MinWidth="150" Text="{Binding Path=ViewOrder.ProductType, Mode=TwoWay}"/>
-            </WrapPanel>
-            <WrapPanel>
-                <Label Content="Сумма заказа"/>
-                <TextBox MinWidth="150" Text="{Binding Path=ViewOrder.ProductCost, Mode=TwoWay}"/>
-            </WrapPanel>
-            <WrapPanel>
-                <Label Content="Плановая дата"/>
-                <TextBox MinWidth="150" Text="{Binding Path=DocumentationConstructor.PlannedDate, Mode=TwoWay, Converter={StaticResource DateConverter}}"/>
-            </WrapPanel>
-        </StackPanel>
-        <WrapPanel Grid.Row="1">
-            <Button Content="Добавить" Command="{Binding AddCommand}" Height="20" Margin="10,0,10,10" Click="Button_Click"/>
-            <Button Content="Отмена" IsCancel="True" Height="20" Margin="0,0,10,10"/>
-        </WrapPanel>
+        </Border>
     </Grid>
 </Window>

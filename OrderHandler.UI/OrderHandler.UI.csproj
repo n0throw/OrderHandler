@@ -11,4 +11,10 @@
     <ProjectReference Include="..\OrderHandler.DB\OrderHandler.DB.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Resources\TableOrderManagerDictionary.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Page>
+  </ItemGroup>
+
 </Project>

@@ -36,5 +36,8 @@
     <Page Update="Pages\Tables\TableOrderManager.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Resources\TableOrderManagerDictionary.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 </Project>

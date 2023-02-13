@@ -12,8 +12,8 @@ internal class ViewOrder : PropertyChanger
     private int id;
     private string userName;
     private string orderIssue;
-    private DateOnly orderDate;
-    private DateOnly deliveryDate;
+    private DateOnly orderDate = DateOnly.FromDateTime(DateTime.Now);
+    private DateOnly deliveryDate = DateOnly.FromDateTime(DateTime.Now);
     private short numberOfDays;
     private string productType;
     private decimal productCost;
