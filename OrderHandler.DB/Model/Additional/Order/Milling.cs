@@ -7,4 +7,7 @@ public class Milling
 {
     public StatusGeneric Status { get; set; }
     public decimal MDF { get; set; }
+
+    public Milling(DateTime plannedDate)
+        => Status = new(plannedDate);
 }

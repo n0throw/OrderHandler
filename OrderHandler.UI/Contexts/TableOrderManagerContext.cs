@@ -2,6 +2,7 @@
 using OrderHandler.DB.Model;
 using OrderHandler.UI.Core;
 using OrderHandler.UI.Model;
+using OrderHandler.UI.Model.OrderData;
 using OrderHandler.UI.Pages;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,12 @@ namespace OrderHandler.UI.Contexts;
 internal class TableOrderManagerContext : PropertyChanger
 {
     public ObservableCollection<ViewOrder> Order { get; set; }
-    public ObservableCollection<ViewDocumentationConstructor> DocumentationConstructor { get; set; }
+
+    internal TableOrderManagerContext()
+    {
+        Order = new ObservableCollection<ViewOrder>();
+        GetData();
+    }
 
     private ViewOrder selectedOrder;
     public ViewOrder SelectedOrder
@@ -27,54 +33,6 @@ internal class TableOrderManagerContext : PropertyChanger
             selectedOrder = value;
             OnPropertyChanged(nameof(SelectedOrder));
         }
-    }
-
-    private ViewDocumentationConstructor selectedDocumentationConstructor;
-    public ViewDocumentationConstructor SelectedDocumentationConstructor
-    {
-        get => selectedDocumentationConstructor;
-        set
-        {
-            selectedDocumentationConstructor = value;
-            OnPropertyChanged(nameof(SelectedDocumentationConstructor));
-        }
-    }
-
-    internal TableOrderManagerContext()
-    {
-        Order = new ObservableCollection<ViewOrder>();
-        DocumentationConstructor = new ObservableCollection<ViewDocumentationConstructor>();
-        GetData();
-    }
-
-    private void GetData()
-    {
-        Order.Clear();
-        DocumentationConstructor.Clear();
-
-        using OrderContext orderDBContext = new();
-        int index = 0;
-
-        orderDBContext.Orders.ToList().ForEach(orderDB =>
-        {
-            Order.Add(new()
-            {
-                Id = ++index,
-                UserName = orderDB.OrderMainData.UserDataId,
-                OrderIssue = orderDB.OrderMainData.OrderIssue,
-                OrderDate = orderDB.OrderMainData.OrderDate,
-                DeliveryDate = orderDB.OrderMainData.DeliveryDate,
-                NumberOfDays = orderDB.OrderMainData.NumberOfDays,
-                ProductType = orderDB.OrderMainData.ProductType,
-                ProductCost = orderDB.OrderMainData.ProductCost
-            });
-            DocumentationConstructor.Add(new()
-            {
-                PlannedDate = orderDB.DocumentationConstructor.PlannedDate,
-                UserName = orderDB.DocumentationConstructor.UserId,
-                Date = orderDB.DocumentationConstructor.Date
-            });
-        });
     }
 
     private RelayCommand addOrderCommand;
@@ -118,7 +76,7 @@ internal class TableOrderManagerContext : PropertyChanger
     {
         get => changeRowDocumentationConstructor ??= new RelayCommand(obj =>
         {
-            ViewDocumentationConstructor documentationConstructor = obj as ViewDocumentationConstructor;
+            ViewDocConstructor documentationConstructor = obj as ViewDocConstructor;
             int index = DocumentationConstructor.IndexOf(documentationConstructor);
             ViewOrder view = Order[index];
 
@@ -133,7 +91,7 @@ internal class TableOrderManagerContext : PropertyChanger
                     OrderIssue = view.OrderIssue,
                     OrderDate = view.OrderDate,
                     DeliveryDate = view.DeliveryDate,
-                    NumberOfDays = (short)(view.DeliveryDate.DayNumber - view.OrderDate.DayNumber),
+                    NumberOfDays = (short)(view.DeliveryDate - view.OrderDate).TotalDays,
                     ProductType = view.ProductType,
                     ProductCost = view.ProductCost
                 },
@@ -141,7 +99,7 @@ internal class TableOrderManagerContext : PropertyChanger
                 {
                     PlannedDate = documentationConstructor.PlannedDate,
                     UserId = "Name",
-                    Date = DateOnly.FromDateTime(DateTime.Now)
+                    Date = DateTime.Now
                 }
             });
 
@@ -159,7 +117,7 @@ internal class TableOrderManagerContext : PropertyChanger
         {
             ViewOrder view = obj as ViewOrder;
             int index = Order.IndexOf(view);
-            ViewDocumentationConstructor documentationConstructor = DocumentationConstructor[index];
+            ViewDocConstructor documentationConstructor = DocumentationConstructor[index];
 
             using OrderContext orderDBContext = new();
 
@@ -172,7 +130,7 @@ internal class TableOrderManagerContext : PropertyChanger
                     OrderIssue = view.OrderIssue,
                     OrderDate = view.OrderDate,
                     DeliveryDate = view.DeliveryDate,
-                    NumberOfDays = (short)(view.DeliveryDate.DayNumber - view.OrderDate.DayNumber),
+                    NumberOfDays = (short)(view.DeliveryDate - view.OrderDate).TotalDays,
                     ProductType = view.ProductType,
                     ProductCost = view.ProductCost
                 },
@@ -180,7 +138,7 @@ internal class TableOrderManagerContext : PropertyChanger
                 {
                     PlannedDate = documentationConstructor.PlannedDate,
                     UserId = "Name",
-                    Date = DateOnly.FromDateTime(DateTime.Now)
+                    Date = DateTime.Now
                 }
             });
 
@@ -197,5 +155,20 @@ internal class TableOrderManagerContext : PropertyChanger
         {
             GetData();
         }, null);
+    }
+
+    private void GetData()
+    {
+        Order.Clear();
+
+        using OrderContext orderDBContext = new();
+        int index = 0;
+
+        orderDBContext.Orders.
+            ToList().
+            ForEach(orderDB => Order.Add(
+                new ViewOrder(
+                    ++index,
+                    orderDB)));
     }
 }

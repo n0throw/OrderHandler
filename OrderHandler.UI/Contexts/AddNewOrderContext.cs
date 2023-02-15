@@ -1,5 +1,6 @@
 ﻿using OrderHandler.DB.Context;
 using OrderHandler.DB.Model;
+using OrderHandler.DB.Model.Additional.Order;
 using OrderHandler.UI.Core;
 using OrderHandler.UI.Model;
 using System;
@@ -12,48 +13,51 @@ namespace OrderHandler.UI.Contexts;
 
 internal class AddNewOrderContext : PropertyChanger
 {
-    public ViewOrder ViewOrder { get; set; }
-    public ViewDocumentationConstructor DocumentationConstructor { get; set; }
+    public NewOrderMainData NewOrderMainData { get; set; }
+    public NewOrderDates NewOrderDates { get; set; }
 
     internal AddNewOrderContext()
     {
-        ViewOrder = new();
-        DocumentationConstructor = new();
+        NewOrderMainData = new();
+        NewOrderDates = new();
     }
 
 
-    private RelayCommand addCommand;
+    private RelayCommand? addCommand;
     public RelayCommand AddCommand
     {
         get => addCommand ??= new RelayCommand(obj =>
         {
             using OrderContext orderDBContext = new();
-            Order? lastOrder = orderDBContext.Orders.ToList().LastOrDefault();
-            int index;
+            int index = orderDBContext.GetLastIndex();
 
-            if (lastOrder is not null)
-                index = lastOrder.Id;
-            else
-                index = 0;
-
-            orderDBContext.Orders.Add(new Order()
-            {
-                Id = ++index,
-                OrderMainData = new()
-                {
-                    UserDataId = ViewOrder.UserName,
-                    OrderIssue = ViewOrder.OrderIssue,
-                    OrderDate = ViewOrder.OrderDate,
-                    DeliveryDate = ViewOrder.DeliveryDate,
-                    NumberOfDays = (short)(ViewOrder.DeliveryDate.DayNumber - ViewOrder.OrderDate.DayNumber),
-                    ProductType = ViewOrder.ProductType,
-                    ProductCost = ViewOrder.ProductCost
-                },
-                DocumentationConstructor = new()
-                {
-                    PlannedDate = DocumentationConstructor.PlannedDate
-                }
-            });
+            orderDBContext.Orders.Add(new Order(
+                ++index,
+                new OrderMainData(
+                    NewOrderMainData.UserName,
+                    NewOrderMainData.OrderIssue,
+                    NewOrderDates.OrderDate,
+                    NewOrderDates.DeliveryDate,
+                    (short)(NewOrderDates.DeliveryDate - NewOrderDates.OrderDate).TotalDays,
+                    NewOrderMainData.ProductType,
+                    NewOrderMainData.ProductCost),
+                new StatusGeneric(NewOrderDates.DocumentationConstructorDate),
+                new StatusGeneric(NewOrderDates.DocumentationTechnologistDate),
+                new Supply(NewOrderDates.SupplyDate),
+                new SawCenter(NewOrderDates.SawCenterDate),
+                new Edge(NewOrderDates.EdgeDate),
+                new Additive(NewOrderDates.AdditiveDate),
+                new Milling(NewOrderDates.MillingDate),
+                new Grinding(NewOrderDates.GrindingDate),
+                new Press(NewOrderDates.PressDate),
+                new Assembling(NewOrderDates.AssemblingDate),
+                new Packaging(NewOrderDates.PackagingDate),
+                new StatusGeneric(NewOrderDates.EquipmentDate),
+                new StatusGeneric(NewOrderDates.ShipmentDate),
+                NewOrderMainData.Note,
+                new Mounting(
+                    NewOrderMainData.IsMounting,
+                    NewOrderDates.MountingDate)));
 
             orderDBContext.SaveChanges();
         }, null);

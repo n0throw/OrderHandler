@@ -1,93 +1,194 @@
-﻿using OrderHandler.UI.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OrderHandler.DB.Model;
+
+using OrderHandler.UI.Core;
+using OrderHandler.UI.Model.OrderData;
 
 namespace OrderHandler.UI.Model;
 
 internal class ViewOrder : PropertyChanger
 {
-    private int id;
-    private string userName;
-    private string orderIssue;
-    private DateOnly orderDate = DateOnly.FromDateTime(DateTime.Now);
-    private DateOnly deliveryDate = DateOnly.FromDateTime(DateTime.Now);
-    private short numberOfDays;
-    private string productType;
-    private decimal productCost;
+    private int dbId;
+    private ViewOrderMainData orderMainData;
+    private ViewStatusGeneric docConstructor;
+    private ViewStatusGeneric docTechnologist;
+    private ViewSupply supply;
+    private ViewSawCenter sawCenter;
+    private ViewEdge edge;
+    private ViewAdditive additive;
+    private ViewMilling milling;
+    private ViewGrinding grinding;
+    private ViewPress press;
+    private ViewAssembling assembling;
+    private ViewPackaging packaging;
+    private ViewStatusGeneric equipment;
+    private ViewStatusGeneric shipment;
+    private string? note;
+    private ViewMounting mounting;
 
-    public int Id
+    public int DBID => dbId;
+    public ViewOrderMainData OrderMainData
     {
-        get => id;
+        get => orderMainData;
         set
         {
-            id = value;
-            OnPropertyChanged("Id");
+            orderMainData = value;
+            OnPropertyChanged(nameof(OrderMainData));
         }
     }
-    public string UserName
+    public ViewStatusGeneric DocConstructor
     {
-        get => userName;
+        get => docConstructor;
         set
         {
-            userName = value;
-            OnPropertyChanged("UserName");
+            docConstructor = value;
+            OnPropertyChanged(nameof(DocConstructor));
         }
     }
-    public string OrderIssue
+    public ViewStatusGeneric DocTechnologist
     {
-        get => orderIssue;
+        get => docTechnologist;
         set
         {
-            orderIssue = value;
-            OnPropertyChanged("OrderIssue");
+            docTechnologist = value;
+            OnPropertyChanged(nameof(DocTechnologist));
         }
     }
-    public DateOnly OrderDate
+    public ViewSupply Supply
     {
-        get => orderDate;
+        get => supply;
         set
         {
-            orderDate = value;
-            OnPropertyChanged("OrderDate");
+            supply = value;
+            OnPropertyChanged(nameof(Supply));
         }
     }
-    public DateOnly DeliveryDate
+    public ViewSawCenter SawCenter
     {
-        get => deliveryDate;
+        get => sawCenter;
         set
         {
-            deliveryDate = value;
-            OnPropertyChanged("DeliveryDate");
+            sawCenter = value;
+            OnPropertyChanged(nameof(SawCenter));
         }
     }
-    public short NumberOfDays
+    public ViewEdge Edge
     {
-        get => numberOfDays;
+        get => edge;
         set
         {
-            numberOfDays = value;
-            OnPropertyChanged("NumberOfDays");
+            edge = value;
+            OnPropertyChanged(nameof(Edge));
         }
     }
-    public string ProductType
+    public ViewAdditive Additive
     {
-        get => productType;
+        get => additive;
         set
         {
-            productType = value;
-            OnPropertyChanged("ProductType");
+            additive = value;
+            OnPropertyChanged(nameof(Additive));
         }
     }
-    public decimal ProductCost
+    public ViewMilling Milling
     {
-        get => productCost;
+        get => milling;
         set
         {
-            productCost = value;
-            OnPropertyChanged("ProductCost");
+            milling = value;
+            OnPropertyChanged(nameof(Milling));
         }
+    }
+    public ViewGrinding Grinding
+    {
+        get => grinding;
+        set
+        {
+            grinding = value;
+            OnPropertyChanged(nameof(Grinding));
+        }
+    }
+    public ViewPress Press
+    {
+        get => press;
+        set
+        {
+            press = value;
+            OnPropertyChanged(nameof(Press));
+        }
+    }
+    public ViewAssembling Assembling
+    {
+        get => assembling;
+        set
+        {
+            assembling = value;
+            OnPropertyChanged(nameof(Assembling));
+        }
+    }
+    public ViewPackaging Packaging
+    {
+        get => packaging;
+        set
+        {
+            packaging = value;
+            OnPropertyChanged(nameof(Packaging));
+        }
+    }
+    public ViewStatusGeneric Equipment
+    {
+        get => equipment;
+        set
+        {
+            equipment = value;
+            OnPropertyChanged(nameof(Equipment));
+        }
+    }
+    public ViewStatusGeneric Shipment
+    {
+        get => shipment;
+        set
+        {
+            shipment = value;
+            OnPropertyChanged(nameof(Shipment));
+        }
+    }
+    public string? Note
+    {
+        get => note;
+        set
+        {
+            note = value;
+            OnPropertyChanged(nameof(Note));
+        }
+    }
+    public ViewMounting Mounting
+    {
+        get => mounting;
+        set
+        {
+            mounting = value;
+            OnPropertyChanged(nameof(Mounting));
+        }
+    }
+
+    internal ViewOrder(int id, Order order)
+    {
+        dbId = order.Id;
+        orderMainData = new(id, order.OrderMainData);
+        docConstructor = new(order.DocumentationConstructor);
+        docTechnologist = new(order.DocumentationTechnologist);
+        supply = new(order.Supply);
+        sawCenter = new(order.SawCenter);
+        edge = new(order.Edge);
+        additive = new(order.Additive);
+        milling = new(order.Milling);
+        grinding = new(order.Grinding);
+        press = new(order.Press);
+        assembling = new(order.Assembling);
+        packaging = new(order.Packaging);
+        equipment = new(order.Equipment);
+        shipment = new(order.Shipment);
+        note = order.Note;
+        mounting = new(order.Mounting);
     }
 }

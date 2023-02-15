@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OrderHandler.DB.Model.Additional.Order;
 
 namespace OrderHandler.DB.Model.Additional.Order;
 
@@ -8,4 +7,7 @@ public class Assembling
 {
     public StatusGeneric Status { get; set; }
     public decimal ChipboardOrMDF { get; set; }
+
+    public Assembling(DateTime plannedDate)
+        => Status = new(plannedDate);
 }

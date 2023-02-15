@@ -5,7 +5,10 @@ namespace OrderHandler.DB.Model.Additional.Order;
 [Owned]
 public class StatusGeneric
 {
-    public DateOnly PlannedDate { get; set; }
+    public DateTime PlannedDate { get; set; }
     public string? UserId { get; set; } // id int
-    public DateOnly Date { get; set; }
+    public DateTime Date { get; set; }
+
+    public StatusGeneric(DateTime plannedDate)
+        => PlannedDate = plannedDate;
 }

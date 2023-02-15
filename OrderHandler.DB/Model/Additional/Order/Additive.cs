@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OrderHandler.DB.Model.Additional.Order;
 
@@ -8,4 +7,7 @@ public class Additive
 {
     public StatusGeneric Status { get; set; }
     public decimal ChipboardOrMDF { get; set; }
+
+    public Additive(DateTime plannedDate)
+        => Status = new(plannedDate);
 }

@@ -11,4 +11,14 @@ public class OrderContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlite("Data Source=OrderData.db");
+
+    public int GetLastIndex()
+    {
+        Order? lastOrder = Orders.LastOrDefault();
+
+        if (lastOrder is not null)
+            return lastOrder.Id;
+
+        return 0;
+    }
 }
