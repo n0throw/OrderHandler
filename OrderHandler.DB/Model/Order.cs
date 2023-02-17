@@ -18,12 +18,13 @@ public class Order
     public Grinding Grinding { get; set; }
     public Press Press { get; set; }
     public Assembling Assembling { get; set; }
-    public Packaging Packaging { get; set; }
+    public Packing Packing { get; set; }
     public StatusGeneric Equipment { get; set; }
     public StatusGeneric Shipment { get; set; }
     public string? Note { get; set; }
     public Mounting Mounting { get; set; }
 
+    public Order() { }
     public Order(
         int id,
         OrderMainData orderMainData,
@@ -37,7 +38,7 @@ public class Order
         Grinding grinding,
         Press press,
         Assembling assembling,
-        Packaging packaging,
+        Packing packing,
         StatusGeneric equipment,
         StatusGeneric shipment,
         string? note,
@@ -55,7 +56,7 @@ public class Order
         Grinding = grinding;
         Press = press;
         Assembling = assembling;
-        Packaging = packaging;
+        Packing = packing;
         Equipment = equipment;
         Shipment = shipment;
         Note = note;

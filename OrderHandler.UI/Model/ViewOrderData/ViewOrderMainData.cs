@@ -3,7 +3,7 @@
 using OrderHandler.DB.Model.Additional.Order;
 using OrderHandler.UI.Core;
 
-namespace OrderHandler.UI.Model.OrderData;
+namespace OrderHandler.UI.Model.ViewOrderData;
 
 internal class ViewOrderMainData : PropertyChanger
 {
@@ -29,13 +29,13 @@ internal class ViewOrderMainData : PropertyChanger
     }
 
     private int id;
-    private string userName;
-    private string orderIssue;
+    private string? userName;
+    private string? orderIssue;
     private DateTime orderDate;
     private DateTime deliveryDate;
-    private short numberOfDays;
-    private string productType;
-    private decimal productCost;
+    private short? numberOfDays;
+    private string? productType;
+    private decimal? productCost;
 
     public int Id
     {
@@ -46,7 +46,7 @@ internal class ViewOrderMainData : PropertyChanger
             OnPropertyChanged("Id");
         }
     }
-    public string UserName
+    public string? UserName
     {
         get => userName;
         set
@@ -55,7 +55,7 @@ internal class ViewOrderMainData : PropertyChanger
             OnPropertyChanged("UserName");
         }
     }
-    public string OrderIssue
+    public string? OrderIssue
     {
         get => orderIssue;
         set
@@ -82,7 +82,7 @@ internal class ViewOrderMainData : PropertyChanger
             OnPropertyChanged("DeliveryDate");
         }
     }
-    public short NumberOfDays
+    public short? NumberOfDays
     {
         get => numberOfDays;
         set
@@ -91,7 +91,7 @@ internal class ViewOrderMainData : PropertyChanger
             OnPropertyChanged("NumberOfDays");
         }
     }
-    public string ProductType
+    public string? ProductType
     {
         get => productType;
         set
@@ -100,7 +100,7 @@ internal class ViewOrderMainData : PropertyChanger
             OnPropertyChanged("ProductType");
         }
     }
-    public decimal ProductCost
+    public decimal? ProductCost
     {
         get => productCost;
         set

@@ -4,21 +4,27 @@ using System.Windows.Data;
 
 namespace OrderHandler.UI.Converters;
 
-public class DateTimeToStringConverter : IValueConverter
+public class BoolToStringConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is null)
-            return DateTime.Now;
+            return "Нет";
 
-        DateTime date = (DateTime)value;
+        bool data = (bool)value;
 
-        if (date.Year == 1)
-            return string.Empty;
-
-        return (date).ToString("dd.MM.yyyy");
+        if (data)
+            return "Да";
+        return "Нет";
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        => DateTime.Parse((string)value);
+    {
+        if (value is null)
+            return false;
+
+        if ((string)value == "Да")
+            return true;
+        return false;
+    }
 }

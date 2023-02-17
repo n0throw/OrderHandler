@@ -2,7 +2,7 @@
 using OrderHandler.DB.Model;
 using OrderHandler.UI.Core;
 using OrderHandler.UI.Model;
-using OrderHandler.UI.Model.OrderData;
+using OrderHandler.UI.Model.ViewOrderData;
 using OrderHandler.UI.Pages;
 using System;
 using System.Collections.Generic;
@@ -16,11 +16,11 @@ namespace OrderHandler.UI.Contexts;
 
 internal class TableOrderManagerContext : PropertyChanger
 {
-    public ObservableCollection<ViewOrder> Order { get; set; }
+    public ObservableCollection<ViewOrder> Orders { get; set; }
 
     internal TableOrderManagerContext()
     {
-        Order = new ObservableCollection<ViewOrder>();
+        Orders = new ObservableCollection<ViewOrder>();
         GetData();
     }
 
@@ -76,35 +76,35 @@ internal class TableOrderManagerContext : PropertyChanger
     {
         get => changeRowDocumentationConstructor ??= new RelayCommand(obj =>
         {
-            ViewDocConstructor documentationConstructor = obj as ViewDocConstructor;
-            int index = DocumentationConstructor.IndexOf(documentationConstructor);
-            ViewOrder view = Order[index];
+            //ViewDocConstructor documentationConstructor = obj as ViewDocConstructor;
+            //int index = DocumentationConstructor.IndexOf(documentationConstructor);
+            //ViewOrder view = Order[index];
 
-            using OrderContext orderDBContext = new();
+            //using OrderContext orderDBContext = new();
 
-            orderDBContext.Orders.Update(new Order()
-            {
-                Id = ++index,
-                OrderMainData = new()
-                {
-                    UserDataId = view.UserName,
-                    OrderIssue = view.OrderIssue,
-                    OrderDate = view.OrderDate,
-                    DeliveryDate = view.DeliveryDate,
-                    NumberOfDays = (short)(view.DeliveryDate - view.OrderDate).TotalDays,
-                    ProductType = view.ProductType,
-                    ProductCost = view.ProductCost
-                },
-                DocumentationConstructor = new()
-                {
-                    PlannedDate = documentationConstructor.PlannedDate,
-                    UserId = "Name",
-                    Date = DateTime.Now
-                }
-            });
+            //orderDBContext.Orders.Update(new Order()
+            //{
+            //    Id = ++index,
+            //    OrderMainData = new()
+            //    {
+            //        UserDataId = view.UserName,
+            //        OrderIssue = view.OrderIssue,
+            //        OrderDate = view.OrderDate,
+            //        DeliveryDate = view.DeliveryDate,
+            //        NumberOfDays = (short)(view.DeliveryDate - view.OrderDate).TotalDays,
+            //        ProductType = view.ProductType,
+            //        ProductCost = view.ProductCost
+            //    },
+            //    DocumentationConstructor = new()
+            //    {
+            //        PlannedDate = documentationConstructor.PlannedDate,
+            //        UserId = "Name",
+            //        Date = DateTime.Now
+            //    }
+            //});
 
-            orderDBContext.SaveChanges();
-            GetData();
+            //orderDBContext.SaveChanges();
+            //GetData();
         }, null);
     }
 
@@ -115,35 +115,35 @@ internal class TableOrderManagerContext : PropertyChanger
     {
         get => changeRowOrder ??= new RelayCommand(obj =>
         {
-            ViewOrder view = obj as ViewOrder;
-            int index = Order.IndexOf(view);
-            ViewDocConstructor documentationConstructor = DocumentationConstructor[index];
+            //ViewOrder view = obj as ViewOrder;
+            //int index = Order.IndexOf(view);
+            //ViewDocConstructor documentationConstructor = DocumentationConstructor[index];
 
-            using OrderContext orderDBContext = new();
+            //using OrderContext orderDBContext = new();
 
-            orderDBContext.Orders.Update(new Order()
-            {
-                Id = ++index,
-                OrderMainData = new()
-                {
-                    UserDataId = view.UserName,
-                    OrderIssue = view.OrderIssue,
-                    OrderDate = view.OrderDate,
-                    DeliveryDate = view.DeliveryDate,
-                    NumberOfDays = (short)(view.DeliveryDate - view.OrderDate).TotalDays,
-                    ProductType = view.ProductType,
-                    ProductCost = view.ProductCost
-                },
-                DocumentationConstructor = new()
-                {
-                    PlannedDate = documentationConstructor.PlannedDate,
-                    UserId = "Name",
-                    Date = DateTime.Now
-                }
-            });
+            //orderDBContext.Orders.Update(new Order()
+            //{
+            //    Id = ++index,
+            //    OrderMainData = new()
+            //    {
+            //        UserDataId = view.UserName,
+            //        OrderIssue = view.OrderIssue,
+            //        OrderDate = view.OrderDate,
+            //        DeliveryDate = view.DeliveryDate,
+            //        NumberOfDays = (short)(view.DeliveryDate - view.OrderDate).TotalDays,
+            //        ProductType = view.ProductType,
+            //        ProductCost = view.ProductCost
+            //    },
+            //    DocumentationConstructor = new()
+            //    {
+            //        PlannedDate = documentationConstructor.PlannedDate,
+            //        UserId = "Name",
+            //        Date = DateTime.Now
+            //    }
+            //});
 
-            orderDBContext.SaveChanges();
-            GetData();
+            //orderDBContext.SaveChanges();
+            //GetData();
         }, null);
     }
 
@@ -159,14 +159,14 @@ internal class TableOrderManagerContext : PropertyChanger
 
     private void GetData()
     {
-        Order.Clear();
+        Orders.Clear();
 
         using OrderContext orderDBContext = new();
         int index = 0;
 
         orderDBContext.Orders.
             ToList().
-            ForEach(orderDB => Order.Add(
+            ForEach(orderDB => Orders.Add(
                 new ViewOrder(
                     ++index,
                     orderDB)));

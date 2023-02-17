@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="/OrderHandler.UI;component/Resources/TableOrderManagerDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <conv:DateTimeToStringConverter x:Key="DateConverter" />
+            <conv:BoolToStringConverter x:Key="BoolConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -44,382 +45,666 @@
                       Margin="0,20,0,0">
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Vertical"
-                        CanHorizontallyScroll="False"
-                        CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}" Width="{Binding Width, ElementName=OrderDG, Mode=OneWay}">
-                        <TextBlock Text="Заказ" TextAlignment="Center" Background="#DDEBF7"/>
+                            CanHorizontallyScroll="False"
+                            CanVerticallyScroll="False">
+                    <Border Style="{StaticResource HeaderBorder}"
+                            Width="{Binding Width, ElementName=OrderDG, Mode=OneWay}">
+                        <TextBlock Text="Заказ"
+                                   TextAlignment="Center"
+                                   Background="#DDEBF7"/>
                     </Border>
                     <DataGrid x:Name="OrderDG"
-                          ItemsSource="{Binding Order}"
-                          SelectedItem="{Binding SelectedOrder}"
-                          Style="{StaticResource BaseDataGrid}"
-                          CellStyle="{StaticResource BaseDataGridCell}">
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              Style="{StaticResource BaseDataGrid}"
+                              RowHeight="20"
+                              CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить" Command="{Binding ChangeRowOrder}" CommandParameter="{Binding SelectedOrder}"/>
+                                <MenuItem Header="Изменить"
+                                          Command="{Binding ChangeRowOrder}"
+                                          CommandParameter="{Binding SelectedOrder}"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}" Header="№"                      Binding="{Binding Path=Id}"                                                     MinWidth="20" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}" Header="Менеджер Заказа"        Binding="{Binding Path=UserName}"                                               MinWidth="110" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}" Header="№ Заказа"               Binding="{Binding Path=OrderIssue}"                                             MinWidth="65" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}" Header="Дата заказа"            Binding="{Binding Path=OrderDate, Converter={StaticResource DateConverter}}"    MinWidth="75" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}" Header="Дата доставки"          Binding="{Binding Path=DeliveryDate, Converter={StaticResource DateConverter}}" MinWidth="90" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}" Header="Срок доставки (Дн.)"    Binding="{Binding Path=NumberOfDays}"                                           MinWidth="120" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}" Header="Тип изделия"            Binding="{Binding Path=ProductType}"                                            MinWidth="80" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}" Header="Сумма заказа"           Binding="{Binding Path=ProductCost}"                                            MinWidth="85" />
+                            <DataGridTextColumn Header="№"
+                                                HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                                                Binding="{Binding Path=OrderMainData.Id}"
+                                                MinWidth="20" />
+
+                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                                                Header="Менеджер Заказа"
+                                                Binding="{Binding Path=OrderMainData.UserName}"
+                                                MinWidth="110" />
+                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                                                Header="№ Заказа"
+                                                Binding="{Binding Path=OrderMainData.OrderIssue}"
+                                                MinWidth="65" />
+                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                                                Header="Дата заказа"
+                                                Binding="{Binding Path=OrderMainData.OrderDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="75" />
+                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                                                Header="Дата доставки"
+                                                Binding="{Binding Path=OrderMainData.DeliveryDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="90" />
+                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                                                Header="Срок доставки (Дн.)"
+                                                Binding="{Binding Path=OrderMainData.NumberOfDays}"
+                                                MinWidth="120" />
+                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                                                Header="Тип изделия"
+                                                Binding="{Binding Path=OrderMainData.ProductType}"
+                                                MinWidth="80" />
+                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                                                Header="Сумма заказа"
+                                                Binding="{Binding Path=OrderMainData.ProductCost}"
+                                                MinWidth="85" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
-                        CanHorizontallyScroll="False"
-                        CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}" Width="{Binding Width, ElementName=DocumentationConstructorDG, Mode=OneWay}">
-                        <TextBlock Text="Документация конструктор" TextAlignment="Center" Background="#C6E0B4"/>
+                            CanHorizontallyScroll="False"
+                            CanVerticallyScroll="False">
+                    <Border Style="{StaticResource HeaderBorder}"
+                            Width="{Binding Width, ElementName=DocumentationConstructorDG, Mode=OneWay}">
+                        <TextBlock Text="Документация конструктор"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"/>
                     </Border>
                     <DataGrid x:Name="DocumentationConstructorDG"
-                          ItemsSource="{Binding DocumentationConstructor}"
-                          SelectedItem="{Binding SelectedDocumentationConstructor}"
-                          Style="{StaticResource BaseDataGrid}"
-                          CellStyle="{StaticResource BaseDataGridCell}">
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              Style="{StaticResource BaseDataGrid}"
+                              RowHeight="20"
+                              CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить" Command="{Binding ChangeRowDocumentationConstructor}" CommandParameter="{Binding SelectedDocumentationConstructor}" />
+                                <MenuItem Header="Изменить"
+                                          Command="{Binding ChangeRowDocumentationConstructor}"
+                                          CommandParameter="{Binding SelectedOrder}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Плановая дата"    Binding="{Binding Path=PlannedDate}"                                    MinWidth="95" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ФИО"              Binding="{Binding Path=UserName}"                                       MinWidth="190" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Дата"             Binding="{Binding Path=Date, Converter={StaticResource DateConverter}}" MinWidth="70" />
+                            <DataGridTextColumn Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=DocConstructor.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=DocConstructor.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=DocConstructor.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
-                        CanHorizontallyScroll="False"
-                        CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}" Width="{Binding Width, ElementName=DocumentationTechnologistDG, Mode=OneWay}">
-                        <TextBlock Text="Документация технолог" TextAlignment="Center" Background="#C6E0B4"/>
+                            CanHorizontallyScroll="False"
+                            CanVerticallyScroll="False">
+                    <Border Style="{StaticResource HeaderBorder}"
+                            Width="{Binding Width, ElementName=DocumentationTechnologistDG, Mode=OneWay}">
+                        <TextBlock Text="Документация технолог"
+                                   TextAlignment="Center" Background="#C6E0B4"/>
                     </Border>
                     <DataGrid x:Name="DocumentationTechnologistDG"
-                          ItemsSource="{Binding DocumentationTechnologist}"
-                          SelectedItem="{Binding SelectedDocumentationTechnologist}"
-                          Style="{StaticResource BaseDataGrid}"
-                          CellStyle="{StaticResource BaseDataGridCell}">
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              Style="{StaticResource BaseDataGrid}"
+                              RowHeight="20"
+                              CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить" Command="{Binding ChangeRowDocumentationTechnologist}" CommandParameter="{Binding SelectedDocumentationTechnologist}" />
+                                <MenuItem Header="Изменить"
+                                          Command="{Binding ChangeRowDocumentationTechnologist}"
+                                          CommandParameter="{Binding SelectedOrder}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Плановая дата"    Binding="{Binding Path=PlannedDate}"                                    MinWidth="95" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ФИО"              Binding="{Binding Path=UserName}"                                       MinWidth="190" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Дата"             Binding="{Binding Path=Date, Converter={StaticResource DateConverter}}" MinWidth="70" />
+                            <DataGridTextColumn Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=DocTechnologist.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=DocTechnologist.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=DocTechnologist.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
-                        CanHorizontallyScroll="False"
-                        CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}" Width="{Binding Width, ElementName=SupplyDG, Mode=OneWay}">
-                        <TextBlock Text="Снабжение" TextAlignment="Center" Background="#C6E0B4"/>
+                            CanHorizontallyScroll="False"
+                            CanVerticallyScroll="False">
+                    <Border Style="{StaticResource HeaderBorder}"
+                            Width="{Binding Width, ElementName=SupplyDG, Mode=OneWay}">
+                        <TextBlock Text="Снабжение"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"/>
                     </Border>
                     <DataGrid x:Name="SupplyDG"
-                          ItemsSource="{Binding Supply}"
-                          SelectedItem="{Binding SelectedSupply}"
-                          Style="{StaticResource BaseDataGrid}"
-                          CellStyle="{StaticResource BaseDataGridCell}">
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              Style="{StaticResource BaseDataGrid}"
+                              RowHeight="20"
+                              CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить" Command="{Binding ChangeRowSupply}" CommandParameter="{Binding SelectedSupply}" />
+                                <MenuItem Header="Изменить"
+                                          Command="{Binding ChangeRowSupply}"
+                                          CommandParameter="{Binding SelectedOrder}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Плановая дата"        Binding="{Binding Path=PlannedDate}"                                    MinWidth="95" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ФИО"                  Binding="{Binding Path=UserName}"                                       MinWidth="190" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Дата"                 Binding="{Binding Path=Date, Converter={StaticResource DateConverter}}" MinWidth="70" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Необходимая сумма"    Binding="{Binding Path=Cost}"                                           MinWidth="130" />
+                            <DataGridTextColumn Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Supply.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Supply.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Supply.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn Header="Необходимая сумма"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Supply.Cost}"
+                                                MinWidth="130" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
-                        CanHorizontallyScroll="False"
-                        CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}" Width="{Binding Width, ElementName=SawCenterDG, Mode=OneWay}">
-                        <TextBlock Text="Пильный центр" TextAlignment="Center" Background="#C6E0B4"/>
+                            CanHorizontallyScroll="False"
+                            CanVerticallyScroll="False">
+                    <Border Style="{StaticResource HeaderBorder}"
+                            Width="{Binding Width, ElementName=SawCenterDG, Mode=OneWay}">
+                        <TextBlock Text="Пильный центр"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"/>
                     </Border>
                     <DataGrid x:Name="SawCenterDG"
-                          ItemsSource="{Binding SawCenter}"
-                          SelectedItem="{Binding SelectedSawCenter}"
-                          Style="{StaticResource BaseDataGrid}"
-                          CellStyle="{StaticResource BaseDataGridCell}">
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              Style="{StaticResource BaseDataGrid}"
+                              RowHeight="20"
+                              CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить" Command="{Binding ChangeRowSawCenter}" CommandParameter="{Binding SelectedSawCenter}" />
+                                <MenuItem Header="Изменить"
+                                          Command="{Binding ChangeRowSawCenter}"
+                                          CommandParameter="{Binding SelectedOrder}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Плановая дата"        Binding="{Binding Path=PlannedDate}"                                    MinWidth="95" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ФИО"                  Binding="{Binding Path=UserName}"                                       MinWidth="190" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Дата"                 Binding="{Binding Path=Date, Converter={StaticResource DateConverter}}" MinWidth="70" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ЛДСП/МДФ м&#x00B2;"   Binding="{Binding Path=ChipboardOrMDF}"                                 MinWidth="100" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ЛХДФ м&#x00B2;"       Binding="{Binding Path=HDF}"                                            MinWidth="70" />
+                            <DataGridTextColumn Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=SawCenter.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=SawCenter.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=SawCenter.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn Header="ЛДСП/МДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=SawCenter.ChipboardOrMDF}"
+                                                MinWidth="100" />
+                            <DataGridTextColumn Header="ЛХДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=SawCenter.HDF}"
+                                                MinWidth="70" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
-                        CanHorizontallyScroll="False"
-                        CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}" Width="{Binding Width, ElementName=EdgeDG, Mode=OneWay}">
-                        <TextBlock Text="Кромка" TextAlignment="Center" Background="#C6E0B4"/>
+                            CanHorizontallyScroll="False"
+                            CanVerticallyScroll="False">
+                    <Border Style="{StaticResource HeaderBorder}"
+                            Width="{Binding Width, ElementName=EdgeDG, Mode=OneWay}">
+                        <TextBlock Text="Кромка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"/>
                     </Border>
-                    <DataGrid x:Name="EdgerDG"
-                          ItemsSource="{Binding Edge}"
-                          SelectedItem="{Binding SelectedEdge}"
-                          Style="{StaticResource BaseDataGrid}"
-                          CellStyle="{StaticResource BaseDataGridCell}">
+                    <DataGrid x:Name="EdgeDG"
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              Style="{StaticResource BaseDataGrid}"
+                              RowHeight="20"
+                              CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить" Command="{Binding ChangeRowEdge}" CommandParameter="{Binding SelectedEdge}" />
+                                <MenuItem Header="Изменить"
+                                          Command="{Binding ChangeRowEdge}"
+                                          CommandParameter="{Binding SelectedOrder}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Плановая дата"        Binding="{Binding Path=PlannedDate}"                                    MinWidth="95" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ФИО"                  Binding="{Binding Path=UserName}"                                       MinWidth="190" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Дата"                 Binding="{Binding Path=Date, Converter={StaticResource DateConverter}}" MinWidth="70" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ЛДСП/МДФ м&#x00B2;"   Binding="{Binding Path=ChipboardOrMDF}"                                 MinWidth="100" />
+                            <DataGridTextColumn Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Edge.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Edge.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Edge.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn Header="ЛДСП/МДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Edge.ChipboardOrMDF}"
+                                                MinWidth="100" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
-                        CanHorizontallyScroll="False"
-                        CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}" Width="{Binding Width, ElementName=AdditiveDG, Mode=OneWay}">
-                        <TextBlock Text="Присадка" TextAlignment="Center" Background="#C6E0B4"/>
+                            CanHorizontallyScroll="False"
+                            CanVerticallyScroll="False">
+                    <Border Style="{StaticResource HeaderBorder}"
+                            Width="{Binding Width, ElementName=AdditiveDG, Mode=OneWay}">
+                        <TextBlock Text="Присадка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"/>
                     </Border>
                     <DataGrid x:Name="AdditiveDG"
-                          ItemsSource="{Binding Additive}"
-                          SelectedItem="{Binding SelectedAdditive}"
-                          Style="{StaticResource BaseDataGrid}"
-                          CellStyle="{StaticResource BaseDataGridCell}">
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              Style="{StaticResource BaseDataGrid}"
+                              RowHeight="20"
+                              CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить" Command="{Binding ChangeRowAdditive}" CommandParameter="{Binding SelectedAdditive}" />
+                                <MenuItem Header="Изменить"
+                                          Command="{Binding ChangeRowAdditive}"
+                                          CommandParameter="{Binding SelectedOrder}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Плановая дата"        Binding="{Binding Path=PlannedDate}"                                    MinWidth="95" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ФИО"                  Binding="{Binding Path=UserName}"                                       MinWidth="190" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Дата"                 Binding="{Binding Path=Date, Converter={StaticResource DateConverter}}" MinWidth="70" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ЛДСП/МДФ м&#x00B2;"   Binding="{Binding Path=ChipboardOrMDF}"                                 MinWidth="100" />
+                            <DataGridTextColumn Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Additive.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Additive.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Additive.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn Header="ЛДСП/МДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Additive.ChipboardOrMDF}"
+                                                MinWidth="100" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
                         CanHorizontallyScroll="False"
                         CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}" Width="{Binding Width, ElementName=MillingDG, Mode=OneWay}">
-                        <TextBlock Text="Фрезеровка" TextAlignment="Center" Background="#C6E0B4"/>
+                    <Border Style="{StaticResource HeaderBorder}"
+                            Width="{Binding Width, ElementName=MillingDG, Mode=OneWay}">
+                        <TextBlock Text="Фрезеровка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"/>
                     </Border>
                     <DataGrid x:Name="MillingDG"
-                          ItemsSource="{Binding Milling}"
-                          SelectedItem="{Binding SelectedMilling}"
-                          Style="{StaticResource BaseDataGrid}"
-                          CellStyle="{StaticResource BaseDataGridCell}">
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              Style="{StaticResource BaseDataGrid}"
+                              RowHeight="20"
+                              CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить" Command="{Binding ChangeRowMilling}" CommandParameter="{Binding SelectedMilling}" />
+                                <MenuItem Header="Изменить"
+                                          Command="{Binding ChangeRowMilling}"
+                                          CommandParameter="{Binding SelectedOrder}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Плановая дата"    Binding="{Binding Path=PlannedDate}"                                    MinWidth="95" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ФИО"              Binding="{Binding Path=UserName}"                                       MinWidth="190" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Дата"             Binding="{Binding Path=Date, Converter={StaticResource DateConverter}}" MinWidth="70" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="МДФ м&#x00B2;"    Binding="{Binding Path=MDF}"                                            MinWidth="70" />
+                            <DataGridTextColumn Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Milling.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Milling.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Milling.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn Header="МДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Milling.MDF}"
+                                                MinWidth="70" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
                         CanHorizontallyScroll="False"
                         CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}" Width="{Binding Width, ElementName=GrindingDG, Mode=OneWay}">
-                        <TextBlock Text="Шлифовка" TextAlignment="Center" Background="#C6E0B4"/>
+                    <Border Style="{StaticResource HeaderBorder}"
+                            Width="{Binding Width, ElementName=GrindingDG, Mode=OneWay}">
+                        <TextBlock Text="Шлифовка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"/>
                     </Border>
                     <DataGrid x:Name="GrindingDG"
-                          ItemsSource="{Binding Grinding}"
-                          SelectedItem="{Binding SelectedGrinding}"
-                          Style="{StaticResource BaseDataGrid}"
-                          CellStyle="{StaticResource BaseDataGridCell}">
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              Style="{StaticResource BaseDataGrid}"
+                              RowHeight="20"
+                              CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить" Command="{Binding ChangeRowGrinding}" CommandParameter="{Binding SelectedGrinding}" />
+                                <MenuItem Header="Изменить"
+                                          Command="{Binding ChangeRowGrinding}"
+                                          CommandParameter="{Binding SelectedOrder}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Плановая дата"    Binding="{Binding Path=PlannedDate}"                                    MinWidth="95" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ФИО"              Binding="{Binding Path=UserName}"                                       MinWidth="190" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Дата"             Binding="{Binding Path=Date, Converter={StaticResource DateConverter}}" MinWidth="70" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="МДФ м&#x00B2;"    Binding="{Binding Path=MDF}"                                            MinWidth="70" />
+                            <DataGridTextColumn Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Grinding.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Grinding.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Grinding.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn Header="МДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Grinding.MDF}"
+                                                MinWidth="70" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
-                        CanHorizontallyScroll="False"
-                        CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}" Width="{Binding Width, ElementName=PressDG, Mode=OneWay}">
-                        <TextBlock Text="Пресс" TextAlignment="Center" Background="#C6E0B4"/>
+                            CanHorizontallyScroll="False"
+                            CanVerticallyScroll="False">
+                    <Border Style="{StaticResource HeaderBorder}"
+                            Width="{Binding Width, ElementName=PressDG, Mode=OneWay}">
+                        <TextBlock Text="Пресс"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"/>
                     </Border>
                     <DataGrid x:Name="PressDG"
-                          ItemsSource="{Binding Press}"
-                          SelectedItem="{Binding SelectedPress}"
-                          Style="{StaticResource BaseDataGrid}"
-                          CellStyle="{StaticResource BaseDataGridCell}">
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              Style="{StaticResource BaseDataGrid}"
+                              RowHeight="20"
+                              CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить" Command="{Binding ChangeRowPress}" CommandParameter="{Binding SelectedPress}" />
+                                <MenuItem Header="Изменить"
+                                          Command="{Binding ChangeRowPress}"
+                                          CommandParameter="{Binding SelectedOrder}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Плановая дата"    Binding="{Binding Path=PlannedDate}"                                    MinWidth="95" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ФИО"              Binding="{Binding Path=UserName}"                                       MinWidth="190" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Дата"             Binding="{Binding Path=Date, Converter={StaticResource DateConverter}}" MinWidth="70" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="МДФ м&#x00B2;"    Binding="{Binding Path=MDF}"                                            MinWidth="70" />
+                            <DataGridTextColumn Header="Плановая дата" HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Press.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn Header="ФИО" HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Press.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn Header="Дата" HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Press.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn Header="МДФ м&#x00B2;" HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Press.MDF}"
+                                                MinWidth="70" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
                         CanHorizontallyScroll="False"
                         CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}" Width="{Binding Width, ElementName=AssemblingDG, Mode=OneWay}">
-                        <TextBlock Text="Сборка" TextAlignment="Center" Background="#C6E0B4"/>
+                    <Border Style="{StaticResource HeaderBorder}"
+                            Width="{Binding Width, ElementName=AssemblingDG, Mode=OneWay}">
+                        <TextBlock Text="Сборка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"/>
                     </Border>
                     <DataGrid x:Name="AssemblingDG"
-                          ItemsSource="{Binding Assembling}"
-                          SelectedItem="{Binding SelectedAssembling}"
-                          Style="{StaticResource BaseDataGrid}"
-                          CellStyle="{StaticResource BaseDataGridCell}">
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              Style="{StaticResource BaseDataGrid}"
+                              RowHeight="20"
+                              CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить" Command="{Binding ChangeRowAssembling}" CommandParameter="{Binding SelectedAssembling}" />
+                                <MenuItem Header="Изменить"
+                                          Command="{Binding ChangeRowAssembling}"
+                                          CommandParameter="{Binding SelectedOrder}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Плановая дата"        Binding="{Binding Path=PlannedDate}"                                    MinWidth="95" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ФИО"                  Binding="{Binding Path=UserName}"                                       MinWidth="190" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Дата"                 Binding="{Binding Path=Date, Converter={StaticResource DateConverter}}" MinWidth="70" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ЛДСП/МДФ м&#x00B2;"   Binding="{Binding Path=ChipboardOrMDF}"                                 MinWidth="100" />
+                            <DataGridTextColumn Header="Плановая дата" HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Assembling.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn Header="ФИО" HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Assembling.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn Header="Дата" HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Assembling.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn Header="ЛДСП/МДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Assembling.ChipboardOrMDF}"
+                                                MinWidth="100" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
                         CanHorizontallyScroll="False"
                         CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}" Width="{Binding Width, ElementName=PackagingDG, Mode=OneWay}">
-                        <TextBlock Text="Упаковка" TextAlignment="Center" Background="#C6E0B4"/>
+                    <Border Style="{StaticResource HeaderBorder}"
+                            Width="{Binding Width, ElementName=PackingDG, Mode=OneWay}">
+                        <TextBlock Text="Упаковка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"/>
                     </Border>
-                    <DataGrid x:Name="PackagingDG"
-                          ItemsSource="{Binding Packaging}"
-                          SelectedItem="{Binding SelectedPackaging}"
-                          Style="{StaticResource BaseDataGrid}"
-                          CellStyle="{StaticResource BaseDataGridCell}">
+                    <DataGrid x:Name="PackingDG"
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              Style="{StaticResource BaseDataGrid}"
+                              RowHeight="20"
+                              CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить" Command="{Binding ChangeRowPackaging}" CommandParameter="{Binding SelectedPackaging}" />
+                                <MenuItem Header="Изменить"
+                                          Command="{Binding ChangeRowPacking}"
+                                          CommandParameter="{Binding SelectedOrder}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Плановая дата"        Binding="{Binding Path=PlannedDate}"                                    MinWidth="95" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ФИО"                  Binding="{Binding Path=UserName}"                                       MinWidth="190" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Дата"                 Binding="{Binding Path=Date, Converter={StaticResource DateConverter}}" MinWidth="70" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ЛДСП/МДФ м&#x00B2;"   Binding="{Binding Path=ChipboardOrMDF}"                                 MinWidth="100" />
+                            <DataGridTextColumn Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Packing.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Packing.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Packing.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn Header="ЛДСП/МДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Packing.ChipboardOrMDF}"
+                                                MinWidth="100" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
-                        CanHorizontallyScroll="False"
-                        CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}" Width="{Binding Width, ElementName=EquipmentDG, Mode=OneWay}">
-                        <TextBlock Text="Комплектация" TextAlignment="Center" Background="#C6E0B4"/>
+                            CanHorizontallyScroll="False"
+                            CanVerticallyScroll="False">
+                    <Border Style="{StaticResource HeaderBorder}"
+                            Width="{Binding Width, ElementName=EquipmentDG, Mode=OneWay}">
+                        <TextBlock Text="Комплектация"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"/>
                     </Border>
                     <DataGrid x:Name="EquipmentDG"
-                          ItemsSource="{Binding Equipment}"
-                          SelectedItem="{Binding SelectedEquipment}"
-                          Style="{StaticResource BaseDataGrid}"
-                          CellStyle="{StaticResource BaseDataGridCell}">
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              Style="{StaticResource BaseDataGrid}"
+                              RowHeight="20"
+                              CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить" Command="{Binding ChangeRowEquipment}" CommandParameter="{Binding SelectedEquipment}" />
+                                <MenuItem Header="Изменить"
+                                          Command="{Binding ChangeRowEquipment}"
+                                          CommandParameter="{Binding SelectedOrder}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Плановая дата"        Binding="{Binding Path=PlannedDate}"                                    MinWidth="95" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ФИО"                  Binding="{Binding Path=UserName}"                                       MinWidth="190" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Дата"                 Binding="{Binding Path=Date, Converter={StaticResource DateConverter}}" MinWidth="70" />
+                            <DataGridTextColumn Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Equipment.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Equipment.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Equipment.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
-                        CanHorizontallyScroll="False"
-                        CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}" Width="{Binding Width, ElementName=ShipmentDG, Mode=OneWay}">
-                        <TextBlock Text="Отгрузка" TextAlignment="Center" Background="#C6E0B4"/>
+                            CanHorizontallyScroll="False"
+                            CanVerticallyScroll="False">
+                    <Border Style="{StaticResource HeaderBorder}"
+                            Width="{Binding Width, ElementName=ShipmentDG, Mode=OneWay}">
+                        <TextBlock Text="Отгрузка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"/>
                     </Border>
                     <DataGrid x:Name="ShipmentDG"
-                          ItemsSource="{Binding Shipment}"
-                          SelectedItem="{Binding SelectedShipment}"
-                          Style="{StaticResource BaseDataGrid}"
-                          CellStyle="{StaticResource BaseDataGridCell}">
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              Style="{StaticResource BaseDataGrid}"
+                              RowHeight="20"
+                              CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить" Command="{Binding ChangeRowShipment}" CommandParameter="{Binding SelectedShipment}" />
+                                <MenuItem Header="Изменить"
+                                          Command="{Binding ChangeRowShipment}"
+                                          CommandParameter="{Binding SelectedOrder}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Плановая дата"    Binding="{Binding Path=PlannedDate}"                                    MinWidth="95" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="ФИО"              Binding="{Binding Path=UserName}"                                       MinWidth="190" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Дата"             Binding="{Binding Path=Date, Converter={StaticResource DateConverter}}" MinWidth="70" />
+                            <DataGridTextColumn Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Shipment.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Shipment.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Shipment.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
-                        CanHorizontallyScroll="False"
-                        CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}" Width="{Binding Width, ElementName=NoteDG, Mode=OneWay}">
-                        <TextBlock Text="" TextAlignment="Center" Background="#C6E0B4"/>
+                            CanHorizontallyScroll="False"
+                            CanVerticallyScroll="False">
+                    <Border Style="{StaticResource HeaderBorder}"
+                            Width="{Binding Width, ElementName=NoteDG, Mode=OneWay}">
+                        <TextBlock Text=""
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"/>
                     </Border>
                     <DataGrid x:Name="NoteDG"
-                          ItemsSource="{Binding Note}"
-                          SelectedItem="{Binding SelectedNote}"
-                          Style="{StaticResource BaseDataGrid}"
-                          CellStyle="{StaticResource BaseDataGridCell}">
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              Style="{StaticResource BaseDataGrid}"
+                              RowHeight="20"
+                              CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить" Command="{Binding ChangeRowNote}" CommandParameter="{Binding SelectedNote}" />
+                                <MenuItem Header="Изменить"
+                                          Command="{Binding ChangeRowNote}"
+                                          CommandParameter="{Binding SelectedOrder}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Примечание"   Binding="{Binding Path=PlannedDate}"    MinWidth="95" />
+                            <DataGridTextColumn Header="Примечание"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Note}"
+                                                MinWidth="95">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="ToolTip"
+                                                Value="{Binding Path=Note}" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="true">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="Foreground" Value="Black"/>
+                                                <Setter Property="BorderBrush" Value="Black"/>
+                                                <Setter Property="BorderThickness" Value="0 0 0 0"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
-                        CanHorizontallyScroll="False"
-                        CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}" Width="{Binding Width, ElementName=MountingDG, Mode=OneWay}">
-                        <TextBlock Text="Монтаж" TextAlignment="Center" Background="#C6E0B4"/>
+                            CanHorizontallyScroll="False"
+                            CanVerticallyScroll="False">
+                    <Border Style="{StaticResource HeaderBorder}"
+                            Width="{Binding Width, ElementName=MountingDG, Mode=OneWay}">
+                        <TextBlock Text="Монтаж"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"/>
                     </Border>
                     <DataGrid x:Name="MountingDG"
-                          ItemsSource="{Binding Mounting}"
-                          SelectedItem="{Binding SelectedMounting}"
-                          Style="{StaticResource BaseDataGrid}"
-                          CellStyle="{StaticResource BaseDataGridCell}">
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              Style="{StaticResource BaseDataGrid}"
+                              RowHeight="20"
+                              CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить" Command="{Binding ChangeRowMounting}" CommandParameter="{Binding SelectedMounting}" />
+                                <MenuItem Header="Изменить"
+                                          Command="{Binding ChangeRowMounting}"
+                                          CommandParameter="{Binding SelectedOrder}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Да/Нет"   Binding="{Binding Path=IsMounting}"                                     MinWidth="95" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource SecondDataGridColumnHeader}" Header="Дата"     Binding="{Binding Path=Date, Converter={StaticResource DateConverter}}" MinWidth="95" />
+                            <DataGridTextColumn Header="Да/Нет"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Mounting.IsMounting, Converter={StaticResource BoolConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Mounting.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>

@@ -2,12 +2,12 @@
 using OrderHandler.DB.Model.Additional.Order;
 using OrderHandler.UI.Core;
 
-namespace OrderHandler.UI.Model.OrderData;
+namespace OrderHandler.UI.Model.ViewOrderData;
 
 internal class ViewMounting : PropertyChanger
 {
     private bool isMounting;
-    private DateTime mountingDate;
+    private DateTime date;
 
     public bool IsMounting
     {
@@ -19,25 +19,25 @@ internal class ViewMounting : PropertyChanger
         }
     }
 
-    public DateTime MountingDate
+    public DateTime Date
     {
-        get => mountingDate;
+        get => date;
         set
         {
-            mountingDate = value;
-            OnPropertyChanged(nameof(MountingDate));
+            date = value;
+            OnPropertyChanged(nameof(Date));
         }
     }
 
-    public ViewMounting(bool isMounting, DateTime mountingDate)
+    public ViewMounting(bool isMounting, DateTime date)
     {
         this.isMounting = isMounting;
-        this.mountingDate = mountingDate;
+        this.date = date;
     }
 
     public ViewMounting(Mounting mounting)
     {
         isMounting = mounting.IsMounting;
-        mountingDate = mounting.MountingDate;
+        date = mounting.Date;
     }
 }

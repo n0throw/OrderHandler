@@ -6,11 +6,14 @@ namespace OrderHandler.DB.Model.Additional.Order;
 public class Mounting
 {
     public bool IsMounting { get; set; }
-    public DateTime MountingDate { get; set; }
+    public DateTime Date { get; set; }
 
-    public Mounting(bool isMounting, DateTime mountingDate)
+    public Mounting() { }
+    public Mounting(bool isMounting, DateTime date)
     {
         IsMounting = isMounting;
-        MountingDate = mountingDate;
+
+        if (isMounting)
+            Date = date;
     }
 }

@@ -9,6 +9,7 @@ public class StatusGeneric
     public string? UserId { get; set; } // id int
     public DateTime Date { get; set; }
 
+    public StatusGeneric() { }
     public StatusGeneric(DateTime plannedDate)
         => PlannedDate = plannedDate;
 }

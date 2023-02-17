@@ -3,12 +3,12 @@
 using OrderHandler.DB.Model.Additional.Order;
 using OrderHandler.UI.Core;
 
-namespace OrderHandler.UI.Model.OrderData;
+namespace OrderHandler.UI.Model.ViewOrderData;
 
-internal class ViewPackaging : PropertyChanger
+internal class ViewAdditive : PropertyChanger
 {
     private ViewStatusGeneric status;
-    private decimal chipboardOrMDF;
+    private decimal? chipboardOrMDF;
 
     public ViewStatusGeneric Status
     {
@@ -20,7 +20,7 @@ internal class ViewPackaging : PropertyChanger
         }
     }
 
-    public decimal ChipboardOrMDF
+    public decimal? ChipboardOrMDF
     {
         get => chipboardOrMDF;
         set
@@ -30,12 +30,12 @@ internal class ViewPackaging : PropertyChanger
         }
     }
 
-    public ViewPackaging(DateTime plannedDate)
+    public ViewAdditive(DateTime plannedDate)
         => status = new(plannedDate);
 
-    public ViewPackaging(Packaging packaging)
+    public ViewAdditive(Additive additive)
     {
-        status = new(packaging.Status);
-        chipboardOrMDF = packaging.ChipboardOrMDF;
+        status = new(additive.Status);
+        chipboardOrMDF = additive.ChipboardOrMDF;
     }
 }

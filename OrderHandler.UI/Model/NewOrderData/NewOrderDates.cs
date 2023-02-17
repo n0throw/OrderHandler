@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderHandler.UI.Model;
+namespace OrderHandler.UI.Model.NewOrderData;
 
 internal class NewOrderDates : PropertyChanger, IDataErrorInfo
 {
     private DateTime orderDate;
     private DateTime deliveryDate;
-    private DateTime documentationConstructorDate;
-    private DateTime documentationTechnologistDate;
+    private DateTime docConstructorDate;
+    private DateTime docTechnologistDate;
     private DateTime supplyDate;
     private DateTime sawCenterDate;
     private DateTime edgeDate;
@@ -27,6 +27,26 @@ internal class NewOrderDates : PropertyChanger, IDataErrorInfo
     private DateTime shipmentDate;
     private DateTime mountingDate;
 
+    public NewOrderDates()
+    {
+        orderDate = DateTime.Now;
+        deliveryDate = DateTime.Now.AddDays(30);
+        docConstructorDate = DateTime.Now.AddDays(4);
+        docTechnologistDate = DateTime.Now.AddDays(4);
+        supplyDate = DateTime.Now.AddDays(5);
+        sawCenterDate = DateTime.Now.AddDays(6);
+        edgeDate = DateTime.Now.AddDays(7);
+        additiveDate = DateTime.Now.AddDays(8);
+        millingDate = DateTime.Now.AddDays(9);
+        grindingDate = DateTime.Now.AddDays(10);
+        pressDate = DateTime.Now.AddDays(11);
+        assemblingDate = DateTime.Now.AddDays(12);
+        packagingDate = DateTime.Now.AddDays(13);
+        equipmentDate = DateTime.Now.AddDays(14);
+        shipmentDate = DateTime.Now.AddDays(15);
+        mountingDate = DateTime.Now.AddDays(30);
+    }
+
     public string this[string columnName] => throw new NotImplementedException();
     public string Error => throw new NotImplementedException();
 
@@ -37,7 +57,7 @@ internal class NewOrderDates : PropertyChanger, IDataErrorInfo
         set
         {
             orderDate = value;
-            OnPropertyChanged("OrderDate");
+            OnPropertyChanged(nameof(OrderDate));
         }
     }
 
@@ -47,27 +67,27 @@ internal class NewOrderDates : PropertyChanger, IDataErrorInfo
         set
         {
             deliveryDate = value;
-            OnPropertyChanged("DeliveryDate");
+            OnPropertyChanged(nameof(DeliveryDate));
         }
     }
 
-    public DateTime DocumentationConstructorDate
+    public DateTime DocConstructorDate
     {
-        get => documentationConstructorDate;
+        get => docConstructorDate;
         set
         {
-            documentationConstructorDate = value;
-            OnPropertyChanged("DocumentationConstructorDate");
+            docConstructorDate = value;
+            OnPropertyChanged(nameof(DocConstructorDate));
         }
     }
 
-    public DateTime DocumentationTechnologistDate
+    public DateTime DocTechnologistDate
     {
-        get => documentationTechnologistDate;
+        get => docTechnologistDate;
         set
         {
-            documentationTechnologistDate = value;
-            OnPropertyChanged("DocumentationTechnologistDate");
+            docTechnologistDate = value;
+            OnPropertyChanged(nameof(DocTechnologistDate));
         }
     }
 
@@ -77,7 +97,7 @@ internal class NewOrderDates : PropertyChanger, IDataErrorInfo
         set
         {
             supplyDate = value;
-            OnPropertyChanged("SupplyDate");
+            OnPropertyChanged(nameof(SupplyDate));
         }
     }
 
@@ -87,7 +107,7 @@ internal class NewOrderDates : PropertyChanger, IDataErrorInfo
         set
         {
             sawCenterDate = value;
-            OnPropertyChanged("SawCenterDate");
+            OnPropertyChanged(nameof(SawCenterDate));
         }
     }
 
@@ -97,7 +117,7 @@ internal class NewOrderDates : PropertyChanger, IDataErrorInfo
         set
         {
             edgeDate = value;
-            OnPropertyChanged("EdgeDate");
+            OnPropertyChanged(nameof(EdgeDate));
         }
     }
 
@@ -107,7 +127,7 @@ internal class NewOrderDates : PropertyChanger, IDataErrorInfo
         set
         {
             additiveDate = value;
-            OnPropertyChanged("AdditiveDate");
+            OnPropertyChanged(nameof(AdditiveDate));
         }
     }
 
@@ -117,7 +137,7 @@ internal class NewOrderDates : PropertyChanger, IDataErrorInfo
         set
         {
             millingDate = value;
-            OnPropertyChanged("MillingDate");
+            OnPropertyChanged(nameof(MillingDate));
         }
     }
 
@@ -127,7 +147,7 @@ internal class NewOrderDates : PropertyChanger, IDataErrorInfo
         set
         {
             grindingDate = value;
-            OnPropertyChanged("GrindingDate");
+            OnPropertyChanged(nameof(GrindingDate));
         }
     }
 
@@ -137,7 +157,7 @@ internal class NewOrderDates : PropertyChanger, IDataErrorInfo
         set
         {
             pressDate = value;
-            OnPropertyChanged("PressDate");
+            OnPropertyChanged(nameof(PressDate));
         }
     }
 
@@ -147,7 +167,7 @@ internal class NewOrderDates : PropertyChanger, IDataErrorInfo
         set
         {
             assemblingDate = value;
-            OnPropertyChanged("AssemblingDate");
+            OnPropertyChanged(nameof(AssemblingDate));
         }
     }
 
@@ -157,7 +177,7 @@ internal class NewOrderDates : PropertyChanger, IDataErrorInfo
         set
         {
             packagingDate = value;
-            OnPropertyChanged("PackagingDate");
+            OnPropertyChanged(nameof(PackagingDate));
         }
     }
 
@@ -167,7 +187,7 @@ internal class NewOrderDates : PropertyChanger, IDataErrorInfo
         set
         {
             equipmentDate = value;
-            OnPropertyChanged("EquipmentDate");
+            OnPropertyChanged(nameof(EquipmentDate));
         }
     }
 
@@ -177,7 +197,7 @@ internal class NewOrderDates : PropertyChanger, IDataErrorInfo
         set
         {
             shipmentDate = value;
-            OnPropertyChanged("ShipmentDate");
+            OnPropertyChanged(nameof(ShipmentDate));
         }
     }
 
@@ -187,7 +207,7 @@ internal class NewOrderDates : PropertyChanger, IDataErrorInfo
         set
         {
             mountingDate = value;
-            OnPropertyChanged("MountingDate");
+            OnPropertyChanged(nameof(MountingDate));
         }
     }
 }

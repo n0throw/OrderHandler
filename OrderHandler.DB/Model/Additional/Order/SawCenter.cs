@@ -6,9 +6,10 @@ namespace OrderHandler.DB.Model.Additional.Order;
 public class SawCenter
 {
     public StatusGeneric Status { get; set; }
-    public decimal ChipboardOrMDF { get; set; }
-    public decimal HDF { get; set; }
+    public decimal? ChipboardOrMDF { get; set; }
+    public decimal? HDF { get; set; }
 
+    public SawCenter() { }
     public SawCenter(DateTime plannedDate)
         => Status = new(plannedDate);
 }

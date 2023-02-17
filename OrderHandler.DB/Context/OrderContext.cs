@@ -14,7 +14,7 @@ public class OrderContext : DbContext
 
     public int GetLastIndex()
     {
-        Order? lastOrder = Orders.LastOrDefault();
+        Order? lastOrder = Orders.OrderBy(order => order.Id).LastOrDefault();
 
         if (lastOrder is not null)
             return lastOrder.Id;

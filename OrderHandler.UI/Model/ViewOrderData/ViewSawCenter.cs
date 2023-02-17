@@ -3,13 +3,13 @@
 using OrderHandler.DB.Model.Additional.Order;
 using OrderHandler.UI.Core;
 
-namespace OrderHandler.UI.Model.OrderData;
+namespace OrderHandler.UI.Model.ViewOrderData;
 
 internal class ViewSawCenter : PropertyChanger
 {
     private ViewStatusGeneric status;
-    private decimal chipboardOrMDF;
-    private decimal hdf;
+    private decimal? chipboardOrMDF;
+    private decimal? hdf;
 
     public ViewStatusGeneric Status
     {
@@ -21,7 +21,7 @@ internal class ViewSawCenter : PropertyChanger
         }
     }
 
-    public decimal ChipboardOrMDF
+    public decimal? ChipboardOrMDF
     {
         get => chipboardOrMDF;
         set
@@ -31,7 +31,7 @@ internal class ViewSawCenter : PropertyChanger
         }
     }
 
-    public decimal HDF
+    public decimal? HDF
     {
         get => hdf;
         set

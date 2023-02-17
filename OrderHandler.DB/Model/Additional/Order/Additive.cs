@@ -6,8 +6,9 @@ namespace OrderHandler.DB.Model.Additional.Order;
 public class Additive
 {
     public StatusGeneric Status { get; set; }
-    public decimal ChipboardOrMDF { get; set; }
+    public decimal? ChipboardOrMDF { get; set; }
 
+    public Additive() { }
     public Additive(DateTime plannedDate)
         => Status = new(plannedDate);
 }

@@ -3,12 +3,12 @@
 using OrderHandler.DB.Model.Additional.Order;
 using OrderHandler.UI.Core;
 
-namespace OrderHandler.UI.Model.OrderData;
+namespace OrderHandler.UI.Model.ViewOrderData;
 
-internal class ViewMilling : PropertyChanger
+internal class ViewPress : PropertyChanger
 {
     private ViewStatusGeneric status;
-    private decimal mdf;
+    private decimal? mdf;
 
     public ViewStatusGeneric Status
     {
@@ -20,7 +20,7 @@ internal class ViewMilling : PropertyChanger
         }
     }
 
-    public decimal MDF
+    public decimal? MDF
     {
         get => mdf;
         set
@@ -30,12 +30,12 @@ internal class ViewMilling : PropertyChanger
         }
     }
 
-    public ViewMilling(DateTime plannedDate)
+    public ViewPress(DateTime plannedDate)
         => status = new(plannedDate);
 
-    public ViewMilling(Milling milling)
+    public ViewPress(Press press)
     {
-        status = new(milling.Status);
-        mdf = milling.MDF;
+        status = new(press.Status);
+        mdf = press.MDF;
     }
 }

@@ -3,12 +3,12 @@
 using OrderHandler.DB.Model.Additional.Order;
 using OrderHandler.UI.Core;
 
-namespace OrderHandler.UI.Model.OrderData;
+namespace OrderHandler.UI.Model.ViewOrderData;
 
-internal class ViewPress : PropertyChanger
+internal class ViewSupply : PropertyChanger
 {
     private ViewStatusGeneric status;
-    private decimal mdf;
+    private decimal? cost;
 
     public ViewStatusGeneric Status
     {
@@ -20,22 +20,22 @@ internal class ViewPress : PropertyChanger
         }
     }
 
-    public decimal MDF
+    public decimal? Cost
     {
-        get => mdf;
+        get => cost;
         set
         {
-            mdf = value;
-            OnPropertyChanged(nameof(MDF));
+            cost = value;
+            OnPropertyChanged(nameof(Cost));
         }
     }
 
-    public ViewPress(DateTime plannedDate)
+    public ViewSupply(DateTime plannedDate)
         => status = new(plannedDate);
 
-    public ViewPress(Press press)
+    public ViewSupply(Supply supply)
     {
-        status = new(press.Status);
-        mdf = press.MDF;
+        status = new(supply.Status);
+        cost = supply.Cost;
     }
 }

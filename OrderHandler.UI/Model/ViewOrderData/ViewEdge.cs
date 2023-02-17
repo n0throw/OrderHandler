@@ -3,12 +3,12 @@
 using OrderHandler.DB.Model.Additional.Order;
 using OrderHandler.UI.Core;
 
-namespace OrderHandler.UI.Model.OrderData;
+namespace OrderHandler.UI.Model.ViewOrderData;
 
 internal class ViewEdge : PropertyChanger
 {
     private ViewStatusGeneric status;
-    private decimal chipboardOrMDF;
+    private decimal? chipboardOrMDF;
 
     public ViewStatusGeneric Status
     {
@@ -20,7 +20,7 @@ internal class ViewEdge : PropertyChanger
         }
     }
 
-    public decimal ChipboardOrMDF
+    public decimal? ChipboardOrMDF
     {
         get => chipboardOrMDF;
         set

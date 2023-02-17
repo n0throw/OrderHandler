@@ -1,7 +1,7 @@
 ﻿using OrderHandler.DB.Model;
 
 using OrderHandler.UI.Core;
-using OrderHandler.UI.Model.OrderData;
+using OrderHandler.UI.Model.ViewOrderData;
 
 namespace OrderHandler.UI.Model;
 
@@ -19,7 +19,7 @@ internal class ViewOrder : PropertyChanger
     private ViewGrinding grinding;
     private ViewPress press;
     private ViewAssembling assembling;
-    private ViewPackaging packaging;
+    private ViewPacking packing;
     private ViewStatusGeneric equipment;
     private ViewStatusGeneric shipment;
     private string? note;
@@ -125,13 +125,13 @@ internal class ViewOrder : PropertyChanger
             OnPropertyChanged(nameof(Assembling));
         }
     }
-    public ViewPackaging Packaging
+    public ViewPacking Packing
     {
-        get => packaging;
+        get => packing;
         set
         {
-            packaging = value;
-            OnPropertyChanged(nameof(Packaging));
+            packing = value;
+            OnPropertyChanged(nameof(Packing));
         }
     }
     public ViewStatusGeneric Equipment
@@ -185,7 +185,7 @@ internal class ViewOrder : PropertyChanger
         grinding = new(order.Grinding);
         press = new(order.Press);
         assembling = new(order.Assembling);
-        packaging = new(order.Packaging);
+        packing = new(order.Packing);
         equipment = new(order.Equipment);
         shipment = new(order.Shipment);
         note = order.Note;
