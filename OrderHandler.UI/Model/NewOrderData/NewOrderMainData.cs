@@ -18,7 +18,7 @@ internal class NewOrderMainData : PropertyChanger, IDataErrorInfo
     private bool isMounting;
 
     private const string obligatoryValue = "Это поле обязательно для заполнения";
-    private const string valueGreaterZero = "Значение должно быть больше нуляя";
+    private const string valueGreaterZero = "Значение должно быть больше нуля";
 
     private static readonly string[] ValidatedProperties =
     {

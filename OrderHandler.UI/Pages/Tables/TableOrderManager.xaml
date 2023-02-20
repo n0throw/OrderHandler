@@ -4,6 +4,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:conv="clr-namespace:OrderHandler.UI.Converters"
+      xmlns:contexts="clr-namespace:OrderHandler.UI.Contexts"
+      xmlns:model="clr-namespace:OrderHandler.UI.Model"
+      d:DataContext="{d:DesignInstance Type=contexts:TableOrderManagerContext}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="8600"
       Title="TableOrderManager" Background="Black">
@@ -15,6 +18,7 @@
             </ResourceDictionary.MergedDictionaries>
             <conv:DateTimeToStringConverter x:Key="DateConverter" />
             <conv:BoolToStringConverter x:Key="BoolConverter" />
+            <conv:StatusConverter x:Key="StatusConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -22,8 +26,8 @@
         <Menu Height="20" VerticalAlignment="Top">
             <MenuItem Header="Меню" Height="20" ToolTip="Основные для всех страниц функции">
                 <MenuItem Header="Обновить" ToolTip="Обновляет данные на странице"  Command="{Binding UpdateCommand}"/>
-                <MenuItem Header="Назад"    ToolTip="Возвращает на предыдущую страницу"/>
-                <MenuItem Header="Закрыть"  ToolTip="Возвращает на начальный экран"/>
+                <MenuItem Header="Назад"    ToolTip="Возвращает на предыдущую страницу" Command="{Binding ExitCommand}"/>
+                <MenuItem Header="Закрыть"  ToolTip="Возвращает на начальный экран" Command="{Binding ExitCommand}"/>
                 <Separator/>
                 <MenuItem Header="Статусы"              ToolTip="Показыват статусы системы"/>
                 <MenuItem Header="Выход"                ToolTip="Возвращает на экран авторизации"   Command="{Binding ExitCommand}"/>
@@ -32,12 +36,16 @@
             <MenuItem Header="Утилиты" Height="20" ToolTip="Основные для данной страницы функции">
                 <MenuItem Header="Добавить заказ"           ToolTip="Добавляет новый заказ"                     Command="{Binding AddOrderCommand}"/>
                 <MenuItem Header="Добавить заказы из Excel" ToolTip="Массовая загрузка новых заказов из Excel"/>
-                <MenuItem Header="Выгрузить в Excel"        ToolTip="Выгрузка всех заказов из таблицы в Excel"/>
+                <MenuItem Header="Выгрузить в Excel"        ToolTip="Выгрузка всех заказов из таблицы в Excel"  Command="{Binding UploadExcelData}"/>
                 <Separator/>
-                <MenuItem Header="Шаблон Excel заказов" ToolTip="Скачивает шаблон для массовой загрузки заказов из Excel"/>
-                <MenuItem Header="Количество"           ToolTip="Количество заказов в данной таблице"/>
+                <MenuItem Header="Шаблон Excel заказов" ToolTip="Скачивает шаблон для массовой загрузки заказов из Excel" Command="{Binding UploadTempExcel}"/>
+                <MenuItem Header="Количество"           ToolTip="Количество заказов в данной таблице"   Command="{Binding ShowCountOrder}"/>
             </MenuItem>
-            <MenuItem Header="Фильтры" Height="20" ToolTip="Устанавливает различные фильтры отображения"/>
+            <MenuItem Header="Фильтры" Height="20" ToolTip="Устанавливает различные фильтры отображения">
+                <MenuItem Header="Столбцы" Height="20" ToolTip="Фильтры отображения столбцов" />
+                <MenuItem Header="Строки" Height="20" ToolTip="Фильтры подсвечивания строк" />
+                <MenuItem Header="Выборка" Height="20" ToolTip="Фильтры выборки данных" />
+            </MenuItem>
         </Menu>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto"
@@ -51,13 +59,13 @@
                             Width="{Binding Width, ElementName=OrderDG, Mode=OneWay}">
                         <TextBlock Text="Заказ"
                                    TextAlignment="Center"
-                                   Background="#DDEBF7"/>
+                                   Background="#DDEBF7"
+                                   ToolTip="Заказ"/>
                     </Border>
                     <DataGrid x:Name="OrderDG"
                               ItemsSource="{Binding Orders}"
                               SelectedItem="{Binding SelectedOrder}"
                               Style="{StaticResource BaseDataGrid}"
-                              RowHeight="20"
                               CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
@@ -71,7 +79,6 @@
                                                 HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
                                                 Binding="{Binding Path=OrderMainData.Id}"
                                                 MinWidth="20" />
-
                             <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
                                                 Header="Менеджер Заказа"
                                                 Binding="{Binding Path=OrderMainData.UserName}"
@@ -105,24 +112,31 @@
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
                             CanHorizontallyScroll="False"
-                            CanVerticallyScroll="False">
+                            CanVerticallyScroll="False" >
                     <Border Style="{StaticResource HeaderBorder}"
-                            Width="{Binding Width, ElementName=DocumentationConstructorDG, Mode=OneWay}">
+                            Width="{Binding Width, ElementName=DocConstructorDG, Mode=OneWay}">
                         <TextBlock Text="Документация конструктор"
                                    TextAlignment="Center"
-                                   Background="#C6E0B4"/>
+                                   Background="#C6E0B4"
+                                   ToolTip="Документация конструктор"
+                                   TextTrimming="CharacterEllipsis"/>
                     </Border>
-                    <DataGrid x:Name="DocumentationConstructorDG"
+                    <DataGrid x:Name="DocConstructorDG"
                               ItemsSource="{Binding Orders}"
                               SelectedItem="{Binding SelectedOrder}"
                               Style="{StaticResource BaseDataGrid}"
-                              RowHeight="20"
+                              MinWidth="70"
                               CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить"
-                                          Command="{Binding ChangeRowDocumentationConstructor}"
-                                          CommandParameter="{Binding SelectedOrder}" />
+                                <MenuItem Header="Установить статус"
+                                          Command="{Binding SetStatus}"
+                                          CommandParameter="DocConstructor"
+                                          ToolTip="Устанавливает статус на Проверено" />
+                                <MenuItem Header="Удалить статус"
+                                          Command="{Binding DelStatus}"
+                                          CommandParameter="DocConstructor"
+                                          ToolTip="Удаляет статус, если он датирован текущей датой" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -147,19 +161,25 @@
                     <Border Style="{StaticResource HeaderBorder}"
                             Width="{Binding Width, ElementName=DocumentationTechnologistDG, Mode=OneWay}">
                         <TextBlock Text="Документация технолог"
-                                   TextAlignment="Center" Background="#C6E0B4"/>
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Документация технолог" />
                     </Border>
                     <DataGrid x:Name="DocumentationTechnologistDG"
                               ItemsSource="{Binding Orders}"
                               SelectedItem="{Binding SelectedOrder}"
                               Style="{StaticResource BaseDataGrid}"
-                              RowHeight="20"
                               CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить"
-                                          Command="{Binding ChangeRowDocumentationTechnologist}"
-                                          CommandParameter="{Binding SelectedOrder}" />
+                                <MenuItem Header="Установить статус"
+                                          Command="{Binding SetStatus}"
+                                          CommandParameter="DocTechnologist"
+                                          ToolTip="Устанавливает статус на Проверено"/>
+                                <MenuItem Header="Удалить статус"
+                                          Command="{Binding DelStatus}"
+                                          CommandParameter="DocTechnologist"
+                                          ToolTip="Удаляет статус, если он датирован текущей датой"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -185,19 +205,24 @@
                             Width="{Binding Width, ElementName=SupplyDG, Mode=OneWay}">
                         <TextBlock Text="Снабжение"
                                    TextAlignment="Center"
-                                   Background="#C6E0B4"/>
+                                   Background="#C6E0B4"
+                                   ToolTip="Снабжение" />
                     </Border>
                     <DataGrid x:Name="SupplyDG"
                               ItemsSource="{Binding Orders}"
                               SelectedItem="{Binding SelectedOrder}"
                               Style="{StaticResource BaseDataGrid}"
-                              RowHeight="20"
                               CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить"
-                                          Command="{Binding ChangeRowSupply}"
-                                          CommandParameter="{Binding SelectedOrder}" />
+                                <MenuItem Header="Установить статус"
+                                          Command="{Binding SetStatus}"
+                                          CommandParameter="Supply"
+                                          ToolTip="Устанавливает статус на Проверено"/>
+                                <MenuItem Header="Удалить статус"
+                                          Command="{Binding DelStatus}"
+                                          CommandParameter="Supply"
+                                          ToolTip="Удаляет статус, если он датирован текущей датой" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -225,21 +250,26 @@
                             CanVerticallyScroll="False">
                     <Border Style="{StaticResource HeaderBorder}"
                             Width="{Binding Width, ElementName=SawCenterDG, Mode=OneWay}">
-                        <TextBlock Text="Пильный центр"
+                        <TextBlock Text="Пильный Центр"
                                    TextAlignment="Center"
-                                   Background="#C6E0B4"/>
+                                   Background="#C6E0B4"
+                                   ToolTip="Пильный Центр" />
                     </Border>
                     <DataGrid x:Name="SawCenterDG"
                               ItemsSource="{Binding Orders}"
                               SelectedItem="{Binding SelectedOrder}"
                               Style="{StaticResource BaseDataGrid}"
-                              RowHeight="20"
                               CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить"
-                                          Command="{Binding ChangeRowSawCenter}"
-                                          CommandParameter="{Binding SelectedOrder}" />
+                                <MenuItem Header="Установить статус"
+                                          Command="{Binding SetStatus}"
+                                          CommandParameter="SawCenter"
+                                          ToolTip="Устанавливает статус на Проверено"/>
+                                <MenuItem Header="Удалить статус"
+                                          Command="{Binding DelStatus}"
+                                          CommandParameter="SawCenter"
+                                          ToolTip="Удаляет статус, если он датирован текущей датой" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -273,19 +303,24 @@
                             Width="{Binding Width, ElementName=EdgeDG, Mode=OneWay}">
                         <TextBlock Text="Кромка"
                                    TextAlignment="Center"
-                                   Background="#C6E0B4"/>
+                                   Background="#C6E0B4"
+                                   ToolTip="Кромка" />
                     </Border>
                     <DataGrid x:Name="EdgeDG"
                               ItemsSource="{Binding Orders}"
                               SelectedItem="{Binding SelectedOrder}"
                               Style="{StaticResource BaseDataGrid}"
-                              RowHeight="20"
                               CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить"
-                                          Command="{Binding ChangeRowEdge}"
-                                          CommandParameter="{Binding SelectedOrder}" />
+                                <MenuItem Header="Установить статус"
+                                          Command="{Binding SetStatus}"
+                                          CommandParameter="Edge"
+                                          ToolTip="Устанавливает статус на Проверено"/>
+                                <MenuItem Header="Удалить статус"
+                                          Command="{Binding DelStatus}"
+                                          CommandParameter="Edge"
+                                          ToolTip="Удаляет статус, если он датирован текущей датой" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -315,19 +350,24 @@
                             Width="{Binding Width, ElementName=AdditiveDG, Mode=OneWay}">
                         <TextBlock Text="Присадка"
                                    TextAlignment="Center"
-                                   Background="#C6E0B4"/>
+                                   Background="#C6E0B4"
+                                   ToolTip="Присадка" />
                     </Border>
                     <DataGrid x:Name="AdditiveDG"
                               ItemsSource="{Binding Orders}"
                               SelectedItem="{Binding SelectedOrder}"
                               Style="{StaticResource BaseDataGrid}"
-                              RowHeight="20"
                               CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить"
-                                          Command="{Binding ChangeRowAdditive}"
-                                          CommandParameter="{Binding SelectedOrder}" />
+                                <MenuItem Header="Установить статус"
+                                          Command="{Binding SetStatus}"
+                                          CommandParameter="Additive"
+                                          ToolTip="Устанавливает статус на Проверено"/>
+                                <MenuItem Header="Удалить статус"
+                                          Command="{Binding DelStatus}"
+                                          CommandParameter="Additive"
+                                          ToolTip="Удаляет статус, если он датирован текущей датой" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -357,19 +397,24 @@
                             Width="{Binding Width, ElementName=MillingDG, Mode=OneWay}">
                         <TextBlock Text="Фрезеровка"
                                    TextAlignment="Center"
-                                   Background="#C6E0B4"/>
+                                   Background="#C6E0B4"
+                                   ToolTip="Фрезероовка" />
                     </Border>
                     <DataGrid x:Name="MillingDG"
                               ItemsSource="{Binding Orders}"
                               SelectedItem="{Binding SelectedOrder}"
                               Style="{StaticResource BaseDataGrid}"
-                              RowHeight="20"
                               CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить"
-                                          Command="{Binding ChangeRowMilling}"
-                                          CommandParameter="{Binding SelectedOrder}" />
+                                <MenuItem Header="Установить статус"
+                                          Command="{Binding SetStatus}"
+                                          CommandParameter="Milling"
+                                          ToolTip="Устанавливает статус на Проверено"/>
+                                <MenuItem Header="Удалить статус"
+                                          Command="{Binding DelStatus}"
+                                          CommandParameter="Milling"
+                                          ToolTip="Удаляет статус, если он датирован текущей датой"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -399,19 +444,24 @@
                             Width="{Binding Width, ElementName=GrindingDG, Mode=OneWay}">
                         <TextBlock Text="Шлифовка"
                                    TextAlignment="Center"
-                                   Background="#C6E0B4"/>
+                                   Background="#C6E0B4"
+                                   ToolTip="Шлифовка" />
                     </Border>
                     <DataGrid x:Name="GrindingDG"
                               ItemsSource="{Binding Orders}"
                               SelectedItem="{Binding SelectedOrder}"
                               Style="{StaticResource BaseDataGrid}"
-                              RowHeight="20"
                               CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить"
-                                          Command="{Binding ChangeRowGrinding}"
-                                          CommandParameter="{Binding SelectedOrder}" />
+                                <MenuItem Header="Установить статус"
+                                          Command="{Binding SetStatus}"
+                                          CommandParameter="Grinding"
+                                          ToolTip="Устанавливает статус на Проверено"/>
+                                <MenuItem Header="Удалить статус"
+                                          Command="{Binding DelStatus}"
+                                          CommandParameter="Grinding"
+                                          ToolTip="Удаляет статус, если он датирован текущей датой"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -441,19 +491,24 @@
                             Width="{Binding Width, ElementName=PressDG, Mode=OneWay}">
                         <TextBlock Text="Пресс"
                                    TextAlignment="Center"
-                                   Background="#C6E0B4"/>
+                                   Background="#C6E0B4"
+                                   ToolTip="Пресс "/>
                     </Border>
                     <DataGrid x:Name="PressDG"
                               ItemsSource="{Binding Orders}"
                               SelectedItem="{Binding SelectedOrder}"
                               Style="{StaticResource BaseDataGrid}"
-                              RowHeight="20"
                               CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить"
-                                          Command="{Binding ChangeRowPress}"
-                                          CommandParameter="{Binding SelectedOrder}" />
+                                <MenuItem Header="Установить статус"
+                                          Command="{Binding SetStatus}"
+                                          CommandParameter="Press"
+                                          ToolTip="Устанавливает статус на Проверено"/>
+                                <MenuItem Header="Удалить статус"
+                                          Command="{Binding DelStatus}"
+                                          CommandParameter="Press"
+                                          ToolTip="Удаляет статус, если он датирован текущей датой"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -479,19 +534,24 @@
                             Width="{Binding Width, ElementName=AssemblingDG, Mode=OneWay}">
                         <TextBlock Text="Сборка"
                                    TextAlignment="Center"
-                                   Background="#C6E0B4"/>
+                                   Background="#C6E0B4"
+                                   ToolTip="Сборка" />
                     </Border>
                     <DataGrid x:Name="AssemblingDG"
                               ItemsSource="{Binding Orders}"
                               SelectedItem="{Binding SelectedOrder}"
                               Style="{StaticResource BaseDataGrid}"
-                              RowHeight="20"
                               CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить"
-                                          Command="{Binding ChangeRowAssembling}"
-                                          CommandParameter="{Binding SelectedOrder}" />
+                                <MenuItem Header="Установить статус"
+                                          Command="{Binding SetStatus}"
+                                          CommandParameter="Assembling"
+                                          ToolTip="Устанавливает статус на Проверено"/>
+                                <MenuItem Header="Удалить статус"
+                                          Command="{Binding DelStatus}"
+                                          CommandParameter="Assembling"
+                                          ToolTip="Удаляет статус, если он датирован текущей датой"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -518,19 +578,24 @@
                             Width="{Binding Width, ElementName=PackingDG, Mode=OneWay}">
                         <TextBlock Text="Упаковка"
                                    TextAlignment="Center"
-                                   Background="#C6E0B4"/>
+                                   Background="#C6E0B4"
+                                   ToolTip="Упаковка" />
                     </Border>
                     <DataGrid x:Name="PackingDG"
                               ItemsSource="{Binding Orders}"
                               SelectedItem="{Binding SelectedOrder}"
                               Style="{StaticResource BaseDataGrid}"
-                              RowHeight="20"
                               CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить"
-                                          Command="{Binding ChangeRowPacking}"
-                                          CommandParameter="{Binding SelectedOrder}" />
+                                <MenuItem Header="Установить статус"
+                                          Command="{Binding SetStatus}"
+                                          CommandParameter="Packing"
+                                          ToolTip="Устанавливает статус на Проверено"/>
+                                <MenuItem Header="Удалить статус"
+                                          Command="{Binding DelStatus}"
+                                          CommandParameter="Packing"
+                                          ToolTip="Удаляет статус, если он датирован текущей датой"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -560,19 +625,24 @@
                             Width="{Binding Width, ElementName=EquipmentDG, Mode=OneWay}">
                         <TextBlock Text="Комплектация"
                                    TextAlignment="Center"
-                                   Background="#C6E0B4"/>
+                                   Background="#C6E0B4"
+                                   ToolTip="Комплектация" />
                     </Border>
                     <DataGrid x:Name="EquipmentDG"
                               ItemsSource="{Binding Orders}"
                               SelectedItem="{Binding SelectedOrder}"
                               Style="{StaticResource BaseDataGrid}"
-                              RowHeight="20"
                               CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить"
-                                          Command="{Binding ChangeRowEquipment}"
-                                          CommandParameter="{Binding SelectedOrder}" />
+                                <MenuItem Header="Установить статус"
+                                          Command="{Binding SetStatus}"
+                                          CommandParameter="Equipment"
+                                          ToolTip="Устанавливает статус на Проверено"/>
+                                <MenuItem Header="Удалить статус"
+                                          Command="{Binding DelStatus}"
+                                          CommandParameter="Equipment"
+                                          ToolTip="Удаляет статус, если он датирован текущей датой"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -598,19 +668,24 @@
                             Width="{Binding Width, ElementName=ShipmentDG, Mode=OneWay}">
                         <TextBlock Text="Отгрузка"
                                    TextAlignment="Center"
-                                   Background="#C6E0B4"/>
+                                   Background="#C6E0B4"
+                                   ToolTip="Отгрузка" />
                     </Border>
                     <DataGrid x:Name="ShipmentDG"
                               ItemsSource="{Binding Orders}"
                               SelectedItem="{Binding SelectedOrder}"
                               Style="{StaticResource BaseDataGrid}"
-                              RowHeight="20"
                               CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить"
-                                          Command="{Binding ChangeRowShipment}"
-                                          CommandParameter="{Binding SelectedOrder}" />
+                                <MenuItem Header="Установить статус"
+                                          Command="{Binding SetStatus}"
+                                          CommandParameter="Shipment"
+                                          ToolTip="Устанавливает статус на Проверено"/>
+                                <MenuItem Header="Удалить статус"
+                                          Command="{Binding DelStatus}"
+                                          CommandParameter="Shipment"
+                                          ToolTip="Удаляет статус, если он датирован текущей датой"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -636,19 +711,20 @@
                             Width="{Binding Width, ElementName=NoteDG, Mode=OneWay}">
                         <TextBlock Text=""
                                    TextAlignment="Center"
-                                   Background="#C6E0B4"/>
+                                   Background="#C6E0B4"
+                                   ToolTip="" />
                     </Border>
                     <DataGrid x:Name="NoteDG"
                               ItemsSource="{Binding Orders}"
                               SelectedItem="{Binding SelectedOrder}"
                               Style="{StaticResource BaseDataGrid}"
-                              RowHeight="20"
                               CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Изменить"
-                                          Command="{Binding ChangeRowNote}"
-                                          CommandParameter="{Binding SelectedOrder}" />
+                                          Command="{Binding SetStatus}"
+                                          CommandParameter="Note"
+                                          ToolTip="Изменяет примечание" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -681,19 +757,24 @@
                             Width="{Binding Width, ElementName=MountingDG, Mode=OneWay}">
                         <TextBlock Text="Монтаж"
                                    TextAlignment="Center"
-                                   Background="#C6E0B4"/>
+                                   Background="#C6E0B4"
+                                   ToolTip="Монтаж" />
                     </Border>
                     <DataGrid x:Name="MountingDG"
                               ItemsSource="{Binding Orders}"
                               SelectedItem="{Binding SelectedOrder}"
                               Style="{StaticResource BaseDataGrid}"
-                              RowHeight="20"
                               CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить"
-                                          Command="{Binding ChangeRowMounting}"
-                                          CommandParameter="{Binding SelectedOrder}" />
+                                <MenuItem Header="Установить статус"
+                                          Command="{Binding SetStatus}"
+                                          CommandParameter="Mounting"
+                                          ToolTip="Устанавливает статус на Проверено"/>
+                                <MenuItem Header="Удалить статус"
+                                          Command="{Binding DelStatus}"
+                                          CommandParameter="Mounting"
+                                          ToolTip="Удаляет статус"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>

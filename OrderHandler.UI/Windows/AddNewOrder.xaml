@@ -1,11 +1,11 @@
-﻿<Window x:Class="OrderHandler.UI.Pages.AddNewOrder"
+﻿<Window x:Class="OrderHandler.UI.Windows.AddNewOrder"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:OrderHandler.UI.Pages"
         xmlns:conv="clr-namespace:OrderHandler.UI.Converters"
-        xmlns:contexts="clr-namespace:OrderHandler.UI.Contexts" d:DataContext="{d:DesignInstance Type=contexts:AddNewOrderContext}"
+        xmlns:contexts="clr-namespace:OrderHandler.UI.Contexts"
+        d:DataContext="{d:DesignInstance Type=contexts:AddNewOrderContext}"
         mc:Ignorable="d"
         Title="Создание заказа"
         MinHeight="450"
@@ -33,13 +33,13 @@
                     <StackPanel>
                         <WrapPanel Margin="2.5">
                             <Label MinWidth="110" Content="Менеджер заказа:"/>
-                            <TextBox MinWidth="150" Text="{Binding Path=NewOrder.MainData.UserName, Mode=TwoWay}"/>
+                            <TextBox MinWidth="150" Text="{Binding Path=NewOrder.MainData.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </WrapPanel>
                         <WrapPanel Margin="2.5">
                             <Label MinWidth="110" Content="№ Заказа:" />
                             <TextBox MinWidth="150" Style="{StaticResource ErrorTextBox}" >
                                 <TextBox.Text>
-                                    <Binding Path="NewOrder.MainData.OrderIssue" Mode="TwoWay">
+                                    <Binding Path="NewOrder.MainData.OrderIssue" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
                                             <DataErrorValidationRule />
                                         </Binding.ValidationRules>
@@ -49,11 +49,11 @@
                         </WrapPanel>
                         <WrapPanel Margin="2.5">
                             <Label MinWidth="110" Content="Тип изделия:"/>
-                            <TextBox MinWidth="150" Text="{Binding Path=NewOrder.MainData.ProductType, Mode=TwoWay}"/>
+                            <TextBox MinWidth="150" Text="{Binding Path=NewOrder.MainData.ProductType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </WrapPanel>
                         <WrapPanel Margin="2.5">
                             <Label MinWidth="110" Content="Сумма заказа:"/>
-                            <TextBox MinWidth="150" Text="{Binding Path=NewOrder.MainData.ProductCost, Mode=TwoWay}"/>
+                            <TextBox MinWidth="150" Text="{Binding Path=NewOrder.MainData.ProductCost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </WrapPanel>
                         <WrapPanel Margin="2.5">
                             <Label MinWidth="110" Content="Дата заказа:"/>

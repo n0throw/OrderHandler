@@ -1,7 +1,7 @@
 ﻿using OrderHandler.UI.Contexts;
 using System.Windows;
 
-namespace OrderHandler.UI.Pages;
+namespace OrderHandler.UI.Windows;
 
 public partial class AddNewOrder : Window
 {

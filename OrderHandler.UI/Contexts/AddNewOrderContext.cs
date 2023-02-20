@@ -1,14 +1,9 @@
 ﻿using OrderHandler.DB.Context;
 using OrderHandler.DB.Model;
 using OrderHandler.DB.Model.Additional.Order;
+
 using OrderHandler.UI.Core;
 using OrderHandler.UI.Model;
-using OrderHandler.UI.Model.NewOrderData;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrderHandler.UI.Contexts;
 
@@ -33,8 +28,7 @@ internal class AddNewOrderContext : PropertyChanger
 
     private RelayCommand? addCommand;
     public RelayCommand AddCommand
-    {
-        get => addCommand ??= new RelayCommand(obj =>
+        => addCommand ??= new RelayCommand(obj =>
         {
             using OrderContext orderDBContext = new();
             int index = orderDBContext.GetLastIndex();
@@ -69,5 +63,4 @@ internal class AddNewOrderContext : PropertyChanger
 
             orderDBContext.SaveChanges();
         }, obj => NewOrder.MainData.CheckAllValidation());
-    }
 }

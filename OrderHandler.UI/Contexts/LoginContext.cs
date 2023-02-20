@@ -10,9 +10,6 @@ namespace OrderHandler.UI.Contexts;
 
 internal class LoginContext : PropertyChanger
 {
-    // выпилить и добавить в Binding на page?
-    public bool LockedCaps { get; set; } = Console.CapsLock;
-
     internal LoginContext()
     {
 

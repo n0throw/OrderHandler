@@ -7,7 +7,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Pages\AddNewOrder.xaml.cs">
+    <Compile Update="Windows\AddNewOrder.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Pages\DefaultPage.xaml.cs">
@@ -19,12 +19,15 @@
     <Compile Update="Pages\Tables\TableOrderManager.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\SetAdditionalStatus.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Pages\AddNewOrder.xaml">
+    <Page Update="Windows\AddNewOrder.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\DefaultPage.xaml">
@@ -37,6 +40,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Resources\TableOrderManagerDictionary.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\SetAdditionalStatus.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

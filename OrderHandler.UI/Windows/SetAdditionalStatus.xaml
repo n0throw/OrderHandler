@@ -1,0 +1,53 @@
+﻿<Window x:Class="OrderHandler.UI.Windows.SetAdditionalStatus"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Установка статусов"
+        MinHeight="220"
+        Height="500"
+        Width="500"
+        MinWidth="285">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <GroupBox Header="Статусы" Grid.Row="0">
+            <StackPanel Orientation="Vertical"
+                    ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                    ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                <WrapPanel Margin="5" Visibility="{Binding Path=AdditionalStatus.AdditionalStatusVisibility.Cost}">
+                    <Label MinWidth="125" Content="Необходимая сумма:" />
+                    <TextBox MinWidth="125" Text="{Binding Path=AdditionalStatus.Cost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </WrapPanel>
+                <WrapPanel Margin="5" Visibility="{Binding Path=AdditionalStatus.AdditionalStatusVisibility.ChipboardOrMDF}">
+                    <Label MinWidth="125" Content="ЛДСП/МДФ м&#x00B2;:" />
+                    <TextBox MinWidth="125" Text="{Binding Path=AdditionalStatus.ChipboardOrMDF, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </WrapPanel>
+                <WrapPanel Margin="5" Visibility="{Binding Path=AdditionalStatus.AdditionalStatusVisibility.MDF}" >
+                    <Label MinWidth="125" Content="МДФ м&#x00B2;:" />
+                    <TextBox MinWidth="125" Text="{Binding Path=AdditionalStatus.MDF, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </WrapPanel>
+                <WrapPanel Margin="5" Visibility="{Binding Path=AdditionalStatus.AdditionalStatusVisibility.HDF}">
+                    <Label MinWidth="125" Content="ЛХДФ м&#x00B2;:" />
+                    <TextBox MinWidth="125" Text="{Binding Path=AdditionalStatus.HDF, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </WrapPanel>
+                <WrapPanel Name="NoteWrapPanel" Margin="5"  Visibility="{Binding Path=AdditionalStatus.AdditionalStatusVisibility.Note, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox Text="{Binding Path=AdditionalStatus.Note, Mode=TwoWay}" MinWidth="300" MinHeight="100" AcceptsReturn="True" TextWrapping="Wrap" AcceptsTab="True" />
+                </WrapPanel>
+                <WrapPanel Margin="5"  Visibility="{Binding Path=AdditionalStatus.AdditionalStatusVisibility.Mounting}">
+                    <Label MinWidth="125" Content="Монтаж:" />
+                    <DatePicker MinWidth="125" SelectedDate="{Binding Path=AdditionalStatus.Mounting, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </WrapPanel>
+            </StackPanel>
+        </GroupBox>
+        <Border Grid.Row="1" BorderThickness="1" BorderBrush="Black" >
+            <Grid>
+                <Button Content="Применить" Command="{Binding AcceptCommand}" Height="20" Margin="10,9,0,9" Click="Button_Click" HorizontalAlignment="Left"/>
+                <Button Content="Отмена" IsCancel="True" Height="20" Margin="81,9,0,9" HorizontalAlignment="Left"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

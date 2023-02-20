@@ -9,14 +9,14 @@ using System.Runtime.CompilerServices;
 
 namespace OrderHandler.UI.Core;
 
-internal class PropertyChanger : INotifyPropertyChanged
+public class PropertyChanger : INotifyPropertyChanged
 {
-    internal delegate void TurnPageHandler(string? alias);
+    public delegate void TurnPageHandler(string? alias);
 
-    internal event TurnPageHandler? TurnPage;
+    public event TurnPageHandler? TurnPage;
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    internal void OnPropertyChanged([CallerMemberName] string prop = "")
+    public void OnPropertyChanged([CallerMemberName] string prop = "")
         => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
     protected void GoToPage(string? alias)

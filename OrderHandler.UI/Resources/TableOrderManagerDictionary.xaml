@@ -6,6 +6,9 @@
         <Setter Property="RowHeaderWidth" Value="0" />
         <Setter Property="CanUserAddRows" Value="False" />
         <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="RowHeight" Value="20" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Hidden" />
     </Style>
     <Style x:Key="BaseDataGridCell" TargetType="DataGridCell">
         <Style.Triggers>

@@ -14,7 +14,14 @@ public class OrderMainData
     public decimal? ProductCost { get; set; }
 
     public OrderMainData() { }
-    public OrderMainData(string userDataId, string orderIssue, DateTime orderDate, DateTime deliveryDate, short numberOfDays, string productType, decimal? productCost)
+    public OrderMainData(
+        string userDataId,
+        string orderIssue,
+        DateTime orderDate,
+        DateTime deliveryDate,
+        short numberOfDays,
+        string productType,
+        decimal? productCost)
     {
         UserDataId = userDataId;
         OrderIssue = orderIssue;
