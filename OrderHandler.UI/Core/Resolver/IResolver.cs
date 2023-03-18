@@ -1,6 +1,5 @@
 ﻿namespace OrderHandler.UI.Core.Resolver;
 
-internal interface IResolver<T>
-{
+public interface IResolver<T> {
     T GetInstance(string? alias);
 }

@@ -1,13 +1,10 @@
-﻿using OrderHandler.DB.Model;
-
+﻿using System.Collections.Generic;
+using OrderHandler.DB.Data;
 using OrderHandler.UI.Model;
-
-using System.Collections.Generic;
 
 namespace OrderHandler.UI.Core;
 
-internal interface IOrderService
-{
+public interface IOrderService {
     IEnumerable<Order> Open(string fileName);
     void Save(string fileName, IEnumerable<ViewOrder> orders);
 }

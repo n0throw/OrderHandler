@@ -1,14 +1,12 @@
-﻿using OrderHandler.DB.Model;
-
+﻿using OrderHandler.DB.Data;
 using OrderHandler.UI.Core;
-using OrderHandler.UI.Model.ViewOrderData;
+using OrderHandler.UI.Model.ViewOrderAdd;
 
 namespace OrderHandler.UI.Model;
 
-internal class ViewOrder : PropertyChanger
-{
-    private int dbId;
-    private ViewOrderMainData orderMainData;
+public class ViewOrder : PropertyChanger {
+    private readonly int dbId;
+    private ViewOrderMain viewOrderMain;
     private ViewStatusGeneric docConstructor;
     private ViewStatusGeneric docTechnologist;
     private ViewSupply supply;
@@ -25,158 +23,127 @@ internal class ViewOrder : PropertyChanger
     private string? note;
     private ViewMounting mounting;
 
-    public int DBID => dbId;
-    public ViewOrderMainData OrderMainData
-    {
-        get => orderMainData;
-        set
-        {
-            orderMainData = value;
-            OnPropertyChanged(nameof(OrderMainData));
+    public int DbId => dbId;
+    public ViewOrderMain ViewOrderMain {
+        get => viewOrderMain;
+        set {
+            viewOrderMain = value;
+            OnPropertyChanged(nameof(ViewOrderMain));
         }
     }
-    public ViewStatusGeneric DocConstructor
-    {
+    public ViewStatusGeneric DocConstructor {
         get => docConstructor;
-        set
-        {
+        set {
             docConstructor = value;
             OnPropertyChanged(nameof(DocConstructor));
         }
     }
-    public ViewStatusGeneric DocTechnologist
-    {
+    public ViewStatusGeneric DocTechnologist {
         get => docTechnologist;
-        set
-        {
+        set {
             docTechnologist = value;
             OnPropertyChanged(nameof(DocTechnologist));
         }
     }
-    public ViewSupply Supply
-    {
+    public ViewSupply Supply {
         get => supply;
-        set
-        {
+        set {
             supply = value;
             OnPropertyChanged(nameof(Supply));
         }
     }
-    public ViewSawCenter SawCenter
-    {
+    public ViewSawCenter SawCenter {
         get => sawCenter;
-        set
-        {
+        set {
             sawCenter = value;
             OnPropertyChanged(nameof(SawCenter));
         }
     }
-    public ViewEdge Edge
-    {
+    public ViewEdge Edge {
         get => edge;
-        set
-        {
+        set {
             edge = value;
             OnPropertyChanged(nameof(Edge));
         }
     }
-    public ViewAdditive Additive
-    {
+    public ViewAdditive Additive {
         get => additive;
-        set
-        {
+        set {
             additive = value;
             OnPropertyChanged(nameof(Additive));
         }
     }
-    public ViewMilling Milling
-    {
+    public ViewMilling Milling {
         get => milling;
-        set
-        {
+        set {
             milling = value;
             OnPropertyChanged(nameof(Milling));
         }
     }
-    public ViewGrinding Grinding
-    {
+    public ViewGrinding Grinding {
         get => grinding;
-        set
-        {
+        set {
             grinding = value;
             OnPropertyChanged(nameof(Grinding));
         }
     }
-    public ViewPress Press
-    {
+    public ViewPress Press {
         get => press;
-        set
-        {
+        set {
             press = value;
             OnPropertyChanged(nameof(Press));
         }
     }
-    public ViewAssembling Assembling
-    {
+    public ViewAssembling Assembling {
         get => assembling;
-        set
-        {
+        set {
             assembling = value;
             OnPropertyChanged(nameof(Assembling));
         }
     }
-    public ViewPacking Packing
-    {
+    public ViewPacking Packing {
         get => packing;
-        set
-        {
+        set {
             packing = value;
             OnPropertyChanged(nameof(Packing));
         }
     }
-    public ViewStatusGeneric Equipment
-    {
+    public ViewStatusGeneric Equipment {
         get => equipment;
-        set
-        {
+        set {
             equipment = value;
             OnPropertyChanged(nameof(Equipment));
         }
     }
-    public ViewStatusGeneric Shipment
-    {
+    public ViewStatusGeneric Shipment {
         get => shipment;
-        set
-        {
+        set {
             shipment = value;
             OnPropertyChanged(nameof(Shipment));
         }
     }
-    public string? Note
-    {
+    public string? Note {
         get => note;
-        set
-        {
+        set {
             note = value;
             OnPropertyChanged(nameof(Note));
         }
     }
-    public ViewMounting Mounting
-    {
+    public ViewMounting Mounting {
         get => mounting;
-        set
-        {
+        set {
             mounting = value;
             OnPropertyChanged(nameof(Mounting));
         }
     }
 
-    internal ViewOrder(int id, Order order)
-    {
+    public ViewOrder() { }
+
+    public ViewOrder(int number, Order order) {
         dbId = order.Id;
-        orderMainData = new(id, order.OrderMainData);
-        docConstructor = new(order.DocumentationConstructor);
-        docTechnologist = new(order.DocumentationTechnologist);
+        viewOrderMain = new(number, order.OrderMain);
+        docConstructor = new(order.DocConstructor);
+        docTechnologist = new(order.DocTechnologist);
         supply = new(order.Supply);
         sawCenter = new(order.SawCenter);
         edge = new(order.Edge);
@@ -191,4 +158,40 @@ internal class ViewOrder : PropertyChanger
         note = order.Note;
         mounting = new(order.Mounting);
     }
+
+    public bool Validate() =>
+        viewOrderMain.Validate() &&
+        docConstructor.Validate() &&
+        docTechnologist.Validate() &&
+        supply.Validate() &&
+        sawCenter.Validate() &&
+        edge.Validate() &&
+        additive.Validate() &&
+        milling.Validate() &&
+        grinding.Validate() &&
+        press.Validate() &&
+        assembling.Validate() &&
+        packing.Validate() &&
+        equipment.Validate() &&
+        shipment.Validate() &&
+        mounting.Validate();
+
+    public static implicit operator Order(ViewOrder obj) => new() {
+        OrderMain = obj.viewOrderMain,
+        DocConstructor = obj.docConstructor,
+        DocTechnologist = obj.docTechnologist,
+        Supply = obj.supply,
+        SawCenter = obj.sawCenter,
+        Edge = obj.edge,
+        Additive = obj.additive,
+        Milling = obj.milling,
+        Grinding = obj.grinding,
+        Press = obj.press,
+        Assembling = obj.assembling,
+        Packing = obj.packing,
+        Equipment = obj.equipment,
+        Shipment = obj.shipment,
+        Note = obj.note,
+        Mounting = obj.mounting
+    };
 }

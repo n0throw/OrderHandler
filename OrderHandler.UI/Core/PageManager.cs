@@ -1,60 +1,41 @@
-﻿#region System_Using
-using System;
-using System.Windows.Controls;
-#endregion System_Using
-
-#region OrderHandler_Using
+﻿using System.Windows.Controls;
 using OrderHandler.UI.Core.Resolver;
-#endregion OrderHandler_Using
 
 namespace OrderHandler.UI.Core;
 
-internal class PageManager
-{
+public class PageManager {
     private readonly ContextResolver contextResolver;
     private readonly PageResolver pageResolver;
     private Page? currentPage = null;
 
-    internal delegate void UpdateCurrentPageHandler(Page page);
+    public delegate void UpdateCurrentPageHandler(Page page);
+    public event UpdateCurrentPageHandler? UpdateCurrentPage;
 
-    internal event UpdateCurrentPageHandler? UpdateCurrentPage;
-
-    internal PageManager(UpdateCurrentPageHandler updateCurrentPageHandler)
-    {
+    public PageManager(UpdateCurrentPageHandler updateCurrentPageHandler) {
         contextResolver = new();
         pageResolver = new();
         UpdateCurrentPage += updateCurrentPageHandler;
     }
 
-    internal Page SetFirstPage(string alias)
-    {
-        if (currentPage is null)
-        {
-            currentPage = this[alias];
-            return currentPage;
-        }
-        throw new NotImplementedException();
+    public Page SetFirstPage(string alias) {
+        currentPage ??= this[alias];
+        return currentPage;
     }
 
-    private Page this[string? alias]
-    {
-        get
-        {
+    private Page this[string? alias] {
+        get {
             Page page = pageResolver.GetInstance(alias);
             PropertyChanger context = contextResolver.GetInstance(alias);
-            
+
             context.TurnPage += SetPage;
-
             page.DataContext = context;
-
             currentPage = page;
 
             return page;
         }
     }
 
-    private void SetPage(string? alias)
-    {
+    private void SetPage(string? alias) {
         currentPage = this[alias];
         UpdateCurrentPage?.Invoke(currentPage);
     }

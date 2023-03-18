@@ -1,11 +1,11 @@
-﻿using OrderHandler.DB.Model;
+﻿using OrderHandler.DB.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace OrderHandler.DB.Context;
 
 public class UserDataContext : DbContext
 {
-    public DbSet<UserData> Users => Set<UserData>();
+    public DbSet<User> Users => Set<User>();
     public UserDataContext()
         => Database.EnsureCreated();
 

@@ -4,10 +4,11 @@ using System.Windows.Data;
 
 namespace OrderHandler.UI.Converters;
 
-public class DateTimeToStringConverter : IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
+public class DateTimeToStringConverter : IValueConverter {
+    public object Convert(object value,
+                          Type targetType,
+                          object parameter,
+                          CultureInfo culture) {
         if (value is null)
             return DateTime.Now;
 
@@ -19,6 +20,9 @@ public class DateTimeToStringConverter : IValueConverter
         return (date).ToString("dd.MM.yyyy");
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        => DateTime.Parse((string)value);
+    public object ConvertBack(object value,
+                          Type targetType,
+                          object parameter,
+                          CultureInfo culture) =>
+        (DateTime)value;
 }

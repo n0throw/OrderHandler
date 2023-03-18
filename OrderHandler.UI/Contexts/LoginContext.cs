@@ -1,35 +1,19 @@
-﻿#region System_Using
-using System;
-#endregion System_Using
-
-#region OrderHandler_Using
-using OrderHandler.UI.Core;
-#endregion OrderHandler_Using
+﻿using OrderHandler.UI.Core;
 
 namespace OrderHandler.UI.Contexts;
 
-internal class LoginContext : PropertyChanger
-{
-    internal LoginContext()
-    {
-
-    }
+public class LoginContext : PropertyChanger {
+    public LoginContext() { }
 
     private RelayCommand closePageCommand;
-    public RelayCommand ClosePageCommand
-    {
-        get => closePageCommand ??= new RelayCommand(obj =>
-        {
+    public RelayCommand ClosePageCommand =>
+        closePageCommand ??= new RelayCommand(obj => {
             GoToPage(null);
         }, null);
-    }
 
     private RelayCommand tablePageCommand;
-    public RelayCommand TablePageCommand
-    {
-        get => tablePageCommand ??= new RelayCommand(obj =>
-        {
+    public RelayCommand TablePageCommand =>
+        tablePageCommand ??= new RelayCommand(obj => {
             GoToPage("TableOrderManager");
         }, null);
-    }
 }

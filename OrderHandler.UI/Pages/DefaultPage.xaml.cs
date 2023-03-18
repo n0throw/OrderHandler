@@ -2,8 +2,7 @@
 
 namespace OrderHandler.UI.Pages;
 
-public partial class DefaultPage : Page
-{
-    public DefaultPage()
-        => InitializeComponent();
+public partial class DefaultPage : Page {
+    public DefaultPage() =>
+        InitializeComponent();
 }

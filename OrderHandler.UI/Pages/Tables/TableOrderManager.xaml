@@ -70,7 +70,10 @@
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Изменить"
-                                          Command="{Binding ChangeRowOrder}"
+                                          Command="{Binding EditRowOrder}"
+                                          CommandParameter="{Binding SelectedOrder}"/>
+                                <MenuItem Header="Удалить"
+                                          Command="{Binding DelRowOrder}"
                                           CommandParameter="{Binding SelectedOrder}"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>

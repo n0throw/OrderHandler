@@ -1,7 +1,6 @@
 ﻿namespace OrderHandler.UI.Core;
 
-public enum TableSectionNames
-{
+public enum TableSectionNames {
     DocConstructor = 0,
     DocTechnologist,
     Supply,

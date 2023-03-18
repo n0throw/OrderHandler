@@ -1,43 +1,35 @@
-﻿using OrderHandler.DB.Context;
-using OrderHandler.DB.Model;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Windows;
+using OrderHandler.DB.Context;
+using OrderHandler.DB.Data;
 using OrderHandler.UI.Core;
 using OrderHandler.UI.Core.Dialog;
 using OrderHandler.UI.Core.Resolver;
 using OrderHandler.UI.Model;
-using OrderHandler.UI.Model.ViewOrderData;
-using OrderHandler.UI.Pages;
 using OrderHandler.UI.Windows;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace OrderHandler.UI.Contexts;
 
-internal class TableOrderManagerContext : PropertyChanger
-{
+public class TableOrderManagerContext : PropertyChanger {
     private readonly IDialogService dialogService;
     private readonly IOrderService orderService;
     public ObservableCollection<ViewOrder> Orders { get; set; }
 
-    internal TableOrderManagerContext()
-    {
+    public TableOrderManagerContext() {
         Orders = new ObservableCollection<ViewOrder>();
         dialogService = new DefaultDialogService();
         orderService = new ExcelOrderService(dialogService);
         GetData();
     }
 
-    private ViewOrder selectedOrder;
-    public ViewOrder SelectedOrder
-    {
+    private ViewOrder? selectedOrder;
+    public ViewOrder? SelectedOrder {
         get => selectedOrder;
-        set
-        {
+        set {
             selectedOrder = value;
             OnPropertyChanged(nameof(SelectedOrder));
         }
@@ -45,21 +37,19 @@ internal class TableOrderManagerContext : PropertyChanger
 
     private RelayCommand? addOrderCommand;
     public RelayCommand AddOrderCommand
-        => addOrderCommand ??= new RelayCommand(obj =>
-        {
+        => addOrderCommand ??= new RelayCommand(obj => {
             AddNewOrder addNewOrderWindow = new();
 
             if (addNewOrderWindow.ShowDialog() == true)
                 GetData();
         }, null);
 
-    private RelayCommand exitCommand;
+    private RelayCommand? exitCommand;
     public RelayCommand ExitCommand
         => exitCommand ??= new RelayCommand(obj
             => GoToPage("Login"), null);
 
-    private RelayCommand exitAppCommand;
-
+    private RelayCommand? exitAppCommand;
     public RelayCommand ExitAppCommand
         => exitAppCommand ??= new RelayCommand(obj
             => Application.Current.Shutdown(), null);
@@ -70,18 +60,16 @@ internal class TableOrderManagerContext : PropertyChanger
             => GetData(), null);
 
     private RelayCommand? showCountOrder;
-    public RelayCommand ShowCountOrder => showCountOrder ??= new RelayCommand(obj =>
-    {
-        dialogService.ShowMessage($"Количество заказов: {Orders.Count}");
-    }, null);
+    public RelayCommand ShowCountOrder
+        => showCountOrder ??= new RelayCommand(obj => {
+            dialogService.ShowMessage($"Количество заказов: {Orders.Count}");
+        }, null);
 
     private RelayCommand? uploadTempExcel;
-    public RelayCommand UploadTempExcel => uploadTempExcel ??= new RelayCommand(obj =>
-    {
+    public RelayCommand UploadTempExcel => uploadTempExcel ??= new RelayCommand(obj => {
         string? filePath = Utilities.GetTempExcelPath();
 
-        if (filePath is null)
-        {
+        if (filePath is null) {
             dialogService.ShowMessage("Отсутствует файл шаблона. Обратитесь к администратору!");
             return;
         }
@@ -92,52 +80,54 @@ internal class TableOrderManagerContext : PropertyChanger
     }, null);
 
     private RelayCommand? uploadExcelData;
-    public RelayCommand UploadExcelData => uploadExcelData ??= new RelayCommand(obj =>
-    {
-        if (dialogService.SaveFileDialog($"Данные заказов {DateTime.Now.ToString("dd.MM.yyyy HH.mm.ss")}"))
-            orderService.Save(dialogService.FilePath, Orders);
-    }, null);
+    public RelayCommand UploadExcelData
+        => uploadExcelData ??= new RelayCommand(obj => {
+            if (dialogService.SaveFileDialog($"Данные заказов {DateTime.Now.ToString("dd.MM.yyyy HH.mm.ss")}"))
+                orderService.Save(dialogService.FilePath, Orders);
+        }, null);
 
     private RelayCommand? setStatus;
-    public RelayCommand SetStatus => setStatus ??= new RelayCommand(obj =>
-    {
-        if (obj is not string sectionName)
-            return;
+    public RelayCommand SetStatus
+        => setStatus ??= new RelayCommand(obj => {
+            if (obj is not string sectionName)
+                return;
 
-        if (!Enum.TryParse(sectionName, out TableSectionNames tableSection))
-            return;
+            if (!Enum.TryParse(sectionName, out TableSectionNames tableSection))
+                return;
 
-        if (!Utilities.CheckRole(tableSection, "test"))
-        {
-            dialogService.ShowMessage("У вас нет прав на данную операцию");
-            return;
-        }
+            if (!Utilities.CheckRole(tableSection, "test")) {
+                dialogService.ShowMessage("У вас нет прав на данную операцию");
+                return;
+            }
 
-        Order dbOrder;
-        try
-        {
-            dbOrder = GetSelectedDBOrder();
-        }
-        catch (NullReferenceException ex)
-        {
-            dialogService.ShowMessage(ex.Message);
-            return;
-        }
+            Order dbOrder;
+            try {
+                dbOrder = GetSelectedDBOrder();
+            } catch (NullReferenceException ex) {
+                dialogService.ShowMessage(ex.Message);
+                return;
+            }
 
-        StatusDialogServise statusDialog = new(dbOrder, tableSection);
-        statusDialog.SetStatus();
+            StatusDialogServise statusDialog = new(dbOrder, tableSection);
+            statusDialog.SetStatus();
 
-        using OrderContext db = new();
+            using OrderContext db = new();
+            using IDbContextTransaction transaction = db.Database.BeginTransaction();
 
-        db.Orders.Update(dbOrder);
-        db.SaveChanges();
-        GetData();
-    }, null);
+            try {
+                db.Orders.Update(dbOrder);
+                db.SaveChanges();
+                transaction.Commit();
+                GetData();
+            } catch (Exception ex) {
+                transaction.Rollback();
+                dialogService.ShowMessage(ex.Message);
+            }
+        }, null);
 
 
-    private Order GetSelectedDBOrder()
-    {
-        int? dbid = SelectedOrder?.DBID;
+    private Order GetSelectedDBOrder() {
+        int? dbid = SelectedOrder?.DbId;
 
         if (dbid is null)
             throw new NullReferenceException("Заказ не выделен");
@@ -152,28 +142,23 @@ internal class TableOrderManagerContext : PropertyChanger
         return dbOrder;
     }
 
-    private RelayCommand delStatus;
-    public RelayCommand DelStatus => delStatus ??= new RelayCommand(obj =>
-    {
+    private RelayCommand? delStatus;
+    public RelayCommand DelStatus => delStatus ??= new RelayCommand(obj => {
         if (obj is not string sectionName)
             return;
 
         if (!Enum.TryParse(sectionName, out TableSectionNames tableSection))
             return;
 
-        if (!Utilities.CheckRole(tableSection, "test"))
-        {
+        if (!Utilities.CheckRole(tableSection, "test")) {
             dialogService.ShowMessage("У вас нет прав на данную операцию");
             return;
         }
 
         Order dbOrder;
-        try
-        {
+        try {
             dbOrder = GetSelectedDBOrder();
-        }
-        catch (NullReferenceException ex)
-        {
+        } catch (NullReferenceException ex) {
             dialogService.ShowMessage(ex.Message);
             return;
         }
@@ -182,15 +167,21 @@ internal class TableOrderManagerContext : PropertyChanger
         statusDialog.DelStatus();
 
         using OrderContext db = new();
+        using IDbContextTransaction transaction = db.Database.BeginTransaction();
 
-        db.Orders.Update(dbOrder);
-        db.SaveChanges();
-        GetData();
+        try {
+            db.Orders.Update(dbOrder);
+            db.SaveChanges();
+            transaction.Commit();
+            GetData();
+        } catch (Exception ex) {
+            transaction.Rollback();
+            dialogService.ShowMessage(ex.Message);
+        }
 
     }, null);
 
-    private void GetData()
-    {
+    private void GetData() {
         Orders.Clear();
 
         using OrderContext orderDBContext = new();

@@ -1,66 +1,56 @@
-﻿using OrderHandler.DB.Context;
-using OrderHandler.DB.Model;
-using OrderHandler.DB.Model.Additional.Order;
-
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using OrderHandler.DB.Context;
 using OrderHandler.UI.Core;
+using OrderHandler.UI.Core.Dialog;
 using OrderHandler.UI.Model;
+
+using System;
 
 namespace OrderHandler.UI.Contexts;
 
-internal class AddNewOrderContext : PropertyChanger
-{
-    private NewOrder newOrder;
-    public NewOrder NewOrder
-    {
-        get => newOrder;
-        set
-        {
-            newOrder = value;
-            OnPropertyChanged(nameof(NewOrder));
+public class AddNewOrderContext : PropertyChanger {
+    private ViewOrder viewOrder;
+    public ViewOrder ViewOrder {
+        get => viewOrder;
+        set {
+            viewOrder = value;
+            OnPropertyChanged(nameof(ViewOrder));
         }
     }
 
-    internal AddNewOrderContext()
-    {
-        newOrder = new();
+    private bool? dialogResult;
+    public bool? DialogResult {
+        get => dialogResult;
+        set {
+            if (value != dialogResult) {
+                dialogResult = value;
+                OnPropertyChanged(nameof(DialogResult));
+            }
+        }
+    }
+
+    private readonly IDialogService dialogService;
+
+    public AddNewOrderContext() {
+        viewOrder = new();
+        dialogService = new DefaultDialogService();
     }
 
 
     private RelayCommand? addCommand;
-    public RelayCommand AddCommand
-        => addCommand ??= new RelayCommand(obj =>
-        {
-            using OrderContext orderDBContext = new();
-            int index = orderDBContext.GetLastIndex();
+    public RelayCommand AddCommand =>
+        addCommand ??= new RelayCommand(obj => {
+            using OrderContext db = new();
+            using IDbContextTransaction transaction = db.Database.BeginTransaction();
 
-            orderDBContext.Orders.Add(new Order(
-                ++index,
-                new OrderMainData(
-                    newOrder.MainData.UserName,
-                    newOrder.MainData.OrderIssue,
-                    newOrder.Dates.OrderDate,
-                    newOrder.Dates.DeliveryDate,
-                    (short)(newOrder.Dates.DeliveryDate - newOrder.Dates.OrderDate).TotalDays,
-                    newOrder.MainData.ProductType,
-                    newOrder.MainData.ProductCost),
-                new StatusGeneric(newOrder.Dates.DocConstructorDate),
-                new StatusGeneric(newOrder.Dates.DocTechnologistDate),
-                new Supply(newOrder.Dates.SupplyDate),
-                new SawCenter(newOrder.Dates.SawCenterDate),
-                new Edge(newOrder.Dates.EdgeDate),
-                new Additive(newOrder.Dates.AdditiveDate),
-                new Milling(newOrder.Dates.MillingDate),
-                new Grinding(newOrder.Dates.GrindingDate),
-                new Press(newOrder.Dates.PressDate),
-                new Assembling(newOrder.Dates.AssemblingDate),
-                new Packing(newOrder.Dates.PackagingDate),
-                new StatusGeneric(newOrder.Dates.EquipmentDate),
-                new StatusGeneric(newOrder.Dates.ShipmentDate),
-                newOrder.MainData.Note,
-                new Mounting(
-                    newOrder.MainData.IsMounting,
-                    newOrder.Dates.MountingDate)));
-
-            orderDBContext.SaveChanges();
-        }, obj => NewOrder.MainData.CheckAllValidation());
+            try {
+                db.Orders.Add(viewOrder);
+                db.SaveChanges();
+                transaction.Commit();
+                DialogResult = true;
+            } catch (Exception ex) {
+                transaction.Rollback();
+                dialogService.ShowMessage(ex.Message);
+            }
+        }, obj => ViewOrder.Validate());
 }

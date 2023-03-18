@@ -1,7 +1,6 @@
 ﻿namespace OrderHandler.UI.Core.Dialog;
 
-internal interface IDialogService
-{
+public interface IDialogService {
     string FilePath { get; }
     void ShowMessage(string message);
     bool OpenFileDialog();

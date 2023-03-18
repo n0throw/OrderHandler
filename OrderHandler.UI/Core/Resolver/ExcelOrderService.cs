@@ -1,38 +1,33 @@
 ﻿using Microsoft.Office.Interop.Excel;
-using OrderHandler.DB.Model;
-using OrderHandler.UI.Core.Dialog;
-using OrderHandler.UI.Model;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using OrderHandler.DB.Data;
+using OrderHandler.UI.Core.Dialog;
+using OrderHandler.UI.Model;
 
 namespace OrderHandler.UI.Core.Resolver;
 
-internal class ExcelOrderService : IOrderService
-{
+public class ExcelOrderService : IOrderService {
     private readonly IDialogService dialogService;
 
-    internal ExcelOrderService(IDialogService dialogService)
-        => this.dialogService = dialogService;
+    public ExcelOrderService(IDialogService dialogService) =>
+        this.dialogService = dialogService;
 
-    public IEnumerable<Order> Open(string fileName)
-    {
+    public IEnumerable<Order> Open(string fileName) {
         // Тут нормальный API Excel использовать
         return new List<Order>();
     }
 
-    public void Save(string fileName, IEnumerable<ViewOrder> orders)
-    {
+    public void Save(string fileName, IEnumerable<ViewOrder> orders) {
         // Тут нормальный API Excel использовать
         string? filePath = Utilities.GetTempExcelPath();
 
-        if (filePath is null)
-        {
+        if (filePath is null) {
             dialogService.ShowMessage("Отсутствует файл шаблона. Обратитесь к администратору!");
             return;
         }
 
-        Application app = new()
-        {
+        Application app = new() {
             Visible = false,
             SheetsInNewWorkbook = 1
         };
@@ -42,20 +37,19 @@ internal class ExcelOrderService : IOrderService
         Worksheet sheet = (Worksheet)app.Worksheets.get_Item(1);
 
         int x, y = 2;
-        foreach (ViewOrder order in orders)
-        {
+        foreach (ViewOrder order in orders) {
             x = 0;
             y++;
 
-            sheet.Cells[y, ++x] = order.OrderMainData.Id;
-            sheet.Cells[y, ++x] = order.OrderMainData.UserName;
-            sheet.Cells[y, ++x] = order.OrderMainData.OrderIssue;
-            sheet.Cells[y, ++x] = order.OrderMainData.OrderDate.ToString("dd.MM.yyyy");
-            sheet.Cells[y, ++x] = order.OrderMainData.DeliveryDate.ToString("dd.MM.yyyy");
-            sheet.Cells[y, ++x] = order.OrderMainData.NumberOfDays;
-            sheet.Cells[y, ++x] = order.OrderMainData.ProductType;
-            sheet.Cells[y, ++x] = order.OrderMainData.ProductCost;
-            
+            sheet.Cells[y, ++x] = order.ViewOrderMain.Number;
+            sheet.Cells[y, ++x] = order.ViewOrderMain.UserName;
+            sheet.Cells[y, ++x] = order.ViewOrderMain.OrderIssue;
+            sheet.Cells[y, ++x] = order.ViewOrderMain.OrderDate.ToString("dd.MM.yyyy");
+            sheet.Cells[y, ++x] = order.ViewOrderMain.DeliveryDate.ToString("dd.MM.yyyy");
+            sheet.Cells[y, ++x] = order.ViewOrderMain.NumberOfDays;
+            sheet.Cells[y, ++x] = order.ViewOrderMain.ProductType;
+            sheet.Cells[y, ++x] = order.ViewOrderMain.ProductCost;
+
             sheet.Cells[y, ++x] = order.DocConstructor.PlannedDate.ToString("dd.MM.yyyy");
             sheet.Cells[y, ++x] = order.DocConstructor.UserName;
             sheet.Cells[y, ++x] = order.DocConstructor.Date.ToString("dd.MM.yyyy");
@@ -121,12 +115,10 @@ internal class ExcelOrderService : IOrderService
 
             sheet.Cells[y, ++x] = order.Note;
 
-            if (order.Mounting.IsMounting)
-            {
+            if (order.Mounting.IsMounting) {
                 sheet.Cells[y, ++x] = "Да";
                 sheet.Cells[y, ++x] = order.Mounting.Date.ToString("dd.MM.yyyy");
-            }
-            else
+            } else
                 sheet.Cells[y, ++x] = "Нет";
         }
 

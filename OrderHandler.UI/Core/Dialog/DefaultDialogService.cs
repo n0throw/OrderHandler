@@ -1,17 +1,15 @@
 ﻿using Microsoft.Win32;
-
 using System;
 using System.Windows;
 
 namespace OrderHandler.UI.Core.Dialog;
 
-internal class DefaultDialogService : IDialogService
-{
+public class DefaultDialogService : IDialogService {
     private string? filePath;
+
     public string FilePath => filePath ?? AppDomain.CurrentDomain.BaseDirectory;
 
-    public bool OpenFileDialog()
-    {
+    public bool OpenFileDialog() {
         OpenFileDialog openFileDialog = new();
         bool output = openFileDialog.ShowDialog() == true;
 
@@ -21,10 +19,8 @@ internal class DefaultDialogService : IDialogService
         return output;
     }
 
-    public bool SaveFileDialog(string fileName = "Файл", string defaultExt = ".xlsx", string filter = "Excel (.xlsx)|*.xlsx")
-    {
-        SaveFileDialog saveFileDialog = new()
-        {
+    public bool SaveFileDialog(string fileName = "Файл", string defaultExt = ".xlsx", string filter = "Excel (.xlsx)|*.xlsx") {
+        SaveFileDialog saveFileDialog = new() {
             FileName = fileName,
             DefaultExt = defaultExt,
             Filter = filter
@@ -34,10 +30,9 @@ internal class DefaultDialogService : IDialogService
 
         if (output)
             filePath = saveFileDialog.FileName;
-
         return output;
     }
 
-    public void ShowMessage(string message)
-        => MessageBox.Show(message, "Информация");
+    public void ShowMessage(string message) =>
+        MessageBox.Show(message, "Информация");
 }
