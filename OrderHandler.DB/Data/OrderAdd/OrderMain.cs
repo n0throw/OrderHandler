@@ -1,64 +1,61 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OrderHandler.DB.DataModel.OrderAdd;
+﻿namespace OrderHandler.DB.Data.OrderAdd;
 
-namespace OrderHandler.DB.Data.OrderAdd;
-
-[Owned]
-public class OrderMain : IDataModelOrderMain {
-    private DateTime orderDate;
-    private DateTime deliveryDate;
-
-    string? IDataModelOrderMain.UserId => UserId;
-    string IDataModelOrderMain.OrderIssue => OrderIssue;
-    DateTime IDataModelOrderMain.OrderDate => OrderDate;
-    DateTime IDataModelOrderMain.DeliveryDate => DeliveryDate;
-    int IDataModelOrderMain.NumberOfDays => NumberOfDays;
-    string IDataModelOrderMain.ProductType => ProductType;
-    decimal IDataModelOrderMain.ProductCost => ProductCost;
-
-    public string? UserId { get; set; }
-    public string OrderIssue { get; set; }
-    public DateTime OrderDate {
-        get => orderDate;
-        set {
-            orderDate = value;
-            SetNumberOfDays();
-        }
-    }
-    public DateTime DeliveryDate {
-        get => deliveryDate;
-        set {
-            deliveryDate = value;
-            SetNumberOfDays();
-        }
-    }
-    public int NumberOfDays { get; private set; }
+/// <summary>
+/// Класс OrderMain.
+/// Основная информация заказа.
+/// Модель БД.
+/// </summary>
+public class OrderMain : OrderAddConfigureBase {
+    /// <summary>
+    /// Id в БД. Ключ записи
+    /// </summary>
+    public override int Id { get; set; }
+    #region [ Basic Information ]
+    /// <summary>
+    /// Номер заказа
+    /// </summary>
+    public string OrderNumber { get; set; }
+    /// <summary>
+    /// Дата заказа
+    /// </summary>
+    public DateTime OrderDate { get; set; }
+    /// <summary>
+    /// Дата доставки
+    /// </summary>
+    public DateTime DeliveryDate { get; set; }
+    /// <summary>
+    /// Срок доставки дн.
+    /// </summary>
+    public int Term { get; set; }
+    /// <summary>
+    /// Тип изделия
+    /// </summary>
     public string ProductType { get; set; }
-    public decimal ProductCost { get; set; }
-
-    public OrderMain() : this(null, string.Empty, DateTime.Now, DateTime.Now.AddDays(30), string.Empty, 0) { }
-    public OrderMain(
-        string? userId,
-        string orderIssue,
-        DateTime orderDate,
-        DateTime deliveryDate,
-        string productType,
-        decimal productCost)
-    {
-        UserId = userId;
-        OrderIssue = orderIssue;
-        OrderDate = orderDate;
-        DeliveryDate = deliveryDate;
-        ProductType = productType;
-        ProductCost = productCost;
-    }
-
-    private void SetNumberOfDays() {
-        NumberOfDays = (int)(deliveryDate - orderDate).TotalDays;
-        if (NumberOfDays < 0)
-            NumberOfDays = 0;
-    }
-
-    public object Clone() =>
-        MemberwiseClone();
+    /// <summary>
+    /// Сумма заказа
+    /// </summary>
+    public decimal OrderAmount { get; set; }
+    #endregion [ Basic Information ]
+    #region [ Foreign Keys ]
+    /// <summary>
+    /// Id Менеджера заказа.
+    /// Внешний ключ
+    /// </summary>
+    public override int UserId { get; set; }
+    /// <summary>
+    /// Менеджер заказа.
+    /// Внешний ключ
+    /// </summary>
+    public override User? User { get; set; }
+    /// <summary>
+    /// Id Заказа.
+    /// Внешний ключ
+    /// </summary>
+    public override int OrderId { get; set; }
+    /// <summary>
+    /// Заказ.
+    /// Внешний ключ
+    /// </summary>
+    public override Order? Order{ get; set; }
+    #endregion [ Foreign Keys ]
 }

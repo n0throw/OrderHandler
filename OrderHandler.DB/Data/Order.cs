@@ -1,60 +1,78 @@
-﻿using System.ComponentModel.DataAnnotations;
-using OrderHandler.DB.Data.OrderAdd;
+﻿using OrderHandler.DB.Data.OrderAdd;
 
 namespace OrderHandler.DB.Data;
 
+/// <summary>
+/// Класс Order.
+/// Модель заказа пользователя
+/// </summary>
 public class Order {
-    [Key]
+    /// <summary>
+    /// Id в БД. Ключ записи
+    /// </summary>
     public int Id { get; set; }
-    public OrderMain OrderMain { get; set; }
-    public DocConstructor DocConstructor { get; set; }
-    public StatusGeneric DocTechnologist { get; set; }
-    public DecimalSection1 Supply { get; set; }
-    public DecimalSection2 SawCenter { get; set; }
-    public DecimalSection1 Edge { get; set; }
-    public DecimalSection1 Additive { get; set; }
-    public DecimalSection1 Milling { get; set; }
-    public DecimalSection1 Grinding { get; set; }
-    public DecimalSection1 Press { get; set; }
-    public DecimalSection1 Assembling { get; set; }
-    public DecimalSection1 Packing { get; set; }
-    public StatusGeneric Equipment { get; set; }
-    public StatusGeneric Shipment { get; set; }
+    /// <summary>
+    /// Ссылка на основную информацию о заказе
+    /// </summary>
+    public OrderMain? OrderMain { get; set; }
+    /// <summary>
+    /// Ссылка на Документацию конструктора
+    /// </summary>
+    public DocConst? DocConst { get; set; }
+    /// <summary>
+    /// Ссылка на Документацию технолога
+    /// </summary>
+    public DocTech? DocTech { get; set; }
+    /// <summary>
+    /// Ссылка на Снабжение
+    /// </summary>
+    public Supply? Supply { get; set; }
+    /// <summary>
+    /// Ссылка на Пильный центр
+    /// </summary>
+    public SawCenter? SawCenter { get; set; }
+    /// <summary>
+    /// Ссылка на Кромку
+    /// </summary>
+    public Edge? Edge { get; set; }
+    /// <summary>
+    /// Ссылка на Присадку
+    /// </summary>
+    public Additive? Additive { get; set; }
+    /// <summary>
+    /// Ссылка на Фрезеровку
+    /// </summary>
+    public Milling? Milling { get; set; }
+    /// <summary>
+    /// Ссылка на Шлифовку
+    /// </summary>
+    public Grinding? Grinding { get; set; }
+    /// <summary>
+    /// Ссылка на Пресс
+    /// </summary>
+    public Press? Press { get; set; }
+    /// <summary>
+    /// Ссылка на Сборку
+    /// </summary>
+    public Assembling? Assembling { get; set; }
+    /// <summary>
+    /// Ссылка на Упаковку
+    /// </summary>
+    public Packing? Packing { get; set; }
+    /// <summary>
+    /// Ссылка на Комплектацию
+    /// </summary>
+    public Equipment? Equipment { get; set; }
+    /// <summary>
+    /// Ссылка на Отгрузку
+    /// </summary>
+    public Shipment? Shipment { get; set; }
+    /// <summary>
+    /// Примечание
+    /// </summary>
     public string Note { get; set; }
-    public Mounting Mounting { get; set; }
-
-    public Order() : this(new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), new(), string.Empty, new()) { }
-    public Order(OrderMain orderMainData,
-                 DocConstructor docConstructor,
-                 StatusGeneric docTechnologist,
-                 DecimalSection1 supply,
-                 DecimalSection2 sawCenter,
-                 DecimalSection1 edge,
-                 DecimalSection1 additive,
-                 DecimalSection1 milling,
-                 DecimalSection1 grinding,
-                 DecimalSection1 press,
-                 DecimalSection1 assembling,
-                 DecimalSection1 packing,
-                 StatusGeneric equipment,
-                 StatusGeneric shipment,
-                 string note,
-                 Mounting mounting) {
-        OrderMain = orderMainData;
-        DocConstructor = docConstructor;
-        DocTechnologist = docTechnologist;
-        Supply = supply;
-        SawCenter = sawCenter;
-        Edge = edge;
-        Additive = additive;
-        Milling = milling;
-        Grinding = grinding;
-        Press = press;
-        Assembling = assembling;
-        Packing = packing;
-        Equipment = equipment;
-        Shipment = shipment;
-        Note = note;
-        Mounting = mounting;
-    }
+    /// <summary>
+    /// Ссылка на Монтаж
+    /// </summary>
+    public Mounting? Mounting { get; set; }
 }

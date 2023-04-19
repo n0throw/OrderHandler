@@ -1,11 +1,11 @@
 ﻿namespace OrderHandler.DB.Data.OrderAdd;
 
 /// <summary>
-/// Класс Mounting.
-/// Монтаж.
+/// Класс SawCenter.
+/// Пильный Центр.
 /// Модель БД.
 /// </summary>
-public class Mounting : OrderAddConfigureBase {
+public class SawCenter : OrderAddConfigureBase {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>
@@ -16,9 +16,17 @@ public class Mounting : OrderAddConfigureBase {
     /// </summary>
     public DateTime PlannedDate { get; set; }
     /// <summary>
-    /// Нужен ли монтаж
+    /// Дата выполнения
     /// </summary>
-    public bool IsNeed { get; set; }
+    public DateTime DateOfCompletion { get; set; }
+    /// <summary>
+    /// ЛДСП/МДФ м^2
+    /// </summary>
+    public decimal AreaOfLCBOrMDF { get; set; }
+    /// <summary>
+    /// ЛХДФ м^2
+    /// </summary>
+    public decimal AreaOfLHDF { get; set; }
     #endregion [ Basic Information ]
     #region [ Foreign Keys ]
     /// <summary>

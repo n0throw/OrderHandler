@@ -1,11 +1,11 @@
 ﻿namespace OrderHandler.DB.Data.OrderAdd;
 
 /// <summary>
-/// Класс Mounting.
-/// Монтаж.
+/// Класс Packing.
+/// Упаковка.
 /// Модель БД.
 /// </summary>
-public class Mounting : OrderAddConfigureBase {
+public class Packing : OrderAddConfigureBase {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>
@@ -16,9 +16,13 @@ public class Mounting : OrderAddConfigureBase {
     /// </summary>
     public DateTime PlannedDate { get; set; }
     /// <summary>
-    /// Нужен ли монтаж
+    /// Дата выполнения
     /// </summary>
-    public bool IsNeed { get; set; }
+    public DateTime DateOfCompletion { get; set; }
+    /// <summary>
+    /// ЛДСП/МДФ м^2
+    /// </summary>
+    public decimal AreaOfLCBOrMDF { get; set; }
     #endregion [ Basic Information ]
     #region [ Foreign Keys ]
     /// <summary>
