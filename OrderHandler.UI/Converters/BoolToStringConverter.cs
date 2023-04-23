@@ -1,29 +1,28 @@
 ﻿using System;
-using System.Globalization;
 using System.Windows.Data;
+using System.Globalization;
 
 namespace OrderHandler.UI.Converters;
 
 public class BoolToStringConverter : IValueConverter {
-    public object Convert(object value,
-                              Type targetType,
-                              object parameter,
-                              CultureInfo culture) {
-        if (value is null)
-            return "Нет";
+	public object Convert(object value,
+						  Type targetType,
+						  object parameter,
+						  CultureInfo culture
+	) {
+		if (value is not bool data)
+			return "Нет";
 
-        bool data = (bool)value;
+		return data ? "Да" : "Нет";
+	}
 
-        return data ? "Да" : (object)"Нет";
-    }
+	public object ConvertBack(object value,
+							  Type targetType,
+							  object parameter,
+							  CultureInfo culture) {
+		if (value is not string answer)
+			return false;
 
-    public object ConvertBack(object value,
-                              Type targetType,
-                              object parameter,
-                              CultureInfo culture) {
-        if (value is null)
-            return false;
-
-        return (string)value == "Да";
-    }
+		return answer == "Да";
+	}
 }

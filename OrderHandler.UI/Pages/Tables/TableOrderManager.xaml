@@ -18,7 +18,7 @@
             </ResourceDictionary.MergedDictionaries>
             <conv:DateTimeToStringConverter x:Key="DateConverter" />
             <conv:BoolToStringConverter x:Key="BoolConverter" />
-            <conv:StatusConverter x:Key="StatusConverter" />
+            <conv:ColumnToBorderWidthConverter x:Key="ColumnToBorderWidthConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -51,18 +51,280 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Auto"
                       Margin="0,20,0,0">
-            <StackPanel Orientation="Horizontal">
-                <StackPanel Orientation="Vertical"
-                            CanHorizontallyScroll="False"
-                            CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}"
-                            Width="{Binding Width, ElementName=OrderDG, Mode=OneWay}">
+            <StackPanel Orientation="Vertical">
+                <StackPanel x:Name="MainHeadersRow" 
+                            Orientation="Horizontal"
+                            Height="20"
+                            VerticalAlignment="Top">
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="IdColumn" Path="Width" />
+                                    <Binding ElementName="OrderManagerColumn" Path="Width" />
+                                    <Binding ElementName="OrderIssueColumn" Path="Width" />
+                                    <Binding ElementName="OrderDateColumn" Path="Width" />
+                                    <Binding ElementName="DeliveryDateColumn" Path="Width" />
+                                    <Binding ElementName="NumberOfDaysColumn" Path="Width" />
+                                    <Binding ElementName="ProductTypeColumn" Path="Width" />
+                                    <Binding ElementName="ProductCostColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
                         <TextBlock Text="Заказ"
                                    TextAlignment="Center"
                                    Background="#DDEBF7"
-                                   ToolTip="Заказ"/>
+                                   ToolTip="Заказ" />
                     </Border>
-                    <DataGrid x:Name="OrderDG"
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="DocConstPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="DocConstFIOColumn" Path="Width" />
+                                    <Binding ElementName="DocConstDateColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Документация конструктор"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Документация конструктор"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="DocTechPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="DocTechFIOColumn" Path="Width" />
+                                    <Binding ElementName="DocTechDateColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Документация технолог"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Документация технолог"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="SupplyPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="SupplyFIOColumn" Path="Width" />
+                                    <Binding ElementName="SupplyDateColumn" Path="Width" />
+                                    <Binding ElementName="SupplyRequiredAmountColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Снабжение"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Снабжение"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="SawCenterPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="SawCenterFIOColumn" Path="Width" />
+                                    <Binding ElementName="SawCenterDateColumn" Path="Width" />
+                                    <Binding ElementName="SawCenterAreaOfLCBOrMDFColumn" Path="Width" />
+                                    <Binding ElementName="SawCenterAreaOfLHDFColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Пильный Центр"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Пильный Центр"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="EdgePlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="EdgeFIOColumn" Path="Width" />
+                                    <Binding ElementName="EdgeDateColumn" Path="Width" />
+                                    <Binding ElementName="EdgeAreaOfLCBOrMDFColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Кромка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Кромка"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="AdditivePlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="AdditiveFIOColumn" Path="Width" />
+                                    <Binding ElementName="AdditiveDateColumn" Path="Width" />
+                                    <Binding ElementName="AdditiveAreaOfLCBOrMDFColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Присадка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Присадка"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="MillingPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="MillingFIOColumn" Path="Width" />
+                                    <Binding ElementName="MillingDateColumn" Path="Width" />
+                                    <Binding ElementName="MillingAreaOfMDFColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Фрезеровка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Фрезеровка"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="GrindingPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="GrindingFIOColumn" Path="Width" />
+                                    <Binding ElementName="GrindingDateColumn" Path="Width" />
+                                    <Binding ElementName="GrindingAreaOfMDFColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Шлифовка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Шлифовка"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="PressPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="PressFIOColumn" Path="Width" />
+                                    <Binding ElementName="PressDateColumn" Path="Width" />
+                                    <Binding ElementName="PressAreaOfMDFColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Пресс"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Пресс"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="AssemblingPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="AssemblingFIOColumn" Path="Width" />
+                                    <Binding ElementName="AssemblingDateColumn" Path="Width" />
+                                    <Binding ElementName="AssemblingAreaOfLCBOrMDFColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Сборка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Сборка"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="PackingPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="PackingFIOColumn" Path="Width" />
+                                    <Binding ElementName="PackingDateColumn" Path="Width" />
+                                    <Binding ElementName="PackingAreaOfLCBOrMDFColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Упаковка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Упаковка"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="EquipmentPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="EquipmentFIOColumn" Path="Width" />
+                                    <Binding ElementName="EquipmentDateColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Комплектация"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Комплектация"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="ShipmentPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="ShipmentFIOColumn" Path="Width" />
+                                    <Binding ElementName="ShipmentDateColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Отгрузка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Отгрузка"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="NoteColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text=""
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip=""
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="MountingIsNeedColumn" Path="Width" />
+                                    <Binding ElementName="MountingPlannedDateColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Монтаж"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Монтаж"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                </StackPanel>
+                <DataGrid x:Name="OrderDG"
                               ItemsSource="{Binding Orders}"
                               SelectedItem="{Binding SelectedOrder}"
                               Style="{StaticResource BaseDataGrid}"
@@ -78,660 +340,308 @@
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="№"
+                            <!-- Столбцы Заказа -->
+                            <DataGridTextColumn x:Name="IdColumn"
+                                                Header="№"
                                                 HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
                                                 Binding="{Binding Path=OrderMainData.Id}"
                                                 MinWidth="20" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                            <DataGridTextColumn x:Name="OrderManagerColumn"
                                                 Header="Менеджер Заказа"
+                                                HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
                                                 Binding="{Binding Path=OrderMainData.UserName}"
                                                 MinWidth="110" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                            <DataGridTextColumn x:Name="OrderIssueColumn"
                                                 Header="№ Заказа"
+                                                HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
                                                 Binding="{Binding Path=OrderMainData.OrderIssue}"
                                                 MinWidth="65" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                            <DataGridTextColumn x:Name="OrderDateColumn"
                                                 Header="Дата заказа"
+                                                HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
                                                 Binding="{Binding Path=OrderMainData.OrderDate, Converter={StaticResource DateConverter}}"
                                                 MinWidth="75" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                            <DataGridTextColumn x:Name="DeliveryDateColumn"
                                                 Header="Дата доставки"
+                                                HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
                                                 Binding="{Binding Path=OrderMainData.DeliveryDate, Converter={StaticResource DateConverter}}"
                                                 MinWidth="90" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                            <DataGridTextColumn x:Name="NumberOfDaysColumn"
                                                 Header="Срок доставки (Дн.)"
+                                                HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
                                                 Binding="{Binding Path=OrderMainData.NumberOfDays}"
                                                 MinWidth="120" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                            <DataGridTextColumn x:Name="ProductTypeColumn"
                                                 Header="Тип изделия"
+                                                HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
                                                 Binding="{Binding Path=OrderMainData.ProductType}"
                                                 MinWidth="80" />
-                            <DataGridTextColumn HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                            <DataGridTextColumn x:Name="ProductCostColumn"
                                                 Header="Сумма заказа"
+                                                HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
                                                 Binding="{Binding Path=OrderMainData.ProductCost}"
                                                 MinWidth="85" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"
-                            CanHorizontallyScroll="False"
-                            CanVerticallyScroll="False" >
-                    <Border Style="{StaticResource HeaderBorder}"
-                            Width="{Binding Width, ElementName=DocConstructorDG, Mode=OneWay}">
-                        <TextBlock Text="Документация конструктор"
-                                   TextAlignment="Center"
-                                   Background="#C6E0B4"
-                                   ToolTip="Документация конструктор"
-                                   TextTrimming="CharacterEllipsis"/>
-                    </Border>
-                    <DataGrid x:Name="DocConstructorDG"
-                              ItemsSource="{Binding Orders}"
-                              SelectedItem="{Binding SelectedOrder}"
-                              Style="{StaticResource BaseDataGrid}"
-                              MinWidth="70"
-                              CellStyle="{StaticResource BaseDataGridCell}">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Установить статус"
-                                          Command="{Binding SetStatus}"
-                                          CommandParameter="DocConstructor"
-                                          ToolTip="Устанавливает статус на Проверено" />
-                                <MenuItem Header="Удалить статус"
-                                          Command="{Binding DelStatus}"
-                                          CommandParameter="DocConstructor"
-                                          ToolTip="Удаляет статус, если он датирован текущей датой" />
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Плановая дата"
+                            <!-- Столбцы Документации Конструктора -->
+                            <DataGridTextColumn x:Name="DocConstPlannedDateColumn"
+                                                Header="Плановая дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=DocConstructor.PlannedDate, Converter={StaticResource DateConverter}}"
                                                 MinWidth="95" />
-                            <DataGridTextColumn Header="ФИО"
+                            <DataGridTextColumn x:Name="DocConstFIOColumn"
+                                                Header="ФИО"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=DocConstructor.UserName}"
                                                 MinWidth="190" />
-                            <DataGridTextColumn Header="Дата"
+                            <DataGridTextColumn x:Name="DocConstDateColumn"
+                                                Header="Дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=DocConstructor.Date, Converter={StaticResource DateConverter}}"
                                                 MinWidth="70" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"
-                            CanHorizontallyScroll="False"
-                            CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}"
-                            Width="{Binding Width, ElementName=DocumentationTechnologistDG, Mode=OneWay}">
-                        <TextBlock Text="Документация технолог"
-                                   TextAlignment="Center"
-                                   Background="#C6E0B4"
-                                   ToolTip="Документация технолог" />
-                    </Border>
-                    <DataGrid x:Name="DocumentationTechnologistDG"
-                              ItemsSource="{Binding Orders}"
-                              SelectedItem="{Binding SelectedOrder}"
-                              Style="{StaticResource BaseDataGrid}"
-                              CellStyle="{StaticResource BaseDataGridCell}">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Установить статус"
-                                          Command="{Binding SetStatus}"
-                                          CommandParameter="DocTechnologist"
-                                          ToolTip="Устанавливает статус на Проверено"/>
-                                <MenuItem Header="Удалить статус"
-                                          Command="{Binding DelStatus}"
-                                          CommandParameter="DocTechnologist"
-                                          ToolTip="Удаляет статус, если он датирован текущей датой"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Плановая дата"
+                            <!-- Столбцы Документации Технолога -->
+                            <DataGridTextColumn x:Name="DocTechPlannedDateColumn"
+                                                Header="Плановая дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=DocTechnologist.PlannedDate, Converter={StaticResource DateConverter}}"
                                                 MinWidth="95" />
-                            <DataGridTextColumn Header="ФИО"
+                            <DataGridTextColumn x:Name="DocTechFIOColumn"
+                                                Header="ФИО"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=DocTechnologist.UserName}"
                                                 MinWidth="190" />
-                            <DataGridTextColumn Header="Дата"
+                            <DataGridTextColumn x:Name="DocTechDateColumn"
+                                                Header="Дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=DocTechnologist.Date, Converter={StaticResource DateConverter}}"
                                                 MinWidth="70" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"
-                            CanHorizontallyScroll="False"
-                            CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}"
-                            Width="{Binding Width, ElementName=SupplyDG, Mode=OneWay}">
-                        <TextBlock Text="Снабжение"
-                                   TextAlignment="Center"
-                                   Background="#C6E0B4"
-                                   ToolTip="Снабжение" />
-                    </Border>
-                    <DataGrid x:Name="SupplyDG"
-                              ItemsSource="{Binding Orders}"
-                              SelectedItem="{Binding SelectedOrder}"
-                              Style="{StaticResource BaseDataGrid}"
-                              CellStyle="{StaticResource BaseDataGridCell}">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Установить статус"
-                                          Command="{Binding SetStatus}"
-                                          CommandParameter="Supply"
-                                          ToolTip="Устанавливает статус на Проверено"/>
-                                <MenuItem Header="Удалить статус"
-                                          Command="{Binding DelStatus}"
-                                          CommandParameter="Supply"
-                                          ToolTip="Удаляет статус, если он датирован текущей датой" />
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Плановая дата"
+                            <!-- Столбцы Снабжения -->
+                            <DataGridTextColumn x:Name="SupplyPlannedDateColumn"
+                                                Header="Плановая дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Supply.Status.PlannedDate, Converter={StaticResource DateConverter}}"
                                                 MinWidth="95" />
-                            <DataGridTextColumn Header="ФИО"
+                            <DataGridTextColumn x:Name="SupplyFIOColumn"
+                                                Header="ФИО"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Supply.Status.UserName}"
                                                 MinWidth="190" />
-                            <DataGridTextColumn Header="Дата"
+                            <DataGridTextColumn x:Name="SupplyDateColumn"
+                                                Header="Дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Supply.Status.Date, Converter={StaticResource DateConverter}}"
                                                 MinWidth="70" />
-                            <DataGridTextColumn Header="Необходимая сумма"
+                            <DataGridTextColumn x:Name="SupplyRequiredAmountColumn"
+                                                Header="Необходимая сумма"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Supply.Cost}"
                                                 MinWidth="130" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"
-                            CanHorizontallyScroll="False"
-                            CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}"
-                            Width="{Binding Width, ElementName=SawCenterDG, Mode=OneWay}">
-                        <TextBlock Text="Пильный Центр"
-                                   TextAlignment="Center"
-                                   Background="#C6E0B4"
-                                   ToolTip="Пильный Центр" />
-                    </Border>
-                    <DataGrid x:Name="SawCenterDG"
-                              ItemsSource="{Binding Orders}"
-                              SelectedItem="{Binding SelectedOrder}"
-                              Style="{StaticResource BaseDataGrid}"
-                              CellStyle="{StaticResource BaseDataGridCell}">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Установить статус"
-                                          Command="{Binding SetStatus}"
-                                          CommandParameter="SawCenter"
-                                          ToolTip="Устанавливает статус на Проверено"/>
-                                <MenuItem Header="Удалить статус"
-                                          Command="{Binding DelStatus}"
-                                          CommandParameter="SawCenter"
-                                          ToolTip="Удаляет статус, если он датирован текущей датой" />
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Плановая дата"
+                            <!-- Столбцы Пильного Центра -->
+                            <DataGridTextColumn x:Name="SawCenterPlannedDateColumn"
+                                                Header="Плановая дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=SawCenter.Status.PlannedDate, Converter={StaticResource DateConverter}}"
                                                 MinWidth="95" />
-                            <DataGridTextColumn Header="ФИО"
+                            <DataGridTextColumn x:Name="SawCenterFIOColumn"
+                                                Header="ФИО"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=SawCenter.Status.UserName}"
                                                 MinWidth="190" />
-                            <DataGridTextColumn Header="Дата"
+                            <DataGridTextColumn x:Name="SawCenterDateColumn"
+                                                Header="Дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=SawCenter.Status.Date, Converter={StaticResource DateConverter}}"
                                                 MinWidth="70" />
-                            <DataGridTextColumn Header="ЛДСП/МДФ м&#x00B2;"
+                            <DataGridTextColumn x:Name="SawCenterAreaOfLCBOrMDFColumn"
+                                                Header="ЛДСП/МДФ м&#x00B2;"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=SawCenter.ChipboardOrMDF}"
                                                 MinWidth="100" />
-                            <DataGridTextColumn Header="ЛХДФ м&#x00B2;"
+                            <DataGridTextColumn x:Name="SawCenterAreaOfLHDFColumn"
+                                                Header="ЛХДФ м&#x00B2;"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=SawCenter.HDF}"
                                                 MinWidth="70" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"
-                            CanHorizontallyScroll="False"
-                            CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}"
-                            Width="{Binding Width, ElementName=EdgeDG, Mode=OneWay}">
-                        <TextBlock Text="Кромка"
-                                   TextAlignment="Center"
-                                   Background="#C6E0B4"
-                                   ToolTip="Кромка" />
-                    </Border>
-                    <DataGrid x:Name="EdgeDG"
-                              ItemsSource="{Binding Orders}"
-                              SelectedItem="{Binding SelectedOrder}"
-                              Style="{StaticResource BaseDataGrid}"
-                              CellStyle="{StaticResource BaseDataGridCell}">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Установить статус"
-                                          Command="{Binding SetStatus}"
-                                          CommandParameter="Edge"
-                                          ToolTip="Устанавливает статус на Проверено"/>
-                                <MenuItem Header="Удалить статус"
-                                          Command="{Binding DelStatus}"
-                                          CommandParameter="Edge"
-                                          ToolTip="Удаляет статус, если он датирован текущей датой" />
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Плановая дата"
+                            <!-- Столбцы Кромки -->
+                            <DataGridTextColumn x:Name="EdgePlannedDateColumn"
+                                                Header="Плановая дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Edge.Status.PlannedDate, Converter={StaticResource DateConverter}}"
                                                 MinWidth="95" />
-                            <DataGridTextColumn Header="ФИО"
+                            <DataGridTextColumn x:Name="EdgeFIOColumn"
+                                                Header="ФИО"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Edge.Status.UserName}"
                                                 MinWidth="190" />
-                            <DataGridTextColumn Header="Дата"
+                            <DataGridTextColumn x:Name="EdgeDateColumn"
+                                                Header="Дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Edge.Status.Date, Converter={StaticResource DateConverter}}"
                                                 MinWidth="70" />
-                            <DataGridTextColumn Header="ЛДСП/МДФ м&#x00B2;"
+                            <DataGridTextColumn x:Name="EdgeAreaOfLCBOrMDFColumn"
+                                                Header="ЛДСП/МДФ м&#x00B2;"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Edge.ChipboardOrMDF}"
                                                 MinWidth="100" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"
-                            CanHorizontallyScroll="False"
-                            CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}"
-                            Width="{Binding Width, ElementName=AdditiveDG, Mode=OneWay}">
-                        <TextBlock Text="Присадка"
-                                   TextAlignment="Center"
-                                   Background="#C6E0B4"
-                                   ToolTip="Присадка" />
-                    </Border>
-                    <DataGrid x:Name="AdditiveDG"
-                              ItemsSource="{Binding Orders}"
-                              SelectedItem="{Binding SelectedOrder}"
-                              Style="{StaticResource BaseDataGrid}"
-                              CellStyle="{StaticResource BaseDataGridCell}">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Установить статус"
-                                          Command="{Binding SetStatus}"
-                                          CommandParameter="Additive"
-                                          ToolTip="Устанавливает статус на Проверено"/>
-                                <MenuItem Header="Удалить статус"
-                                          Command="{Binding DelStatus}"
-                                          CommandParameter="Additive"
-                                          ToolTip="Удаляет статус, если он датирован текущей датой" />
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Плановая дата"
+                            <!-- Столбцы Присадки -->
+                            <DataGridTextColumn x:Name="AdditivePlannedDateColumn"
+                                                Header="Плановая дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Additive.Status.PlannedDate, Converter={StaticResource DateConverter}}"
                                                 MinWidth="95" />
-                            <DataGridTextColumn Header="ФИО"
+                            <DataGridTextColumn x:Name="AdditiveFIOColumn"
+                                                Header="ФИО"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Additive.Status.UserName}"
                                                 MinWidth="190" />
-                            <DataGridTextColumn Header="Дата"
+                            <DataGridTextColumn x:Name="AdditiveDateColumn"
+                                                Header="Дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Additive.Status.Date, Converter={StaticResource DateConverter}}"
                                                 MinWidth="70" />
-                            <DataGridTextColumn Header="ЛДСП/МДФ м&#x00B2;"
+                            <DataGridTextColumn x:Name="AdditiveAreaOfLCBOrMDFColumn"
+                                                Header="ЛДСП/МДФ м&#x00B2;"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Additive.ChipboardOrMDF}"
                                                 MinWidth="100" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"
-                        CanHorizontallyScroll="False"
-                        CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}"
-                            Width="{Binding Width, ElementName=MillingDG, Mode=OneWay}">
-                        <TextBlock Text="Фрезеровка"
-                                   TextAlignment="Center"
-                                   Background="#C6E0B4"
-                                   ToolTip="Фрезероовка" />
-                    </Border>
-                    <DataGrid x:Name="MillingDG"
-                              ItemsSource="{Binding Orders}"
-                              SelectedItem="{Binding SelectedOrder}"
-                              Style="{StaticResource BaseDataGrid}"
-                              CellStyle="{StaticResource BaseDataGridCell}">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Установить статус"
-                                          Command="{Binding SetStatus}"
-                                          CommandParameter="Milling"
-                                          ToolTip="Устанавливает статус на Проверено"/>
-                                <MenuItem Header="Удалить статус"
-                                          Command="{Binding DelStatus}"
-                                          CommandParameter="Milling"
-                                          ToolTip="Удаляет статус, если он датирован текущей датой"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Плановая дата"
+                            <!-- Столбцы Фрезеровки -->
+                            <DataGridTextColumn x:Name="MillingPlannedDateColumn"
+                                                Header="Плановая дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Milling.Status.PlannedDate, Converter={StaticResource DateConverter}}"
                                                 MinWidth="95" />
-                            <DataGridTextColumn Header="ФИО"
+                            <DataGridTextColumn x:Name="MillingFIOColumn"
+                                                Header="ФИО"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Milling.Status.UserName}"
                                                 MinWidth="190" />
-                            <DataGridTextColumn Header="Дата"
+                            <DataGridTextColumn x:Name="MillingDateColumn"
+                                                Header="Дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Milling.Status.Date, Converter={StaticResource DateConverter}}"
                                                 MinWidth="70" />
-                            <DataGridTextColumn Header="МДФ м&#x00B2;"
+                            <DataGridTextColumn x:Name="MillingAreaOfMDFColumn"
+                                                Header="МДФ м&#x00B2;"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Milling.MDF}"
                                                 MinWidth="70" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"
-                        CanHorizontallyScroll="False"
-                        CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}"
-                            Width="{Binding Width, ElementName=GrindingDG, Mode=OneWay}">
-                        <TextBlock Text="Шлифовка"
-                                   TextAlignment="Center"
-                                   Background="#C6E0B4"
-                                   ToolTip="Шлифовка" />
-                    </Border>
-                    <DataGrid x:Name="GrindingDG"
-                              ItemsSource="{Binding Orders}"
-                              SelectedItem="{Binding SelectedOrder}"
-                              Style="{StaticResource BaseDataGrid}"
-                              CellStyle="{StaticResource BaseDataGridCell}">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Установить статус"
-                                          Command="{Binding SetStatus}"
-                                          CommandParameter="Grinding"
-                                          ToolTip="Устанавливает статус на Проверено"/>
-                                <MenuItem Header="Удалить статус"
-                                          Command="{Binding DelStatus}"
-                                          CommandParameter="Grinding"
-                                          ToolTip="Удаляет статус, если он датирован текущей датой"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Плановая дата"
+                            <!-- Столбцы Шлифовки -->
+                            <DataGridTextColumn x:Name="GrindingPlannedDateColumn"
+                                                Header="Плановая дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Grinding.Status.PlannedDate, Converter={StaticResource DateConverter}}"
                                                 MinWidth="95" />
-                            <DataGridTextColumn Header="ФИО"
+                            <DataGridTextColumn x:Name="GrindingFIOColumn"
+                                                Header="ФИО"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Grinding.Status.UserName}"
                                                 MinWidth="190" />
-                            <DataGridTextColumn Header="Дата"
+                            <DataGridTextColumn x:Name="GrindingDateColumn"
+                                                Header="Дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Grinding.Status.Date, Converter={StaticResource DateConverter}}"
                                                 MinWidth="70" />
-                            <DataGridTextColumn Header="МДФ м&#x00B2;"
+                            <DataGridTextColumn x:Name="GrindingAreaOfMDFColumn"
+                                                Header="МДФ м&#x00B2;"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Grinding.MDF}"
                                                 MinWidth="70" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"
-                            CanHorizontallyScroll="False"
-                            CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}"
-                            Width="{Binding Width, ElementName=PressDG, Mode=OneWay}">
-                        <TextBlock Text="Пресс"
-                                   TextAlignment="Center"
-                                   Background="#C6E0B4"
-                                   ToolTip="Пресс "/>
-                    </Border>
-                    <DataGrid x:Name="PressDG"
-                              ItemsSource="{Binding Orders}"
-                              SelectedItem="{Binding SelectedOrder}"
-                              Style="{StaticResource BaseDataGrid}"
-                              CellStyle="{StaticResource BaseDataGridCell}">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Установить статус"
-                                          Command="{Binding SetStatus}"
-                                          CommandParameter="Press"
-                                          ToolTip="Устанавливает статус на Проверено"/>
-                                <MenuItem Header="Удалить статус"
-                                          Command="{Binding DelStatus}"
-                                          CommandParameter="Press"
-                                          ToolTip="Удаляет статус, если он датирован текущей датой"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Плановая дата" HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                            <!-- Столбцы Пресса -->
+                            <DataGridTextColumn x:Name="PressPlannedDateColumn"
+                                                Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Press.Status.PlannedDate, Converter={StaticResource DateConverter}}"
                                                 MinWidth="95" />
-                            <DataGridTextColumn Header="ФИО" HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                            <DataGridTextColumn x:Name="PressFIOColumn"
+                                                Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Press.Status.UserName}"
                                                 MinWidth="190" />
-                            <DataGridTextColumn Header="Дата" HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                            <DataGridTextColumn x:Name="PressDateColumn"
+                                                Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Press.Status.Date, Converter={StaticResource DateConverter}}"
                                                 MinWidth="70" />
-                            <DataGridTextColumn Header="МДФ м&#x00B2;" HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                            <DataGridTextColumn x:Name="PressAreaOfMDFColumn"
+                                                Header="МДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Press.MDF}"
                                                 MinWidth="70" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"
-                        CanHorizontallyScroll="False"
-                        CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}"
-                            Width="{Binding Width, ElementName=AssemblingDG, Mode=OneWay}">
-                        <TextBlock Text="Сборка"
-                                   TextAlignment="Center"
-                                   Background="#C6E0B4"
-                                   ToolTip="Сборка" />
-                    </Border>
-                    <DataGrid x:Name="AssemblingDG"
-                              ItemsSource="{Binding Orders}"
-                              SelectedItem="{Binding SelectedOrder}"
-                              Style="{StaticResource BaseDataGrid}"
-                              CellStyle="{StaticResource BaseDataGridCell}">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Установить статус"
-                                          Command="{Binding SetStatus}"
-                                          CommandParameter="Assembling"
-                                          ToolTip="Устанавливает статус на Проверено"/>
-                                <MenuItem Header="Удалить статус"
-                                          Command="{Binding DelStatus}"
-                                          CommandParameter="Assembling"
-                                          ToolTip="Удаляет статус, если он датирован текущей датой"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Плановая дата" HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                            <!-- Столбцы Сборки -->
+                            <DataGridTextColumn x:Name="AssemblingPlannedDateColumn"
+                                                Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Assembling.Status.PlannedDate, Converter={StaticResource DateConverter}}"
                                                 MinWidth="95" />
-                            <DataGridTextColumn Header="ФИО" HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                            <DataGridTextColumn x:Name="AssemblingFIOColumn"
+                                                Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Assembling.Status.UserName}"
                                                 MinWidth="190" />
-                            <DataGridTextColumn Header="Дата" HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                            <DataGridTextColumn x:Name="AssemblingDateColumn"
+                                                Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Assembling.Status.Date, Converter={StaticResource DateConverter}}"
                                                 MinWidth="70" />
-                            <DataGridTextColumn Header="ЛДСП/МДФ м&#x00B2;"
+                            <DataGridTextColumn x:Name="AssemblingAreaOfLCBOrMDFColumn"
+                                                Header="ЛДСП/МДФ м&#x00B2;"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Assembling.ChipboardOrMDF}"
                                                 MinWidth="100" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"
-                        CanHorizontallyScroll="False"
-                        CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}"
-                            Width="{Binding Width, ElementName=PackingDG, Mode=OneWay}">
-                        <TextBlock Text="Упаковка"
-                                   TextAlignment="Center"
-                                   Background="#C6E0B4"
-                                   ToolTip="Упаковка" />
-                    </Border>
-                    <DataGrid x:Name="PackingDG"
-                              ItemsSource="{Binding Orders}"
-                              SelectedItem="{Binding SelectedOrder}"
-                              Style="{StaticResource BaseDataGrid}"
-                              CellStyle="{StaticResource BaseDataGridCell}">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Установить статус"
-                                          Command="{Binding SetStatus}"
-                                          CommandParameter="Packing"
-                                          ToolTip="Устанавливает статус на Проверено"/>
-                                <MenuItem Header="Удалить статус"
-                                          Command="{Binding DelStatus}"
-                                          CommandParameter="Packing"
-                                          ToolTip="Удаляет статус, если он датирован текущей датой"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Плановая дата"
+                            <!-- Столбцы Упаковки -->
+                            <DataGridTextColumn x:Name="PackingPlannedDateColumn"
+                                                Header="Плановая дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Packing.Status.PlannedDate, Converter={StaticResource DateConverter}}"
                                                 MinWidth="95" />
-                            <DataGridTextColumn Header="ФИО"
+                            <DataGridTextColumn x:Name="PackingFIOColumn"
+                                                Header="ФИО"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Packing.Status.UserName}"
                                                 MinWidth="190" />
-                            <DataGridTextColumn Header="Дата"
+                            <DataGridTextColumn x:Name="PackingDateColumn"
+                                                Header="Дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Packing.Status.Date, Converter={StaticResource DateConverter}}"
                                                 MinWidth="70" />
-                            <DataGridTextColumn Header="ЛДСП/МДФ м&#x00B2;"
+                            <DataGridTextColumn x:Name="PackingAreaOfLCBOrMDFColumn"
+                                                Header="ЛДСП/МДФ м&#x00B2;"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Packing.ChipboardOrMDF}"
                                                 MinWidth="100" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"
-                            CanHorizontallyScroll="False"
-                            CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}"
-                            Width="{Binding Width, ElementName=EquipmentDG, Mode=OneWay}">
-                        <TextBlock Text="Комплектация"
-                                   TextAlignment="Center"
-                                   Background="#C6E0B4"
-                                   ToolTip="Комплектация" />
-                    </Border>
-                    <DataGrid x:Name="EquipmentDG"
-                              ItemsSource="{Binding Orders}"
-                              SelectedItem="{Binding SelectedOrder}"
-                              Style="{StaticResource BaseDataGrid}"
-                              CellStyle="{StaticResource BaseDataGridCell}">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Установить статус"
-                                          Command="{Binding SetStatus}"
-                                          CommandParameter="Equipment"
-                                          ToolTip="Устанавливает статус на Проверено"/>
-                                <MenuItem Header="Удалить статус"
-                                          Command="{Binding DelStatus}"
-                                          CommandParameter="Equipment"
-                                          ToolTip="Удаляет статус, если он датирован текущей датой"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Плановая дата"
+                            <!-- Столбцы Комплектации -->
+                            <DataGridTextColumn x:Name="EquipmentPlannedDateColumn"
+                                                Header="Плановая дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Equipment.PlannedDate, Converter={StaticResource DateConverter}}"
                                                 MinWidth="95" />
-                            <DataGridTextColumn Header="ФИО"
+                            <DataGridTextColumn x:Name="EquipmentFIOColumn"
+                                                Header="ФИО"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Equipment.UserName}"
                                                 MinWidth="190" />
-                            <DataGridTextColumn Header="Дата"
+                            <DataGridTextColumn x:Name="EquipmentDateColumn"
+                                                Header="Дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Equipment.Date, Converter={StaticResource DateConverter}}"
                                                 MinWidth="70" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"
-                            CanHorizontallyScroll="False"
-                            CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}"
-                            Width="{Binding Width, ElementName=ShipmentDG, Mode=OneWay}">
-                        <TextBlock Text="Отгрузка"
-                                   TextAlignment="Center"
-                                   Background="#C6E0B4"
-                                   ToolTip="Отгрузка" />
-                    </Border>
-                    <DataGrid x:Name="ShipmentDG"
-                              ItemsSource="{Binding Orders}"
-                              SelectedItem="{Binding SelectedOrder}"
-                              Style="{StaticResource BaseDataGrid}"
-                              CellStyle="{StaticResource BaseDataGridCell}">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Установить статус"
-                                          Command="{Binding SetStatus}"
-                                          CommandParameter="Shipment"
-                                          ToolTip="Устанавливает статус на Проверено"/>
-                                <MenuItem Header="Удалить статус"
-                                          Command="{Binding DelStatus}"
-                                          CommandParameter="Shipment"
-                                          ToolTip="Удаляет статус, если он датирован текущей датой"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Плановая дата"
+                            <!-- Столбцы Отгрузки -->
+                            <DataGridTextColumn x:Name="ShipmentPlannedDateColumn"
+                                                Header="Плановая дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Shipment.PlannedDate, Converter={StaticResource DateConverter}}"
                                                 MinWidth="95" />
-                            <DataGridTextColumn Header="ФИО"
+                            <DataGridTextColumn x:Name="ShipmentFIOColumn"
+                                                Header="ФИО"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Shipment.UserName}"
                                                 MinWidth="190" />
-                            <DataGridTextColumn Header="Дата"
+                            <DataGridTextColumn x:Name="ShipmentDateColumn"
+                                                Header="Дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Shipment.Date, Converter={StaticResource DateConverter}}"
                                                 MinWidth="70" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"
-                            CanHorizontallyScroll="False"
-                            CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}"
-                            Width="{Binding Width, ElementName=NoteDG, Mode=OneWay}">
-                        <TextBlock Text=""
-                                   TextAlignment="Center"
-                                   Background="#C6E0B4"
-                                   ToolTip="" />
-                    </Border>
-                    <DataGrid x:Name="NoteDG"
-                              ItemsSource="{Binding Orders}"
-                              SelectedItem="{Binding SelectedOrder}"
-                              Style="{StaticResource BaseDataGrid}"
-                              CellStyle="{StaticResource BaseDataGridCell}">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Изменить"
-                                          Command="{Binding SetStatus}"
-                                          CommandParameter="Note"
-                                          ToolTip="Изменяет примечание" />
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Примечание"
+                            <!-- Столбец Примечания -->
+                            <DataGridTextColumn x:Name="NoteColumn"
+                                                Header="Примечание"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Note}"
                                                 MinWidth="95">
@@ -750,48 +660,19 @@
                                     </Style>
                                 </DataGridTextColumn.CellStyle>
                             </DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"
-                            CanHorizontallyScroll="False"
-                            CanVerticallyScroll="False">
-                    <Border Style="{StaticResource HeaderBorder}"
-                            Width="{Binding Width, ElementName=MountingDG, Mode=OneWay}">
-                        <TextBlock Text="Монтаж"
-                                   TextAlignment="Center"
-                                   Background="#C6E0B4"
-                                   ToolTip="Монтаж" />
-                    </Border>
-                    <DataGrid x:Name="MountingDG"
-                              ItemsSource="{Binding Orders}"
-                              SelectedItem="{Binding SelectedOrder}"
-                              Style="{StaticResource BaseDataGrid}"
-                              CellStyle="{StaticResource BaseDataGridCell}">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Установить статус"
-                                          Command="{Binding SetStatus}"
-                                          CommandParameter="Mounting"
-                                          ToolTip="Устанавливает статус на Проверено"/>
-                                <MenuItem Header="Удалить статус"
-                                          Command="{Binding DelStatus}"
-                                          CommandParameter="Mounting"
-                                          ToolTip="Удаляет статус"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Да/Нет"
+                            <!-- Столбцы Монтажа -->
+                            <DataGridTextColumn x:Name="MountingIsNeedColumn"
+                                                Header="Да/Нет"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Mounting.IsMounting, Converter={StaticResource BoolConverter}}"
                                                 MinWidth="95" />
-                            <DataGridTextColumn Header="Дата"
+                            <DataGridTextColumn x:Name="MountingPlannedDateColumn"
+                                                Header="Дата"
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Mounting.Date, Converter={StaticResource DateConverter}}"
                                                 MinWidth="95" />
                         </DataGrid.Columns>
                     </DataGrid>
-                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

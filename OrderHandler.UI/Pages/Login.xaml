@@ -5,23 +5,40 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
       xmlns:local="clr-namespace:OrderHandler.UI.Pages"
+      xmlns:attach="clr-namespace:OrderHandler.UI.AttachedProp"
       mc:Ignorable="d" 
       d:DesignHeight="850" d:DesignWidth="1400"
-      Title="Login"
-      PreviewKeyDown="PreviewKeyDown_Caps">
+      Title="Login">
 
     <Grid Background="White">
-        <GroupBox Header="Авторизация" HorizontalAlignment="Center" VerticalAlignment="Center" Width="170" Height="82">
+        <GroupBox Header="Авторизация" HorizontalAlignment="Left" VerticalAlignment="Top" Width="170" Margin="10,10,0,0">
             <WrapPanel>
-                <ComboBox Width="120" Height="22" Margin="5">
-                    <sys:String>Admin</sys:String>
-                    <sys:String>Рязанов Ярослав Сергеевич</sys:String>
-                </ComboBox>
-                <PasswordBox Password="" Width="120" Height="18" Margin="5"/>
-                <CheckBox x:Name="CapsLocked" IsChecked="False" IsEnabled="False" ToolTip="CapsLock" Height="18" Width="18" Margin="5"/>
+                <ComboBox Width="145"
+                          Height="22"
+                          Margin="5"
+                          ItemsSource="{Binding UserCombos}"
+                          DisplayMemberPath="FIO"
+                          SelectedValuePath="FIO"
+                          SelectedValue="{Binding CurrentSelection.FIO}"
+                          SelectedItem="{Binding CurrentSelection}"/>
+                <PasswordBox Password="******" Width="145" Height="18" Margin="5" attach:PasswordBoxAttach.PasswordProp="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PasswordChanged="PasswordBox_PasswordChanged"/>
+                <Button Content="Войти" Width="145" Margin="5" Command="{Binding EntryCommand}"/>
             </WrapPanel>
         </GroupBox>
-        <Button Content="Close" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Command="{Binding ClosePageCommand}" Height="20" Width="33"/>
-        <Button Content="Table" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Command="{Binding TablePageCommand}" Height="20" Width="31"/>
+        <Button Content="Close" HorizontalAlignment="Left" Margin="10,795,0,0" VerticalAlignment="Top" Command="{Binding ClosePageCommand}" Height="20" Width="33"/>
+        <Button Content="Table" HorizontalAlignment="Left" Margin="10,820,0,0" VerticalAlignment="Top" Command="{Binding TablePageCommand}" Height="20" Width="31"/>
+        <ListBox Margin="185,10,10,10">
+            <TextBlock FontWeight="Bold" TextDecorations="Underline" Text="Обновления" />
+            <ListBoxItem FontWeight="Bold" Background="LightGray" Content="Information" />
+            <ListBoxItem>Оповещения работают для всех пользователей</ListBoxItem>
+            <ListBoxItem FontWeight="Bold" Background="LightGray" Content="Any text" />
+            <ListBoxItem>Из интерфейса пока что не доступно</ListBoxItem>
+            <ListBoxItem FontWeight="Bold" Background="LightGray" Content="Заголовок" />
+            <ListBoxItem>Вообще можно хоть о чём оповещать</ListBoxItem>
+            <ListBoxItem FontWeight="Bold" Background="LightGray" Content="1.0.1" />
+            <ListBoxItem>Вторая</ListBoxItem>
+            <ListBoxItem FontWeight="Bold" Background="LightGray" Content="1.0.0" />
+            <ListBoxItem>Первая версия программы</ListBoxItem>
+        </ListBox>
     </Grid>
 </Page>

@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
-using OrderHandler.DB.Data;
-using OrderHandler.DB.Configurations.Core;
-using OrderHandler.DB.Data.OrderAdd;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 using System.Linq.Expressions;
+using System.Collections.Generic;
+using OrderHandler.DB.Data;
+using OrderHandler.DB.Data.OrderAdd;
+using OrderHandler.DB.Configurations.Core;
 
 namespace OrderHandler.DB.Configurations;
 /// <summary>

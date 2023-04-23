@@ -1,4 +1,5 @@
-﻿using OrderHandler.DB.Data.OrderAdd;
+﻿using System.Collections.Generic;
+using OrderHandler.DB.Data.OrderAdd;
 using OrderHandler.DB.Data.UserAdd;
 
 namespace OrderHandler.DB.Data;
@@ -84,7 +85,7 @@ public class User
     /// </summary>
     public List<Shipment> Shipment { get; set; } = new();
     /// <summary>
-    /// Список Монтажа
+    /// Список Монтажаs
     /// </summary>
     public List<Mounting> Mounting { get; set; } = new();
 }

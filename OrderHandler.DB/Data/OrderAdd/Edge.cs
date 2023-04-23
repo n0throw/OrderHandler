@@ -1,4 +1,6 @@
-﻿namespace OrderHandler.DB.Data.OrderAdd;
+﻿using System;
+
+namespace OrderHandler.DB.Data.OrderAdd;
 
 /// <summary>
 /// Класс Edge.

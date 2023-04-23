@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using OrderHandler.DB.Data;
 using OrderHandler.DB.Configurations;
 using OrderHandler.DB.Data.OrderAdd;
@@ -47,9 +48,6 @@ public class Context : DbContext
     {
         Order? lastOrder = Orders.OrderBy(order => order.Id).LastOrDefault();
 
-        if (lastOrder is not null)
-            return lastOrder.Id;
-
-        return 0;
+        return lastOrder is not null ? lastOrder.Id : 0;
     }
 }

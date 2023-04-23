@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using System;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace OrderHandler.DB.Configurations.Core;
 

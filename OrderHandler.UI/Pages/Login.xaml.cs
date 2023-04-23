@@ -1,4 +1,4 @@
-﻿using System;
+﻿using OrderHandler.UI.AttachedProp;
 using System.Windows.Controls;
 
 namespace OrderHandler.UI.Pages;
@@ -7,6 +7,8 @@ public partial class Login : Page {
     public Login() =>
         InitializeComponent();
 
-    private void PreviewKeyDown_Caps(object sender, System.Windows.Input.KeyEventArgs e) =>
-        CapsLocked.IsChecked = Console.CapsLock;
+    private void PasswordBox_PasswordChanged(object sender, System.Windows.RoutedEventArgs e) {
+        PasswordBox pBox = sender as PasswordBox;
+        PasswordBoxAttach.SetPasswordProp(pBox, pBox.Password);
+    }
 }
