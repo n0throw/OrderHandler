@@ -1,38 +1,69 @@
 ﻿using System;
-using OrderHandler.DB.Data.OrderAdd;
+using System.ComponentModel;
+
 using OrderHandler.UI.Core;
+using OrderHandler.UI.Model.Validation.Validators;
 
 namespace OrderHandler.UI.Model.ViewOrderAdd;
 
-public class ViewEdge : PropertyChanger {
-    private ViewStatusGeneric status;
-    private decimal? chipboardOrMDF;
+public class ViewEdge : PropertyChanger, IDataErrorInfo {
+    int _id;
+    DateTime _plannedDate;
+    int? _idUser;
+    string _FIO;
+    DateTime _dateOfCompletion;
+    decimal _areaOfLCBOrMDF;
+        
+    public string Error => throw new NotImplementedException();
+    IViewEdgeValidator Validator { get; }
 
-    public ViewStatusGeneric Status {
-        get => status;
+    internal int Id {
+        get => _id;
+        set => _id = value;
+    }
+    public DateTime PlannedDate {
+        get => _plannedDate;
         set {
-            status = value;
-            OnPropertyChanged(nameof(Status));
+            _plannedDate = value;
+            OnPropertyChanged();
         }
     }
-    public decimal? ChipboardOrMDF {
-        get => chipboardOrMDF;
+    internal int? IdUser {
+        get => _idUser;
+        set => _idUser = value;
+    }
+    public string FIO {
+        get => _FIO;
         set {
-            chipboardOrMDF = value;
-            OnPropertyChanged(nameof(ChipboardOrMDF));
+            _FIO = value;
+            OnPropertyChanged();
+        }
+    }
+    public DateTime DateOfCompletion {
+        get => _dateOfCompletion;
+        set {
+            _dateOfCompletion = value;
+            OnPropertyChanged();
+        }
+    }
+    public decimal AreaOfLCBOrMDF {
+        get => _areaOfLCBOrMDF;
+        set {
+            _areaOfLCBOrMDF = value;
+            OnPropertyChanged();
         }
     }
 
-    public ViewEdge(DateTime plannedDate) =>
-        status = new(plannedDate);
+    public ViewEdge(IViewEdgeValidator validator) =>
+        Validator = validator;
+    
+    public bool Validate() =>
+        Validator.Validate(this);
 
-    public ViewEdge(Edge edge) {
-        status = new(edge.Status);
-        chipboardOrMDF = edge.ChipboardOrMDF;
+    public string this[string columnName] {
+        get {
+            Validate();
+            return Validator[columnName];
+        }
     }
-
-    public static implicit   operator Edge(ViewEdge obj) => new() {
-        Status = obj.status,
-        ChipboardOrMDF = obj.chipboardOrMDF
-    };
 }

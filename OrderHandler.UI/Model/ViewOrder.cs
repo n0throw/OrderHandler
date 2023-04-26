@@ -1,197 +1,171 @@
-﻿using OrderHandler.DB.Data;
-using OrderHandler.UI.Core;
+﻿using OrderHandler.UI.Core;
 using OrderHandler.UI.Model.ViewOrderAdd;
 
 namespace OrderHandler.UI.Model;
 
 public class ViewOrder : PropertyChanger {
-    private readonly int dbId;
-    private ViewOrderMain viewOrderMain;
-    private ViewStatusGeneric docConstructor;
-    private ViewStatusGeneric docTechnologist;
-    private ViewSupply supply;
-    private ViewSawCenter sawCenter;
-    private ViewEdge edge;
-    private ViewAdditive additive;
-    private ViewMilling milling;
-    private ViewGrinding grinding;
-    private ViewPress press;
-    private ViewAssembling assembling;
-    private ViewPacking packing;
-    private ViewStatusGeneric equipment;
-    private ViewStatusGeneric shipment;
-    private string? note;
-    private ViewMounting mounting;
-
-    public int DbId => dbId;
-    public ViewOrderMain ViewOrderMain {
-        get => viewOrderMain;
+    /// <summary>
+    /// Id в БД
+    /// </summary>
+    int _idDb;
+    /// <summary>
+    /// Id в отображении
+    /// </summary>
+    int _id;
+    ViewOrderMain _orderMain;
+    ViewDocConst _docConst;
+    ViewDocTech _docTech;
+    ViewSupply _supply;
+    ViewSawCenter _sawCenter;
+    ViewEdge _edge;
+    ViewAdditive _additive;
+    ViewMilling _milling;
+    ViewGrinding _grinding;
+    ViewPress _press;
+    ViewAssembling _assembling;
+    ViewPacking _packing;
+    ViewEquipment _equipment;
+    ViewShipment _shipment;
+    string _note;
+    ViewMounting _mounting;
+    
+    public int IdDb => _idDb;
+    public int Id {
+        get => _id;
         set {
-            viewOrderMain = value;
-            OnPropertyChanged(nameof(ViewOrderMain));
+            _id = value;
+            OnPropertyChanged();
         }
     }
-    public ViewStatusGeneric DocConstructor {
-        get => docConstructor;
+    public ViewOrderMain OrderMain {
+        get => _orderMain;
         set {
-            docConstructor = value;
-            OnPropertyChanged(nameof(DocConstructor));
+            _orderMain = value;
+            OnPropertyChanged();
         }
     }
-    public ViewStatusGeneric DocTechnologist {
-        get => docTechnologist;
+    public ViewDocConst DocConst {
+        get => _docConst;
         set {
-            docTechnologist = value;
-            OnPropertyChanged(nameof(DocTechnologist));
+            _docConst = value;
+            OnPropertyChanged();
+        }
+    }
+    public ViewDocTech DocTech {
+        get => _docTech;
+        set {
+            _docTech = value;
+            OnPropertyChanged();
         }
     }
     public ViewSupply Supply {
-        get => supply;
+        get => _supply;
         set {
-            supply = value;
-            OnPropertyChanged(nameof(Supply));
+            _supply = value;
+            OnPropertyChanged();
         }
     }
     public ViewSawCenter SawCenter {
-        get => sawCenter;
+        get => _sawCenter;
         set {
-            sawCenter = value;
-            OnPropertyChanged(nameof(SawCenter));
+            _sawCenter = value;
+            OnPropertyChanged();
         }
     }
     public ViewEdge Edge {
-        get => edge;
+        get => _edge;
         set {
-            edge = value;
-            OnPropertyChanged(nameof(Edge));
+            _edge = value;
+            OnPropertyChanged();
         }
     }
     public ViewAdditive Additive {
-        get => additive;
+        get => _additive;
         set {
-            additive = value;
-            OnPropertyChanged(nameof(Additive));
+            _additive = value;
+            OnPropertyChanged();
         }
     }
     public ViewMilling Milling {
-        get => milling;
+        get => _milling;
         set {
-            milling = value;
-            OnPropertyChanged(nameof(Milling));
+            _milling = value;
+            OnPropertyChanged();
         }
     }
     public ViewGrinding Grinding {
-        get => grinding;
+        get => _grinding;
         set {
-            grinding = value;
-            OnPropertyChanged(nameof(Grinding));
+            _grinding = value;
+            OnPropertyChanged();
         }
     }
     public ViewPress Press {
-        get => press;
+        get => _press;
         set {
-            press = value;
-            OnPropertyChanged(nameof(Press));
+            _press = value;
+            OnPropertyChanged();
         }
     }
     public ViewAssembling Assembling {
-        get => assembling;
+        get => _assembling;
         set {
-            assembling = value;
-            OnPropertyChanged(nameof(Assembling));
+            _assembling = value;
+            OnPropertyChanged();
         }
     }
     public ViewPacking Packing {
-        get => packing;
+        get => _packing;
         set {
-            packing = value;
-            OnPropertyChanged(nameof(Packing));
+            _packing = value;
+            OnPropertyChanged();
         }
     }
-    public ViewStatusGeneric Equipment {
-        get => equipment;
+    public ViewEquipment Equipment {
+        get => _equipment;
         set {
-            equipment = value;
-            OnPropertyChanged(nameof(Equipment));
+            _equipment = value;
+            OnPropertyChanged();
         }
     }
-    public ViewStatusGeneric Shipment {
-        get => shipment;
+    public ViewShipment Shipment {
+        get => _shipment;
         set {
-            shipment = value;
-            OnPropertyChanged(nameof(Shipment));
+            _shipment = value;
+            OnPropertyChanged();
         }
     }
-    public string? Note {
-        get => note;
+    public string Note {
+        get => _note;
         set {
-            note = value;
-            OnPropertyChanged(nameof(Note));
+            _note = value;
+            OnPropertyChanged();
         }
     }
     public ViewMounting Mounting {
-        get => mounting;
+        get => _mounting;
         set {
-            mounting = value;
-            OnPropertyChanged(nameof(Mounting));
+            _mounting = value;
+            OnPropertyChanged();
         }
     }
 
     public ViewOrder() { }
-
-    public ViewOrder(int number, Order order) {
-        dbId = order.Id;
-        viewOrderMain = new(number, order.OrderMain);
-        docConstructor = new(order.DocConstructor);
-        docTechnologist = new(order.DocTechnologist);
-        supply = new(order.Supply);
-        sawCenter = new(order.SawCenter);
-        edge = new(order.Edge);
-        additive = new(order.Additive);
-        milling = new(order.Milling);
-        grinding = new(order.Grinding);
-        press = new(order.Press);
-        assembling = new(order.Assembling);
-        packing = new(order.Packing);
-        equipment = new(order.Equipment);
-        shipment = new(order.Shipment);
-        note = order.Note;
-        mounting = new(order.Mounting);
-    }
-
+    
     public bool Validate() =>
-        viewOrderMain.Validate() &&
-        docConstructor.Validate() &&
-        docTechnologist.Validate() &&
-        supply.Validate() &&
-        sawCenter.Validate() &&
-        edge.Validate() &&
-        additive.Validate() &&
-        milling.Validate() &&
-        grinding.Validate() &&
-        press.Validate() &&
-        assembling.Validate() &&
-        packing.Validate() &&
-        equipment.Validate() &&
-        shipment.Validate() &&
-        mounting.Validate();
-
-    public static implicit operator Order(ViewOrder obj) => new() {
-        OrderMain = obj.viewOrderMain,
-        DocConstructor = obj.docConstructor,
-        DocTechnologist = obj.docTechnologist,
-        Supply = obj.supply,
-        SawCenter = obj.sawCenter,
-        Edge = obj.edge,
-        Additive = obj.additive,
-        Milling = obj.milling,
-        Grinding = obj.grinding,
-        Press = obj.press,
-        Assembling = obj.assembling,
-        Packing = obj.packing,
-        Equipment = obj.equipment,
-        Shipment = obj.shipment,
-        Note = obj.note,
-        Mounting = obj.mounting
-    };
+        _orderMain.Validate() &&
+        _docConst.Validate() &&
+        _docTech.Validate() &&
+        _supply.Validate() &&
+        _sawCenter.Validate() &&
+        _edge.Validate() &&
+        _additive.Validate() &&
+        _milling.Validate() &&
+        _grinding.Validate() &&
+        _press.Validate() &&
+        _assembling.Validate() &&
+        _packing.Validate() &&
+        _equipment.Validate() &&
+        _shipment.Validate() &&
+        _mounting.Validate();
 }

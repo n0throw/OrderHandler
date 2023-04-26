@@ -7,7 +7,7 @@ namespace OrderHandler.DB.Data.OrderAdd;
 /// Комплектация.
 /// Модель БД.
 /// </summary>
-public class Equipment : OrderAddConfigureBase {
+public class Equipment : OrderGeneric {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>

@@ -5,7 +5,7 @@
 /// Общий для всех зависимых классов от Order.
 /// Используется для более удобной конфигурации.
 /// </summary>
-public abstract class OrderAddConfigureBase {
+public abstract class OrderGeneric {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>

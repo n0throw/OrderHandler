@@ -7,7 +7,7 @@ namespace OrderHandler.DB.Data.OrderAdd;
 /// Присадка.
 /// Модель БД.
 /// </summary>
-public class Additive : OrderAddConfigureBase {
+public class Additive : OrderGeneric {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>

@@ -1,38 +1,69 @@
 ﻿using System;
-using OrderHandler.DB.Data.OrderAdd;
+using System.ComponentModel;
+
 using OrderHandler.UI.Core;
+using OrderHandler.UI.Model.Validation.Validators;
 
 namespace OrderHandler.UI.Model.ViewOrderAdd;
 
-public class ViewSupply : PropertyChanger {
-    private ViewStatusGeneric status;
-    private decimal? cost;
+public class ViewSupply : PropertyChanger, IDataErrorInfo {
+    int _id;
+    DateTime _plannedDate;
+    int? _idUser;
+    string _FIO;
+    DateTime _dateOfCompletion;
+    decimal _requiredAmount;
+        
+    public string Error => throw new NotImplementedException();
+    IViewSupplyValidator Validator { get; }
 
-    public ViewStatusGeneric Status {
-        get => status;
+    internal int Id {
+        get => _id;
+        set => _id = value;
+    }
+    public DateTime PlannedDate {
+        get => _plannedDate;
         set {
-            status = value;
-            OnPropertyChanged(nameof(Status));
+            _plannedDate = value;
+            OnPropertyChanged();
         }
     }
-    public decimal? Cost {
-        get => cost;
+    internal int? IdUser {
+        get => _idUser;
+        set => _idUser = value;
+    }
+    public string FIO {
+        get => _FIO;
         set {
-            cost = value;
-            OnPropertyChanged(nameof(Cost));
+            _FIO = value;
+            OnPropertyChanged();
+        }
+    }
+    public DateTime DateOfCompletion {
+        get => _dateOfCompletion;
+        set {
+            _dateOfCompletion = value;
+            OnPropertyChanged();
+        }
+    }
+    public decimal RequiredAmount {
+        get => _requiredAmount;
+        set {
+            _requiredAmount = value;
+            OnPropertyChanged();
         }
     }
 
-    public ViewSupply(DateTime plannedDate) =>
-        status = new(plannedDate);
+    public ViewSupply(IViewSupplyValidator validator) =>
+        Validator = validator;
+    
+    public bool Validate() =>
+        Validator.Validate(this);
 
-    public ViewSupply(Supply supply) {
-        status = new(supply.Status);
-        cost = supply.Cost;
+    public string this[string columnName] {
+        get {
+            Validate();
+            return Validator[columnName];
+        }
     }
-
-    public static implicit operator Supply(ViewSupply obj) => new() {
-        Status = obj.status,
-        Cost = obj.cost
-    };
 }

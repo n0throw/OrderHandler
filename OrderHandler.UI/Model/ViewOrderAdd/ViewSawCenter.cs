@@ -1,48 +1,77 @@
 ﻿using System;
-using OrderHandler.DB.Data.OrderAdd;
+using System.ComponentModel;
+
 using OrderHandler.UI.Core;
+using OrderHandler.UI.Model.Validation.Validators;
 
 namespace OrderHandler.UI.Model.ViewOrderAdd;
 
-public class ViewSawCenter : PropertyChanger {
-    private ViewStatusGeneric status;
-    private decimal? chipboardOrMDF;
-    private decimal? hdf;
+public class ViewSawCenter : PropertyChanger, IDataErrorInfo {
+    int _id;
+    DateTime _plannedDate;
+    int? _idUser;
+    string _FIO;
+    DateTime _dateOfCompletion;
+    decimal _areaOfLCBOrMDF;
+    decimal _areaOfLHDF;
+        
+    public string Error => throw new NotImplementedException();
+    IViewSawCenterValidator Validator { get; }
 
-    public ViewStatusGeneric Status {
-        get => status;
+    internal int Id {
+        get => _id;
+        set => _id = value;
+    }
+    public DateTime PlannedDate {
+        get => _plannedDate;
         set {
-            status = value;
-            OnPropertyChanged(nameof(Status));
+            _plannedDate = value;
+            OnPropertyChanged();
         }
     }
-    public decimal? ChipboardOrMDF {
-        get => chipboardOrMDF;
+    internal int? IdUser {
+        get => _idUser;
+        set => _idUser = value;
+    }
+    public string FIO {
+        get => _FIO;
         set {
-            chipboardOrMDF = value;
-            OnPropertyChanged(nameof(ChipboardOrMDF));
+            _FIO = value;
+            OnPropertyChanged();
         }
     }
-    public decimal? HDF {
-        get => hdf;
+    public DateTime DateOfCompletion {
+        get => _dateOfCompletion;
         set {
-            hdf = value;
-            OnPropertyChanged(nameof(HDF));
+            _dateOfCompletion = value;
+            OnPropertyChanged();
+        }
+    }
+    public decimal AreaOfLCBOrMDF {
+        get => _areaOfLCBOrMDF;
+        set {
+            _areaOfLCBOrMDF = value;
+            OnPropertyChanged();
+        }
+    }
+    public decimal AreaOfLHDF {
+        get => _areaOfLHDF;
+        set {
+            _areaOfLHDF = value;
+            OnPropertyChanged();
         }
     }
 
-    public ViewSawCenter(DateTime plannedDate) =>
-        status = new(plannedDate);
+    public ViewSawCenter(IViewSawCenterValidator validator) =>
+        Validator = validator;
+    
+    public bool Validate() =>
+        Validator.Validate(this);
 
-    public ViewSawCenter(SawCenter sawCenter) {
-        status = new(sawCenter.Status);
-        chipboardOrMDF = sawCenter.ChipboardOrMDF;
-        hdf = sawCenter.HDF;
+    public string this[string columnName] {
+        get {
+            Validate();
+            return Validator[columnName];
+        }
     }
-
-    public static implicit operator SawCenter(ViewSawCenter obj) => new() {
-        Status = obj.status,
-        ChipboardOrMDF = obj.chipboardOrMDF,
-        HDF = obj.HDF
-    };
 }

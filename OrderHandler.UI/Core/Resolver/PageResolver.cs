@@ -2,7 +2,6 @@
 using System.Windows.Controls;
 using System.Collections.Generic;
 using OrderHandler.UI.Pages;
-using OrderHandler.UI.Pages.Tables;
 
 namespace OrderHandler.UI.Core.Resolver;
 

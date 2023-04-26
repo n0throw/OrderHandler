@@ -1,93 +1,86 @@
 ﻿using System;
 using System.ComponentModel;
-using OrderHandler.DB.Data.OrderAdd;
-using OrderHandler.UI.Model.ViewOrderAdd.Data;
+
+using OrderHandler.UI.Core;
 using OrderHandler.UI.Model.Validation.Validators;
 
 namespace OrderHandler.UI.Model.ViewOrderAdd;
 
-public class ViewOrderMain : ViewDataOrderMain, IDataErrorInfo {
+public class ViewOrderMain : PropertyChanger, IDataErrorInfo  {
+    int _id;
+    string _orderNumber;
+    int? _idUser;
+    string _FIO;
+    DateTime _orderDate;
+    DateTime _deliveryDate;
+    int _term;
+    string _productType;
+    decimal _orderAmount;
+    
     public string Error => throw new NotImplementedException();
-    public IViewOrderMainValidator Validator { get; init; }
-    public new int Number {
-        get => base.Number;
-        set {
-            base.Number = value;
-            OnPropertyChanged(nameof(Number));
-        }
-    }
-    public new string? UserName {
-        get => base.UserName;
-        set {
-            base.UserName = value;
-            OnPropertyChanged(nameof(UserName));
-        }
-    }
-    public new string? OrderIssue {
-        get => base.OrderIssue;
-        set {
-            base.OrderIssue = value;
-            OnPropertyChanged(nameof(OrderIssue));
-        }
-    }
-    public new DateTime OrderDate {
-        get => base.OrderDate;
-        set {
-            base.OrderDate = value;
-            OnPropertyChanged(nameof(OrderDate));
-        }
-    }
-    public new DateTime DeliveryDate {
-        get => base.DeliveryDate;
-        set {
-            base.DeliveryDate = value;
-            OnPropertyChanged(nameof(DeliveryDate));
-        }
-    }
-    public new short? NumberOfDays {
-        get => base.NumberOfDays;
-        set {
-            base.NumberOfDays = value;
-            OnPropertyChanged(nameof(NumberOfDays));
-        }
-    }
-    public new string? ProductType {
-        get => base.ProductType;
-        set {
-            base.ProductType = value;
-            OnPropertyChanged(nameof(ProductType));
-        }
-    }
-    public new decimal? ProductCost {
-        get => base.ProductCost;
-        set {
-            base.ProductCost = value;
-            OnPropertyChanged(nameof(ProductCost));
-        }
-    }
+    IViewOrderMainValidator Validator { get; }
 
-    public ViewOrderMain() : this(new ViewOrderMainValidator()) { }
-    public ViewOrderMain(IViewOrderMainValidator validator) {
-        UserName = string.Empty;
-        OrderIssue = string.Empty;
-        OrderDate = DateTime.Now;
-        DeliveryDate = DateTime.Now;
-        ProductType = string.Empty;
-        Validator = validator;
+    internal int Id {
+        get => _id;
+        set => _id = value;
     }
-    public ViewOrderMain(int number, OrderMain orderMainData) : this(number, orderMainData, new ViewOrderMainValidator()) { }
-    public ViewOrderMain(int number, OrderMain orderMainData, IViewOrderMainValidator validator) {
-        Number = number;
-        UserName = orderMainData.UserId; // здесь выборка
-        OrderIssue = orderMainData.OrderIssue;
-        OrderDate = orderMainData.OrderDate;
-        DeliveryDate = orderMainData.DeliveryDate;
-        NumberOfDays = orderMainData.NumberOfDays;
-        ProductType = orderMainData.ProductType;
-        ProductCost = orderMainData.ProductCost;
-        Validator = validator;
+    public string OrderNumber {
+        get => _orderNumber;
+        set {
+            _orderNumber = value;
+            OnPropertyChanged();
+        }
     }
-
+    internal int? IdUser {
+        get => _idUser;
+        set => _idUser = value;
+    }
+    public string FIO {
+        get => _FIO;
+        set {
+            _FIO = value;
+            OnPropertyChanged();
+        }
+}
+    public DateTime OrderDate {
+        get => _orderDate;
+        set {
+            _orderDate = value;
+            OnPropertyChanged();
+        }
+    }
+    public DateTime DeliveryDate {
+        get => _deliveryDate;
+        set {
+            _deliveryDate = value;
+            OnPropertyChanged();
+        }
+    }
+    public int Term {
+        get => _term;
+        set {
+            _term = value;
+            OnPropertyChanged();
+        }
+    }
+    public string ProductType {
+        get => _productType;
+        set {
+            _productType = value;
+            OnPropertyChanged();
+        }
+    }
+    public decimal OrderAmount {
+        get => _orderAmount;
+        set {
+            _orderAmount = value;
+            OnPropertyChanged();
+        }
+    }
+    
+    public ViewOrderMain(IViewOrderMainValidator validator) =>
+        Validator = validator;
+    
     public bool Validate() =>
         Validator.Validate(this);
 
@@ -97,14 +90,4 @@ public class ViewOrderMain : ViewDataOrderMain, IDataErrorInfo {
             return Validator[columnName];
         }
     }
-
-    public static implicit operator OrderMain(ViewOrderMain obj) => new() {
-        UserId = obj.UserName,
-        OrderIssue = obj.OrderIssue,
-        OrderDate = obj.OrderDate,
-        DeliveryDate = obj.DeliveryDate,
-        NumberOfDays = obj.NumberOfDays,
-        ProductType = obj.ProductType,
-        ProductCost = obj.ProductCost
-    };
 }

@@ -6,16 +6,15 @@ using OrderHandler.UI.Model.Validation.Validators;
 
 namespace OrderHandler.UI.Model.ViewOrderAdd;
 
-public class ViewAdditive : PropertyChanger, IDataErrorInfo {
+public class ViewDocConst : PropertyChanger, IDataErrorInfo {
     int _id;
     DateTime _plannedDate;
     int? _idUser;
     string _FIO;
     DateTime _dateOfCompletion;
-    decimal _areaOfLCBOrMDF;
-    
+        
     public string Error => throw new NotImplementedException();
-    IViewAdditiveValidator Validator { get; }
+    IViewDocConstValidator Validator { get; }
 
     internal int Id {
         get => _id;
@@ -46,15 +45,8 @@ public class ViewAdditive : PropertyChanger, IDataErrorInfo {
             OnPropertyChanged();
         }
     }
-    public decimal AreaOfLCBOrMDF {
-        get => _areaOfLCBOrMDF;
-        set {
-            _areaOfLCBOrMDF = value;
-            OnPropertyChanged();
-        }
-    }
 
-    public ViewAdditive(IViewAdditiveValidator validator) =>
+    public ViewDocConst(IViewDocConstValidator validator) =>
         Validator = validator;
     
     public bool Validate() =>

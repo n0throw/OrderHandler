@@ -63,7 +63,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User> {
     /// <param name="comment">Комментарий к свойству таблицы</param>
     protected void OTMConfigureRelationAndProperty(
         EntityTypeBuilder<User> builder,
-        Expression<Func<User, IEnumerable<OrderAddConfigureBase>?>> hasNavigationExpression,
+        Expression<Func<User, IEnumerable<OrderGeneric>?>> hasNavigationExpression,
         string comment
     ) {
         relationConfigurator.OTMConfigureRelation(

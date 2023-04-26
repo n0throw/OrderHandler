@@ -7,7 +7,7 @@ namespace OrderHandler.DB.Data.OrderAdd;
 /// Пильный Центр.
 /// Модель БД.
 /// </summary>
-public class SawCenter : OrderAddConfigureBase {
+public class SawCenter : OrderGeneric {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>

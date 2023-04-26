@@ -8,8 +8,8 @@ public class PropertyChanger : INotifyPropertyChanged {
     public event TurnPageHandler? TurnPage;
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public void OnPropertyChanged([CallerMemberName] string prop = "") =>
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+    protected void OnPropertyChanged([CallerMemberName] string prop = "") =>
+        PropertyChanged?.Invoke(this, new(prop));
 
     protected void GoToPage(string? alias) =>
         TurnPage?.Invoke(alias);

@@ -7,7 +7,7 @@ namespace OrderHandler.DB.Data.OrderAdd;
 /// шлифовка.
 /// Модель БД.
 /// </summary>
-public class Grinding : OrderAddConfigureBase {
+public class Grinding : OrderGeneric {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>

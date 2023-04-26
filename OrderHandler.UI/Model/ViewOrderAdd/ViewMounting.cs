@@ -1,40 +1,48 @@
 ﻿using System;
-using OrderHandler.DB.Data.OrderAdd;
+using System.ComponentModel;
+
 using OrderHandler.UI.Core;
+using OrderHandler.UI.Model.Validation.Validators;
 
 namespace OrderHandler.UI.Model.ViewOrderAdd;
 
-public class ViewMounting : PropertyChanger {
-    private bool isMounting;
-    private DateTime date;
+public class ViewMounting : PropertyChanger, IDataErrorInfo {
+    int _id;
+    DateTime _plannedDate;
+    bool _isNeed;
+        
+    public string Error => throw new NotImplementedException();
+    IViewMountingValidator Validator { get; }
 
-    public bool IsMounting {
-        get => isMounting;
+    internal int Id {
+        get => _id;
+        set => _id = value;
+    }
+    public DateTime PlannedDate {
+        get => _plannedDate;
         set {
-            isMounting = value;
-            OnPropertyChanged(nameof(IsMounting));
+            _plannedDate = value;
+            OnPropertyChanged();
         }
     }
-    public DateTime Date {
-        get => date;
+    public bool IsNeed {
+        get => _isNeed;
         set {
-            date = value;
-            OnPropertyChanged(nameof(Date));
+            _isNeed = value;
+            OnPropertyChanged();
         }
     }
+    
+    public ViewMounting(IViewMountingValidator validator) =>
+        Validator = validator;
+    
+    public bool Validate() =>
+        Validator.Validate(this);
 
-    public ViewMounting(bool isMounting, DateTime date) {
-        this.isMounting = isMounting;
-        this.date = date;
+    public string this[string columnName] {
+        get {
+            Validate();
+            return Validator[columnName];
+        }
     }
-
-    public ViewMounting(Mounting mounting) {
-        isMounting = mounting.IsMounting;
-        date = mounting.Date;
-    }
-
-    public static implicit operator Mounting(ViewMounting obj) => new() {
-        IsMounting = obj.isMounting,
-        Date = obj.date
-    };
 }

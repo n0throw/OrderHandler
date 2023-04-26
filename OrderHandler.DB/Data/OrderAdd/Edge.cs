@@ -7,7 +7,7 @@ namespace OrderHandler.DB.Data.OrderAdd;
 /// Кромка.
 /// Модель БД.
 /// </summary>
-public class Edge : OrderAddConfigureBase {
+public class Edge : OrderGeneric {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>

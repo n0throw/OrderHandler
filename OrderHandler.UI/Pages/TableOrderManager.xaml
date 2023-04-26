@@ -1,0 +1,679 @@
+﻿<Page x:Class="OrderHandler.UI.Pages.TableOrderManager"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:conv="clr-namespace:OrderHandler.UI.Converters"
+      xmlns:contexts="clr-namespace:OrderHandler.UI.Contexts"
+      xmlns:model="clr-namespace:OrderHandler.UI.Model"
+      d:DataContext="{d:DesignInstance Type=contexts:TableOrderManagerContext}"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="8600"
+      Title="TableOrderManager" Background="Black">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/OrderHandler.UI;component/Resources/TableOrderManagerDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <conv:DateTimeToStringConverter x:Key="DateConverter" />
+            <conv:BoolToStringConverter x:Key="BoolConverter" />
+            <conv:ColumnToBorderWidthConverter x:Key="ColumnToBorderWidthConverter" />
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Background="White">
+        <Menu Height="20" VerticalAlignment="Top">
+            <MenuItem Header="Меню" Height="20" ToolTip="Основные для всех страниц функции">
+                <MenuItem Header="Обновить" ToolTip="Обновляет данные на странице"  Command="{Binding UpdateCommand}"/>
+                <MenuItem Header="Назад"    ToolTip="Возвращает на предыдущую страницу" Command="{Binding ExitCommand}"/>
+                <MenuItem Header="Закрыть"  ToolTip="Возвращает на начальный экран" Command="{Binding ExitCommand}"/>
+                <Separator/>
+                <MenuItem Header="Статусы"              ToolTip="Показыват статусы системы"/>
+                <MenuItem Header="Выход"                ToolTip="Возвращает на экран авторизации"   Command="{Binding ExitCommand}"/>
+                <MenuItem Header="Закрыть программу"    ToolTip="Полностью закрывает программу"     Command="{Binding ExitAppCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Утилиты" Height="20" ToolTip="Основные для данной страницы функции">
+                <MenuItem Header="Добавить заказ"           ToolTip="Добавляет новый заказ"                     Command="{Binding AddOrderCommand}"/>
+                <MenuItem Header="Добавить заказы из Excel" ToolTip="Массовая загрузка новых заказов из Excel"/>
+                <MenuItem Header="Выгрузить в Excel"        ToolTip="Выгрузка всех заказов из таблицы в Excel"  Command="{Binding UploadExcelData}"/>
+                <Separator/>
+                <MenuItem Header="Шаблон Excel заказов" ToolTip="Скачивает шаблон для массовой загрузки заказов из Excel" Command="{Binding UploadTempExcel}"/>
+                <MenuItem Header="Количество"           ToolTip="Количество заказов в данной таблице"   Command="{Binding ShowCountOrder}"/>
+            </MenuItem>
+            <MenuItem Header="Фильтры" Height="20" ToolTip="Устанавливает различные фильтры отображения">
+                <MenuItem Header="Столбцы" Height="20" ToolTip="Фильтры отображения столбцов" />
+                <MenuItem Header="Строки" Height="20" ToolTip="Фильтры подсвечивания строк" />
+                <MenuItem Header="Выборка" Height="20" ToolTip="Фильтры выборки данных" />
+            </MenuItem>
+        </Menu>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto"
+                      Margin="0,20,0,0">
+            <StackPanel Orientation="Vertical">
+                <StackPanel x:Name="MainHeadersRow" 
+                            Orientation="Horizontal"
+                            Height="20"
+                            VerticalAlignment="Top">
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="IdColumn" Path="Width" />
+                                    <Binding ElementName="OrderManagerColumn" Path="Width" />
+                                    <Binding ElementName="OrderIssueColumn" Path="Width" />
+                                    <Binding ElementName="OrderDateColumn" Path="Width" />
+                                    <Binding ElementName="DeliveryDateColumn" Path="Width" />
+                                    <Binding ElementName="NumberOfDaysColumn" Path="Width" />
+                                    <Binding ElementName="ProductTypeColumn" Path="Width" />
+                                    <Binding ElementName="ProductCostColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Заказ"
+                                   TextAlignment="Center"
+                                   Background="#DDEBF7"
+                                   ToolTip="Заказ" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="DocConstPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="DocConstFIOColumn" Path="Width" />
+                                    <Binding ElementName="DocConstDateColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Документация конструктор"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Документация конструктор"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="DocTechPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="DocTechFIOColumn" Path="Width" />
+                                    <Binding ElementName="DocTechDateColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Документация технолог"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Документация технолог"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="SupplyPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="SupplyFIOColumn" Path="Width" />
+                                    <Binding ElementName="SupplyDateColumn" Path="Width" />
+                                    <Binding ElementName="SupplyRequiredAmountColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Снабжение"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Снабжение"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="SawCenterPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="SawCenterFIOColumn" Path="Width" />
+                                    <Binding ElementName="SawCenterDateColumn" Path="Width" />
+                                    <Binding ElementName="SawCenterAreaOfLCBOrMDFColumn" Path="Width" />
+                                    <Binding ElementName="SawCenterAreaOfLHDFColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Пильный Центр"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Пильный Центр"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="EdgePlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="EdgeFIOColumn" Path="Width" />
+                                    <Binding ElementName="EdgeDateColumn" Path="Width" />
+                                    <Binding ElementName="EdgeAreaOfLCBOrMDFColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Кромка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Кромка"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="AdditivePlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="AdditiveFIOColumn" Path="Width" />
+                                    <Binding ElementName="AdditiveDateColumn" Path="Width" />
+                                    <Binding ElementName="AdditiveAreaOfLCBOrMDFColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Присадка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Присадка"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="MillingPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="MillingFIOColumn" Path="Width" />
+                                    <Binding ElementName="MillingDateColumn" Path="Width" />
+                                    <Binding ElementName="MillingAreaOfMDFColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Фрезеровка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Фрезеровка"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="GrindingPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="GrindingFIOColumn" Path="Width" />
+                                    <Binding ElementName="GrindingDateColumn" Path="Width" />
+                                    <Binding ElementName="GrindingAreaOfMDFColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Шлифовка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Шлифовка"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="PressPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="PressFIOColumn" Path="Width" />
+                                    <Binding ElementName="PressDateColumn" Path="Width" />
+                                    <Binding ElementName="PressAreaOfMDFColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Пресс"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Пресс"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="AssemblingPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="AssemblingFIOColumn" Path="Width" />
+                                    <Binding ElementName="AssemblingDateColumn" Path="Width" />
+                                    <Binding ElementName="AssemblingAreaOfLCBOrMDFColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Сборка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Сборка"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="PackingPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="PackingFIOColumn" Path="Width" />
+                                    <Binding ElementName="PackingDateColumn" Path="Width" />
+                                    <Binding ElementName="PackingAreaOfLCBOrMDFColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Упаковка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Упаковка"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="EquipmentPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="EquipmentFIOColumn" Path="Width" />
+                                    <Binding ElementName="EquipmentDateColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Комплектация"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Комплектация"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="ShipmentPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="ShipmentFIOColumn" Path="Width" />
+                                    <Binding ElementName="ShipmentDateColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Отгрузка"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Отгрузка"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="NoteColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text=""
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip=""
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                    <Border Style="{StaticResource HeaderBorder}">
+                        <Border.Width>
+                            <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="MountingIsNeedColumn" Path="Width" />
+                                    <Binding ElementName="MountingPlannedDateColumn" Path="Width" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Border.Width>
+                        <TextBlock Text="Монтаж"
+                                   TextAlignment="Center"
+                                   Background="#C6E0B4"
+                                   ToolTip="Монтаж"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Border>
+                </StackPanel>
+                <DataGrid x:Name="OrderDG"
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              Style="{StaticResource BaseDataGrid}"
+                              CellStyle="{StaticResource BaseDataGridCell}">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Изменить"
+                                          Command="{Binding EditRowOrder}"
+                                          CommandParameter="{Binding SelectedOrder}"/>
+                                <MenuItem Header="Удалить"
+                                          Command="{Binding DelRowOrder}"
+                                          CommandParameter="{Binding SelectedOrder}"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                        <DataGrid.Columns>
+                            <!-- Столбцы Заказа -->
+                            <DataGridTextColumn x:Name="IdColumn"
+                                                Header="№"
+                                                HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                                                Binding="{Binding Path=OrderMainData.Id}"
+                                                MinWidth="20" />
+                            <DataGridTextColumn x:Name="OrderManagerColumn"
+                                                Header="Менеджер Заказа"
+                                                HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                                                Binding="{Binding Path=OrderMainData.UserName}"
+                                                MinWidth="110" />
+                            <DataGridTextColumn x:Name="OrderIssueColumn"
+                                                Header="№ Заказа"
+                                                HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                                                Binding="{Binding Path=OrderMainData.OrderIssue}"
+                                                MinWidth="65" />
+                            <DataGridTextColumn x:Name="OrderDateColumn"
+                                                Header="Дата заказа"
+                                                HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                                                Binding="{Binding Path=OrderMainData.OrderDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="75" />
+                            <DataGridTextColumn x:Name="DeliveryDateColumn"
+                                                Header="Дата доставки"
+                                                HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                                                Binding="{Binding Path=OrderMainData.DeliveryDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="90" />
+                            <DataGridTextColumn x:Name="NumberOfDaysColumn"
+                                                Header="Срок доставки (Дн.)"
+                                                HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                                                Binding="{Binding Path=OrderMainData.NumberOfDays}"
+                                                MinWidth="120" />
+                            <DataGridTextColumn x:Name="ProductTypeColumn"
+                                                Header="Тип изделия"
+                                                HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                                                Binding="{Binding Path=OrderMainData.ProductType}"
+                                                MinWidth="80" />
+                            <DataGridTextColumn x:Name="ProductCostColumn"
+                                                Header="Сумма заказа"
+                                                HeaderStyle="{StaticResource BaseDataGridColumnHeader}"
+                                                Binding="{Binding Path=OrderMainData.ProductCost}"
+                                                MinWidth="85" />
+                            <!-- Столбцы Документации Конструктора -->
+                            <DataGridTextColumn x:Name="DocConstPlannedDateColumn"
+                                                Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=DocConstructor.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn x:Name="DocConstFIOColumn"
+                                                Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=DocConstructor.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn x:Name="DocConstDateColumn"
+                                                Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=DocConstructor.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <!-- Столбцы Документации Технолога -->
+                            <DataGridTextColumn x:Name="DocTechPlannedDateColumn"
+                                                Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=DocTechnologist.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn x:Name="DocTechFIOColumn"
+                                                Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=DocTechnologist.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn x:Name="DocTechDateColumn"
+                                                Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=DocTechnologist.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <!-- Столбцы Снабжения -->
+                            <DataGridTextColumn x:Name="SupplyPlannedDateColumn"
+                                                Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Supply.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn x:Name="SupplyFIOColumn"
+                                                Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Supply.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn x:Name="SupplyDateColumn"
+                                                Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Supply.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn x:Name="SupplyRequiredAmountColumn"
+                                                Header="Необходимая сумма"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Supply.Cost}"
+                                                MinWidth="130" />
+                            <!-- Столбцы Пильного Центра -->
+                            <DataGridTextColumn x:Name="SawCenterPlannedDateColumn"
+                                                Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=SawCenter.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn x:Name="SawCenterFIOColumn"
+                                                Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=SawCenter.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn x:Name="SawCenterDateColumn"
+                                                Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=SawCenter.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn x:Name="SawCenterAreaOfLCBOrMDFColumn"
+                                                Header="ЛДСП/МДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=SawCenter.ChipboardOrMDF}"
+                                                MinWidth="100" />
+                            <DataGridTextColumn x:Name="SawCenterAreaOfLHDFColumn"
+                                                Header="ЛХДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=SawCenter.HDF}"
+                                                MinWidth="70" />
+                            <!-- Столбцы Кромки -->
+                            <DataGridTextColumn x:Name="EdgePlannedDateColumn"
+                                                Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Edge.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn x:Name="EdgeFIOColumn"
+                                                Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Edge.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn x:Name="EdgeDateColumn"
+                                                Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Edge.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn x:Name="EdgeAreaOfLCBOrMDFColumn"
+                                                Header="ЛДСП/МДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Edge.ChipboardOrMDF}"
+                                                MinWidth="100" />
+                            <!-- Столбцы Присадки -->
+                            <DataGridTextColumn x:Name="AdditivePlannedDateColumn"
+                                                Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Additive.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn x:Name="AdditiveFIOColumn"
+                                                Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Additive.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn x:Name="AdditiveDateColumn"
+                                                Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Additive.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn x:Name="AdditiveAreaOfLCBOrMDFColumn"
+                                                Header="ЛДСП/МДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Additive.ChipboardOrMDF}"
+                                                MinWidth="100" />
+                            <!-- Столбцы Фрезеровки -->
+                            <DataGridTextColumn x:Name="MillingPlannedDateColumn"
+                                                Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Milling.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn x:Name="MillingFIOColumn"
+                                                Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Milling.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn x:Name="MillingDateColumn"
+                                                Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Milling.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn x:Name="MillingAreaOfMDFColumn"
+                                                Header="МДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Milling.MDF}"
+                                                MinWidth="70" />
+                            <!-- Столбцы Шлифовки -->
+                            <DataGridTextColumn x:Name="GrindingPlannedDateColumn"
+                                                Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Grinding.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn x:Name="GrindingFIOColumn"
+                                                Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Grinding.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn x:Name="GrindingDateColumn"
+                                                Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Grinding.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn x:Name="GrindingAreaOfMDFColumn"
+                                                Header="МДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Grinding.MDF}"
+                                                MinWidth="70" />
+                            <!-- Столбцы Пресса -->
+                            <DataGridTextColumn x:Name="PressPlannedDateColumn"
+                                                Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Press.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn x:Name="PressFIOColumn"
+                                                Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Press.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn x:Name="PressDateColumn"
+                                                Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Press.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn x:Name="PressAreaOfMDFColumn"
+                                                Header="МДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Press.MDF}"
+                                                MinWidth="70" />
+                            <!-- Столбцы Сборки -->
+                            <DataGridTextColumn x:Name="AssemblingPlannedDateColumn"
+                                                Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Assembling.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn x:Name="AssemblingFIOColumn"
+                                                Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Assembling.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn x:Name="AssemblingDateColumn"
+                                                Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Assembling.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn x:Name="AssemblingAreaOfLCBOrMDFColumn"
+                                                Header="ЛДСП/МДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Assembling.ChipboardOrMDF}"
+                                                MinWidth="100" />
+                            <!-- Столбцы Упаковки -->
+                            <DataGridTextColumn x:Name="PackingPlannedDateColumn"
+                                                Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Packing.Status.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn x:Name="PackingFIOColumn"
+                                                Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Packing.Status.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn x:Name="PackingDateColumn"
+                                                Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Packing.Status.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <DataGridTextColumn x:Name="PackingAreaOfLCBOrMDFColumn"
+                                                Header="ЛДСП/МДФ м&#x00B2;"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Packing.ChipboardOrMDF}"
+                                                MinWidth="100" />
+                            <!-- Столбцы Комплектации -->
+                            <DataGridTextColumn x:Name="EquipmentPlannedDateColumn"
+                                                Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Equipment.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn x:Name="EquipmentFIOColumn"
+                                                Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Equipment.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn x:Name="EquipmentDateColumn"
+                                                Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Equipment.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <!-- Столбцы Отгрузки -->
+                            <DataGridTextColumn x:Name="ShipmentPlannedDateColumn"
+                                                Header="Плановая дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Shipment.PlannedDate, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn x:Name="ShipmentFIOColumn"
+                                                Header="ФИО"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Shipment.UserName}"
+                                                MinWidth="190" />
+                            <DataGridTextColumn x:Name="ShipmentDateColumn"
+                                                Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Shipment.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="70" />
+                            <!-- Столбец Примечания -->
+                            <DataGridTextColumn x:Name="NoteColumn"
+                                                Header="Примечание"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Note}"
+                                                MinWidth="95">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="ToolTip"
+                                                Value="{Binding Path=Note}" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="true">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="Foreground" Value="Black"/>
+                                                <Setter Property="BorderBrush" Value="Black"/>
+                                                <Setter Property="BorderThickness" Value="0 0 0 0"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+                            <!-- Столбцы Монтажа -->
+                            <DataGridTextColumn x:Name="MountingIsNeedColumn"
+                                                Header="Да/Нет"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Mounting.IsMounting, Converter={StaticResource BoolConverter}}"
+                                                MinWidth="95" />
+                            <DataGridTextColumn x:Name="MountingPlannedDateColumn"
+                                                Header="Дата"
+                                                HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
+                                                Binding="{Binding Path=Mounting.Date, Converter={StaticResource DateConverter}}"
+                                                MinWidth="95" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

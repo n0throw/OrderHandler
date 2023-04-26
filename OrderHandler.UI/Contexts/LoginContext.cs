@@ -10,21 +10,21 @@ using System.Windows;
 namespace OrderHandler.UI.Contexts;
 
 public class LoginContext : PropertyChanger {
-    private UserCombo currentSelection;
-    private string password;
+    UserCombo _currentSelection;
+    string _password;
 
     public ObservableCollection<UserCombo> UserCombos { get; set; }
     public UserCombo CurrentSelection {
-        get => currentSelection;
+        get => _currentSelection;
         set {
-            currentSelection = value;
+            _currentSelection = value;
             OnPropertyChanged(nameof(CurrentSelection));
         }
     }
     public string Password {
-        get => password;
+        get => _password;
         set {
-            password = value;
+            _password = value;
             OnPropertyChanged(nameof(Password));
         }
     }
@@ -34,9 +34,9 @@ public class LoginContext : PropertyChanger {
         FillUserCombos();
     }
 
-    private void FillUserCombos() => throw new NotImplementedException();
+    void FillUserCombos() => throw new NotImplementedException();
 
-    private RelayCommand entryCommand;
+    RelayCommand? entryCommand;
     public RelayCommand EntryCommand =>
         entryCommand ??= new RelayCommand(obj => {
             using var dbContext = new Context();

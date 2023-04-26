@@ -1,38 +1,69 @@
 ﻿using System;
-using OrderHandler.DB.Data.OrderAdd;
+using System.ComponentModel;
+
 using OrderHandler.UI.Core;
+using OrderHandler.UI.Model.Validation.Validators;
 
 namespace OrderHandler.UI.Model.ViewOrderAdd;
 
-public class ViewPress : PropertyChanger {
-    private ViewStatusGeneric status;
-    private decimal? mdf;
+public class ViewPress : PropertyChanger, IDataErrorInfo {
+    int _id;
+    DateTime _plannedDate;
+    int? _idUser;
+    string _FIO;
+    DateTime _dateOfCompletion;
+    decimal _areaOfLCBOrMDF;
+        
+    public string Error => throw new NotImplementedException();
+    IViewPressValidator Validator { get; }
 
-    public ViewStatusGeneric Status {
-        get => status;
+    internal int Id {
+        get => _id;
+        set => _id = value;
+    }
+    public DateTime PlannedDate {
+        get => _plannedDate;
         set {
-            status = value;
-            OnPropertyChanged(nameof(Status));
+            _plannedDate = value;
+            OnPropertyChanged();
         }
     }
-    public decimal? MDF {
-        get => mdf;
+    internal int? IdUser {
+        get => _idUser;
+        set => _idUser = value;
+    }
+    public string FIO {
+        get => _FIO;
         set {
-            mdf = value;
-            OnPropertyChanged(nameof(MDF));
+            _FIO = value;
+            OnPropertyChanged();
+        }
+    }
+    public DateTime DateOfCompletion {
+        get => _dateOfCompletion;
+        set {
+            _dateOfCompletion = value;
+            OnPropertyChanged();
+        }
+    }
+    public decimal AreaOfLCBOrMDF {
+        get => _areaOfLCBOrMDF;
+        set {
+            _areaOfLCBOrMDF = value;
+            OnPropertyChanged();
         }
     }
 
-    public ViewPress(DateTime plannedDate) =>
-        status = new(plannedDate);
+    public ViewPress(IViewPressValidator validator) =>
+        Validator = validator;
+    
+    public bool Validate() =>
+        Validator.Validate(this);
 
-    public ViewPress(Press press) {
-        status = new(press.Status);
-        mdf = press.MDF;
+    public string this[string columnName] {
+        get {
+            Validate();
+            return Validator[columnName];
+        }
     }
-
-    public static implicit operator Press(ViewPress obj) => new() {
-        Status = obj.status,
-        MDF = obj.mdf
-    };
 }

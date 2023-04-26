@@ -7,7 +7,7 @@ namespace OrderHandler.DB.Data.OrderAdd;
 /// Документация Технолог.
 /// Модель БД.
 /// </summary>
-public class DocTech : OrderAddConfigureBase {
+public class DocTech : OrderGeneric {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>

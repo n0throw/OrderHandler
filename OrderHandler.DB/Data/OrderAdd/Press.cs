@@ -7,7 +7,7 @@ namespace OrderHandler.DB.Data.OrderAdd;
 /// Пресс.
 /// Модель БД.
 /// </summary>
-public class Press : OrderAddConfigureBase {
+public class Press : OrderGeneric {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>

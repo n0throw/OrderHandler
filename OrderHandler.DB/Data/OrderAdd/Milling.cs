@@ -7,7 +7,7 @@ namespace OrderHandler.DB.Data.OrderAdd;
 /// Фрезеровка.
 /// Модель БД.
 /// </summary>
-public class Milling : OrderAddConfigureBase {
+public class Milling : OrderGeneric {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>

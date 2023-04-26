@@ -54,7 +54,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order> {
     /// <param name="comment">Комментарий к свойству таблицы</param>
     protected void OTOConfigureRelationAndProperty(
         EntityTypeBuilder<Order> builder,
-        Expression<Func<Order, OrderAddConfigureBase?>> hasNavigationExpression,
+        Expression<Func<Order, OrderGeneric?>> hasNavigationExpression,
         string comment
     ) {
         relationConfigurator.OTOConfigureRelation(
