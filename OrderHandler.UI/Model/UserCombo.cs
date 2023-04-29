@@ -3,12 +3,12 @@
 namespace OrderHandler.UI.Model;
 
 public class UserCombo : PropertyChanger {
-    private string fio;
+    string _fio;
 
     public int Id { get; init; }
     public string FIO {
-        get => fio;
-        set => OnPropertyChanged(nameof(FIO));
+        get => _fio;
+        set => OnPropertyChanged();
     }
 
 }

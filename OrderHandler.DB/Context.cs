@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using System.Linq;
+
 using OrderHandler.DB.Data;
-using OrderHandler.DB.Configurations;
-using OrderHandler.DB.Data.OrderAdd;
 using OrderHandler.DB.Data.UserAdd;
+using OrderHandler.DB.Data.OrderAdd;
+using OrderHandler.DB.Configurations;
 
 namespace OrderHandler.DB;
 
@@ -28,8 +30,8 @@ public class Context : DbContext
 
 
     public DbSet<User> Users => Set<User>();
-    public DbSet<CaseName> CaseNameS => Set<CaseName>();
-    public DbSet<GivenName> GivenNameS => Set<GivenName>();
+    public DbSet<CaseName> CaseNames => Set<CaseName>();
+    public DbSet<GivenName> GivenNames => Set<GivenName>();
 
     public Context()
         => Database.EnsureCreated();

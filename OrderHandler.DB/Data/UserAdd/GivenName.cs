@@ -1,5 +1,5 @@
-﻿using System.Text.RegularExpressions;
-using System.Linq;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace OrderHandler.DB.Data.UserAdd;
 
@@ -93,8 +93,20 @@ public class GivenName {
     /// <returns>
     /// Cтрока вида "Фамилия Имя Отчество"
     /// </returns>
-    public string GetFullName() =>
-        Regex.Replace($"{LastName} {FirstName} {MiddleName}".Trim(), @"\s{2,}", "", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
+    public string GetFullRecordName() =>
+        _removeTwoMoreSpace.Replace(
+            $"{LastName} {FirstName} {MiddleName}".Trim(), 
+            "");
+
+    /// <summary>
+    /// Возвращает среднюю форму имени пользователя
+    /// </summary>
+    /// <returns>Строка вида "Фамилия И.О."</returns>
+    public string GerMiddleRecordName() =>
+        _removeTwoMoreSpace.Replace(
+            $"{LastName} {FirstName.FirstOrDefault()}.{MiddleName.FirstOrDefault()}.".Trim(), 
+            "");
+
 
     /// <summary>
     /// Возвращает короткую форму имени пользователя
@@ -102,6 +114,11 @@ public class GivenName {
     /// <returns>
     /// Cтрока вида "ФИО"
     /// </returns>
-    public string GetShortName() =>
+    public string GetShortRecordName() =>
         $"{LastName.FirstOrDefault()}{FirstName.FirstOrDefault()}{MiddleName.FirstOrDefault()}".Trim();
+
+    static Regex _removeTwoMoreSpace = new Regex(
+        "\\s{2,}",
+        RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace
+    );
 }

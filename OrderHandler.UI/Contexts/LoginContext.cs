@@ -1,60 +1,165 @@
-﻿using OrderHandler.DB;
+﻿using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Security.Cryptography;
+using System.Collections.ObjectModel;
+
+using OrderHandler.DB;
 using OrderHandler.DB.Data;
+
 using OrderHandler.UI.Core;
 using OrderHandler.UI.Model;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
+
+using OrderHandler.DB.Data.UserAdd;
 
 namespace OrderHandler.UI.Contexts;
 
 public class LoginContext : PropertyChanger {
     UserCombo _currentSelection;
-    string _password;
+    string _passwordHash;
 
-    public ObservableCollection<UserCombo> UserCombos { get; set; }
+    public ObservableCollection<UserCombo> UserCombos { get; }
     public UserCombo CurrentSelection {
         get => _currentSelection;
         set {
             _currentSelection = value;
-            OnPropertyChanged(nameof(CurrentSelection));
+            OnPropertyChanged();
         }
     }
     public string Password {
-        get => _password;
+        get => _passwordHash;
         set {
-            _password = value;
-            OnPropertyChanged(nameof(Password));
+            _passwordHash = GetHashSHA256(value);
+            OnPropertyChanged();
         }
     }
 
     public LoginContext() {
-        UserCombos = new ObservableCollection<UserCombo>();
+        UserCombos = new();
         FillUserCombos();
+
+        if (UserCombos.Count == 0) {
+            var isCreateNewUser = MessageBox.Show(
+                "В системе отсутствуют пользователи, создать нового?",
+                "Создать нового пользователя?",
+                MessageBoxButton.YesNo
+            );
+
+            if (isCreateNewUser == MessageBoxResult.Yes) {
+                CreateAdminUser();
+                MessageBox.Show(
+                    "Создан новый пользователь с паролем: Admin. После настройки приложения не забудьте его удалить!",
+                    "Информация"
+                );
+            } else 
+                Application.Current.Shutdown();
+        } else 
+            CurrentSelection = UserCombos.First();
+        Password = string.Empty;
     }
 
-    void FillUserCombos() => throw new NotImplementedException();
+    void CreateAdminUser() {
+        using var db = new Context();
+        var user = new User {
+            Id = 1,
+            Login = "Admin",
+            PasswordHash = GetHashSHA256("Admin")
+        };
+        db.Users.Add(user);
+        
+        var profile = new CaseName {
+            User = user
+        };
+        db.CaseNames.Add(profile);
+    
+        
+        var nominative = new GivenName {
+            LastName = "Admin",
+            FirstName = "Admin",
+            MiddleName = "Admin",
+            Nominative = profile
+        };
+        var genitive = new GivenName {
+            LastName = "Admin",
+            FirstName = "Admin",
+            MiddleName = "Admin",
+            Genitive = profile
+        };
+        var dative = new GivenName {
+            LastName = "Admin",
+            FirstName = "Admin",
+            MiddleName = "Admin",
+            Dative = profile
+        };
+        var accusative = new GivenName {
+            LastName = "Admin",
+            FirstName = "Admin",
+            MiddleName = "Admin",
+            Accusative = profile
+        };
+        var ablative = new GivenName {
+            LastName = "Admin",
+            FirstName = "Admin",
+            MiddleName = "Admin",
+            Ablative = profile
+        };
+        var prepositional = new GivenName() {
+            LastName = "Admin",
+            FirstName = "Admin",
+            MiddleName = "Admin",
+            Prepositional = profile
+        };
+        db.GivenNames.AddRange(
+            nominative,
+            genitive,
+            dative,
+            accusative,
+            ablative,
+            prepositional
+        );
 
-    RelayCommand? entryCommand;
+        db.SaveChanges();
+    }
+    
+    string GetHashSHA256(string str)
+    {
+        var SHA256 = new SHA256Managed();
+        var hash = new StringBuilder();
+        byte[] cryptBytes = SHA256.ComputeHash(Encoding.UTF8.GetBytes(str));
+        foreach (byte crypeByte in cryptBytes)
+            hash.Append(crypeByte.ToString("x2"));
+        
+        return hash.ToString();
+    }
+    
+    void FillUserCombos() {
+        using var db = new Context();
+        db.Users.ToList().ForEach(user => {
+            UserCombos.Add(new() {
+                Id = user.Id,
+                FIO = user.Login
+            });
+        });
+    }
+
+    RelayCommand? _entryCommand;
     public RelayCommand EntryCommand =>
-        entryCommand ??= new RelayCommand(obj => {
-            using var dbContext = new Context();
-            var validateUser = (string dbPass, string currPass) => {
+        _entryCommand ??= new(_ => {
+            using var db = new Context();
+
+            bool ValidateUser(string dbPass, string currPass) {
                 if (dbPass == string.Empty)
                     return false;
-                if (dbPass != currPass)
-                    return false;
-                return true;
-            };
+                return dbPass == currPass;
+            }
 
             User defaultUser = new() {
                 Id = -1,
                 PasswordHash = string.Empty,
             };
-            User user = dbContext.Users.FirstOrDefault(user => user.Id == currentSelection.Id, defaultUser);
+            var user = db.Users.FirstOrDefault(user => user.Id == _currentSelection.Id, defaultUser);
 
-            if (validateUser(user.PasswordHash, password)) {
+            if (ValidateUser(user.PasswordHash, _passwordHash)) {
                 GoToPage("TableOrderManager");
             } else {
                 MessageBox.Show(
@@ -66,15 +171,15 @@ public class LoginContext : PropertyChanger {
             }
         }, null);
 
-    private RelayCommand closePageCommand;
+    RelayCommand? _closePageCommand;
     public RelayCommand ClosePageCommand =>
-        closePageCommand ??= new RelayCommand(obj => {
+        _closePageCommand ??= new(_ => {
             GoToPage(null);
         }, null);
 
-    private RelayCommand tablePageCommand;
+    RelayCommand? _tablePageCommand;
     public RelayCommand TablePageCommand =>
-        tablePageCommand ??= new RelayCommand(obj => {
+        _tablePageCommand ??= new(_ => {
             GoToPage("TableOrderManager");
         }, null);
 }

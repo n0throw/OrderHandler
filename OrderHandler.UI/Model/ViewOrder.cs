@@ -29,7 +29,10 @@ public class ViewOrder : PropertyChanger {
     string _note;
     ViewMounting _mounting;
     
-    public int IdDb => _idDb;
+    internal int IdDb {
+        get => _idDb;
+        set => _idDb = value;
+    }
     public int Id {
         get => _id;
         set {
