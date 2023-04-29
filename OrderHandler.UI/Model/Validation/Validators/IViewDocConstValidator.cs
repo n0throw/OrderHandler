@@ -6,5 +6,5 @@ using OrderHandler.UI.Model.ViewOrderAdd;
 namespace OrderHandler.UI.Model.Validation.Validators; 
 
 public interface IViewDocConstValidator : IValidator<ViewDocConst> {
-	public bool ValidatePlannedDate(DateTime plannedDate, out List<string> error);
+	public IEnumerable<string> ValidatePlannedDate(DateTime plannedDate);
 }
