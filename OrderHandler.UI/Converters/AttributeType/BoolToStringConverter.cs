@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Windows.Data;
 using System.Globalization;
+using System.Windows.Data;
 
-namespace OrderHandler.UI.Converters;
+namespace OrderHandler.UI.Converters.AttributeType;
 
 public class BoolToStringConverter : IValueConverter {
 	public object Convert(object value,

@@ -26,4 +26,12 @@
       </Page>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Converters\DataType\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NPOI" Version="2.6.0" />
+    </ItemGroup>
+
 </Project>

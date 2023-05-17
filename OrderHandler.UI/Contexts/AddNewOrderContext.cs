@@ -9,48 +9,49 @@ using System;
 namespace OrderHandler.UI.Contexts;
 
 public class AddNewOrderContext : PropertyChanger {
-    private ViewOrder viewOrder;
+    ViewOrder _viewOrder;
     public ViewOrder ViewOrder {
-        get => viewOrder;
+        get => _viewOrder;
         set {
-            viewOrder = value;
-            OnPropertyChanged(nameof(ViewOrder));
+            _viewOrder = value;
+            OnPropertyChanged();
         }
     }
 
-    private bool? dialogResult;
+    bool? _dialogResult;
     public bool? DialogResult {
-        get => dialogResult;
+        get => _dialogResult;
         set {
-            if (value != dialogResult) {
-                dialogResult = value;
-                OnPropertyChanged(nameof(DialogResult));
-            }
+            if (value == _dialogResult)
+                return;
+            _dialogResult = value;
+            OnPropertyChanged();
         }
     }
 
-    private readonly IDialogService dialogService;
+    readonly IDialogService _dialogService;
 
     public AddNewOrderContext() {
-        viewOrder = new();
-        dialogService = new DefaultDialogService();
+        _viewOrder = new();
+        _dialogService = new DefaultDialogService();
     }
 
 
-    private RelayCommand? addCommand;
-    public RelayCommand AddCommand =>
-        addCommand ??= new RelayCommand(obj => {
-            using OrderContext db = new();
-            using IDbContextTransaction transaction = db.Database.BeginTransaction();
-
-            try {
-                db.Orders.Add(viewOrder);
-                db.SaveChanges();
-                transaction.Commit();
-                DialogResult = true;
-            } catch (Exception ex) {
-                transaction.Rollback();
-                dialogService.ShowMessage(ex.Message);
-            }
-        }, obj => ViewOrder.Validate());
+    RelayCommand? _addCommand;
+    public RelayCommand AddCommand => _addCommand ??= new(_ => {
+        // Тут нужен конвертер в Converters.DataType namespace из view-data в db-data
+        
+        // using Context dbContext = new();
+        // using var transaction = dbContext.Database.BeginTransaction();
+        //
+        // try {
+        //     dbContext.Orders.Add(_viewOrder);
+        //     dbContext.SaveChanges();
+        //     transaction.Commit();
+        //     DialogResult = true;
+        // } catch (Exception ex) {
+        //     transaction.Rollback();
+        //     _dialogService.ShowMessage(ex.Message);
+        // }
+    }, _ => ViewOrder.Validate());
 }

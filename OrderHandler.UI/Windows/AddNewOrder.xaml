@@ -6,6 +6,7 @@
         xmlns:conv="clr-namespace:OrderHandler.UI.Converters"
         xmlns:contexts="clr-namespace:OrderHandler.UI.Contexts"
         xmlns:dlg="clr-namespace:OrderHandler.UI.Core.Dialog"
+        xmlns:attributeType="clr-namespace:OrderHandler.UI.Converters.AttributeType"
         d:DataContext="{d:DesignInstance Type=contexts:AddNewOrderContext}"
         dlg:DialogCloser.DialogResult="{Binding DialogResult}"
         mc:Ignorable="d"
@@ -13,9 +14,9 @@
         MinHeight="450"
         MinWidth="800">
     <Window.Resources>
-        <conv:DateTimeToStringConverter x:Key="DateConverter" />
-        <conv:StringConverter x:Key="StringConverter" />
-        <conv:DecimalConverter x:Key="DecimalConverter" />
+        <attributeType:DateTimeToStringConverter x:Key="DateConverter" />
+        <attributeType:StringConverter x:Key="StringConverter" />
+        <attributeType:DecimalConverter x:Key="DecimalConverter" />
         <Style TargetType="TextBox"
                x:Key="ErrorTextBox">
             <Style.Triggers>

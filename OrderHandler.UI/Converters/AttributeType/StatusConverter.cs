@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Linq;
 using System.Globalization;
 using System.Windows.Data;
-using System.Windows.Controls;
 
-namespace OrderHandler.UI.Converters;
+using OrderHandler.UI.Model;
 
-public class ColumnToBorderWidthConverter : IMultiValueConverter {
+namespace OrderHandler.UI.Converters.AttributeType;
+
+public class StatusConverter : IMultiValueConverter {
 	public object Convert(object[] values,
 						  Type targetType,
 						  object parameter,
 						  CultureInfo culture
-	) => values
-		 .Select(val => ((DataGridLength)val).Value)
-		 .Sum() + values.Length - 1.0;
+	) => new Tuple<ViewOrder, string>((ViewOrder)values[0], 
+									  (string)values[1]);
 
 	public object[] ConvertBack(object value,
 								Type[] targetTypes,
 								object parameter,
 								CultureInfo culture
-	) => throw new NotSupportedException();
+	) => throw new NotImplementedException();
 }

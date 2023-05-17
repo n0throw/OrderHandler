@@ -6,6 +6,7 @@
       xmlns:conv="clr-namespace:OrderHandler.UI.Converters"
       xmlns:contexts="clr-namespace:OrderHandler.UI.Contexts"
       xmlns:model="clr-namespace:OrderHandler.UI.Model"
+      xmlns:converters="clr-namespace:OrderHandler.UI.Converters.AttributeType"
       d:DataContext="{d:DesignInstance Type=contexts:TableOrderManagerContext}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="8600"
@@ -16,9 +17,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/OrderHandler.UI;component/Resources/TableOrderManagerDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <conv:DateTimeToStringConverter x:Key="DateConverter" />
-            <conv:BoolToStringConverter x:Key="BoolConverter" />
-            <conv:ColumnToBorderWidthConverter x:Key="ColumnToBorderWidthConverter" />
+            <converters:DateTimeToStringConverter x:Key="DateConverter" />
+            <converters:BoolToStringConverter x:Key="BoolConverter" />
+            <converters:ColumnToBorderWidthConverter x:Key="ColumnToBorderWidthConverter" />
+            <converters:ColumnNameToEnumConverter x:Key="ColumnNameToEnumConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -365,7 +367,7 @@
                                 <MenuItem Header="Переключить статус"
                                           ToolTip="Переключает статус заказа"
                                           Command="{Binding ChangeStatusRowOrder}"
-                                          CommandParameter="{Binding ElementName=OrderDG, Path=CurrentColumn.Header}" />
+                                          CommandParameter="{Binding ElementName=OrderDG, Path=CurrentColumn.Header, Converter={StaticResource ColumnNameToEnumConverter}}" />
                                 <MenuItem Header="Изменить описание"
                                           ToolTip="Изменяет описание к заказу"
                                           Command="{Binding EditNoteRowOrder}" />

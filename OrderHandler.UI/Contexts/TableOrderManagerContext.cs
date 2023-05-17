@@ -10,6 +10,7 @@ using OrderHandler.DB.Data;
 using OrderHandler.UI.Contexts.CommandsImpl;
 using OrderHandler.UI.Core;
 using OrderHandler.UI.Model;
+using OrderHandler.UI.Windows;
 
 namespace OrderHandler.UI.Contexts;
 
@@ -125,7 +126,14 @@ public class TableOrderManagerContext : PropertyChanger {
     // ---------- Контекстное меню ----------
     RelayCommand? _editRowOrder;
     public RelayCommand EditRowOrder => _editRowOrder ??= new(_ => {
-        
+        var newOrder = new AddNewOrder {
+            DataContext = new AddNewOrderContext()
+        };
+
+        if (newOrder.ShowDialog() == true)
+        {
+            
+        }
     }, null);
     
     RelayCommand? _delRowOrder;
@@ -134,103 +142,16 @@ public class TableOrderManagerContext : PropertyChanger {
     }, null);
     
     RelayCommand? _changeStatusRowOrder;
-    // TODO
-    // Тут шляпа
-    // Нужно сделать адекватный column range template для таблиц
-    // И ужу по нему проверять, а не по наименованию столбца
-    // А то парсить 100+ столбцов не вариант в виде Enumaration
-    public RelayCommand ChangeStatusRowOrder => _changeStatusRowOrder ??= new(columnHeader => {
-        if (columnHeader is not string colName) {
-            MessageBox.Show("Не удалось получить идентификатор столбца");
+    public RelayCommand ChangeStatusRowOrder => _changeStatusRowOrder ??= new(tableColumnInfoObj => {
+        if (tableColumnInfoObj is not TableColumnInfo tableColumnInfo) {
+            MessageBox.Show("Нет такого столбца");
             return;
         }
 
-        if (!Enum.TryParse(colName, out TableSectionNames colIndex)) {
-            MessageBox.Show("Такой столбец не учтён");
-            return;
-        }
+        if (tableColumnInfo.TableColumnName == TableColumnNames.None ||
+            tableColumnInfo.TableSectionName == TableSectionNames.None)
+            MessageBox.Show("Вы не выбрали строку");
         
-        switch (colIndex) {
-            case TableSectionNames.IdColumn:
-            case TableSectionNames.OrderIssueColumn:
-            case TableSectionNames.OrderManagerColumn:
-            case TableSectionNames.OrderDateColumn:
-            case TableSectionNames.DeliveryDateColumn:
-            case TableSectionNames.NumberOfDaysColumn:
-            case TableSectionNames.ProductTypeColumn:
-            case TableSectionNames.ProductCostColumn:
-                
-                break;
-            case TableSectionNames.DocConstPlannedDateColumn:
-            case TableSectionNames.DocConstFIOColumn:
-            case TableSectionNames.DocConstDateColumn:
-                break;
-            case TableSectionNames.DocTechPlannedDateColumn:
-            case TableSectionNames.DocTechFIOColumn:
-            case TableSectionNames.DocTechDateColumn:
-                break;
-            case TableSectionNames.SupplyPlannedDateColumn:
-            case TableSectionNames.SupplyFIOColumn:
-            case TableSectionNames.SupplyDateColumn:
-            case TableSectionNames.SupplyRequiredAmountColumn:
-                break;
-            case TableSectionNames.SawCenterPlannedDateColumn:
-            case TableSectionNames.SawCenterFIOColumn:
-            case TableSectionNames.SawCenterDateColumn:
-            case TableSectionNames.SawCenterAreaOfLCBOrMDFColumn:
-            case TableSectionNames.SawCenterAreaOfLHDFColumn:
-                break;
-            case TableSectionNames.EdgePlannedDateColumn:
-            case TableSectionNames.EdgeFIOColumn:
-            case TableSectionNames.EdgeDateColumn:
-            case TableSectionNames.EdgeAreaOfLCBOrMDFColumn:
-                break;
-            case TableSectionNames.AdditivePlannedDateColumn:
-            case TableSectionNames.AdditiveFIOColumn:
-            case TableSectionNames.AdditiveDateColumn:
-            case TableSectionNames.AdditiveAreaOfLCBOrMDFColumn:
-                break;
-            case TableSectionNames.MillingPlannedDateColumn:
-            case TableSectionNames.MillingFIOColumn:
-            case TableSectionNames.MillingDateColumn:
-            case TableSectionNames.MillingAreaOfMDFColumn:
-                break;
-            case TableSectionNames.GrindingPlannedDateColumn:
-            case TableSectionNames.GrindingFIOColumn:
-            case TableSectionNames.GrindingDateColumn:
-            case TableSectionNames.GrindingAreaOfMDFColumn:
-                break;
-            case TableSectionNames.PressPlannedDateColumn:
-            case TableSectionNames.PressFIOColumn:
-            case TableSectionNames.PressDateColumn:
-            case TableSectionNames.PressAreaOfMDFColumn:
-                break;
-            case TableSectionNames.AssemblingPlannedDateColumn:
-            case TableSectionNames.AssemblingFIOColumn:
-            case TableSectionNames.AssemblingDateColumn:
-            case TableSectionNames.AssemblingAreaOfLCBOrMDFColumn:
-                break;
-            case TableSectionNames.PackingPlannedDateColumn:
-            case TableSectionNames.PackingFIOColumn:
-            case TableSectionNames.PackingDateColumn:
-            case TableSectionNames.PackingAreaOfLCBOrMDFColumn:
-                break;
-            case TableSectionNames.EquipmentPlannedDateColumn:
-            case TableSectionNames.EquipmentFIOColumn:
-            case TableSectionNames.EquipmentDateColumn:
-                break;
-            case TableSectionNames.ShipmentPlannedDateColumn:
-            case TableSectionNames.ShipmentFIOColumn:
-            case TableSectionNames.ShipmentDateColumn:
-                break;
-            case TableSectionNames.NoteColumn:
-                break;
-            case TableSectionNames.MountingIsNeedColumn:
-            case TableSectionNames.MountingPlannedDateColumn:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
     }, null);
     
     RelayCommand? _editNoteRowOrder;
@@ -239,113 +160,9 @@ public class TableOrderManagerContext : PropertyChanger {
     }, null);
     
 
-    RelayCommand? _setStatus;
-    public RelayCommand SetStatus => _setStatus ??= new(obj => {
-        if (obj is not string sectionName)
-            return;
-
-        if (!Enum.TryParse(sectionName, out TableSectionNames tableSection))
-            return;
-
-        if (!Utilities.CheckRole(tableSection, "test")) {
-            _dialogService.ShowMessage("У вас нет прав на данную операцию");
-            return;
-        }
-
-        Order dbOrder;
-        try {
-            dbOrder = GetSelectedDbOrder();
-        } catch (NullReferenceException ex) {
-            _dialogService.ShowMessage(ex.Message);
-            return;
-        }
-
-        StatusDialogServise statusDialog = new(dbOrder, tableSection);
-        statusDialog.SetStatus();
-
-        using OrderContext db = new();
-        using IDbContextTransaction transaction = db.Database.BeginTransaction();
-
-        try {
-            db.Orders.Update(dbOrder);
-            db.SaveChanges();
-            transaction.Commit();
-            GetData();
-        } catch (Exception ex) {
-            transaction.Rollback();
-            _dialogService.ShowMessage(ex.Message);
-        }
-    }, null);
-    
-    RelayCommand? _delStatus;
-    public RelayCommand DelStatus => _delStatus ??= new(obj => {
-        if (obj is not string sectionName)
-            return;
-
-        if (!Enum.TryParse(sectionName, out TableSectionNames tableSection))
-            return;
-
-        if (!Utilities.CheckRole(tableSection, "test")) {
-            _dialogService.ShowMessage("У вас нет прав на данную операцию");
-            return;
-        }
-
-        Order dbOrder;
-        try {
-            dbOrder = GetSelectedDbOrder();
-        } catch (NullReferenceException ex) {
-            _dialogService.ShowMessage(ex.Message);
-            return;
-        }
-
-        StatusDialogServise statusDialog = new(dbOrder, tableSection);
-        statusDialog.DelStatus();
-
-        using OrderContext db = new();
-        using IDbContextTransaction transaction = db.Database.BeginTransaction();
-
-        try {
-            db.Orders.Update(dbOrder);
-            db.SaveChanges();
-            transaction.Commit();
-            GetData();
-        } catch (Exception ex) {
-            transaction.Rollback();
-            _dialogService.ShowMessage(ex.Message);
-        }
-
-    }, null);
-
-    Order GetSelectedDbOrder() {
-        int? dbid = SelectedOrder?.DbId;
-
-        if (dbid is null)
-            throw new NullReferenceException("Заказ не выделен");
-
-        using OrderContext db = new();
-
-        Order? dbOrder = db.Orders.SingleOrDefault(obj => obj.Id == dbid);
-
-        if (dbOrder is null)
-            throw new NullReferenceException("Заказ был удалён");
-
-        return dbOrder;
-    }
-
-
-
+    // тут фильтры учитываем
     void GetData() {
-        Orders.Clear();
 
-        using OrderContext orderDBContext = new();
-        var index = 0;
-
-        orderDBContext.Orders.
-            ToList().
-            ForEach(orderDB => Orders.Add(
-                new ViewOrder(
-                    ++index,
-                    orderDB)));
     }
 
     void SetNewOrders(IEnumerable<ViewOrder> data) {
