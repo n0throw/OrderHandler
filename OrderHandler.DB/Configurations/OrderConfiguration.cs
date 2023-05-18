@@ -29,19 +29,18 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order> {
     /// </summary>
     /// <param name="builder">Конструктор, который будет использоваться для настройки типа объекта.</param>
     public void Configure(EntityTypeBuilder<Order> builder) {
-        // todo комментарии к свойствам закомментил пока, так как падает, потому что навигационных свойств нет в бд. Комменты нужно юзать на idшках в зависимых классах, нужно будет для них конфигурационные классы так же написать
-         propertyConfigurator.ConfigureProperty(
-             builder,
-            e => e.OrderMain,
-             comment: "Id Основной информации"
-         );
+        // todo комментарии к свойствам закомментил пока, так как падает, потому что навигационных свойств нет в бд. Комменты нужно юзать на idшках в зависимых классах, нужно будет для них конфигурационные классы так же написать 
         relationConfigurator.OTOConfigureRelation(
             builder,
             e => e.OrderMain,
             e => e.Order,
             e => e.OrderId
         );
-
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.OrderMain,
+        //     comment: "Id Основной информации"
+        // );
         relationConfigurator.OTOConfigureRelation(
             builder,
             e => e.DocConst,
@@ -146,7 +145,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order> {
         );
         // propertyConfigurator.ConfigureProperty(
         //     builder,
-        //     e => e.Press,
+        //     e => e.OrderMain,
         //     comment: "Id Пресса"
         // );
 
@@ -158,7 +157,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order> {
         );
         // propertyConfigurator.ConfigureProperty(
         //     builder,
-        //     e => e.Assembling,
+        //     e => e.OrderMain,
         //     comment: "Id Сборки"
         // );
 
@@ -170,7 +169,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order> {
         );
         // propertyConfigurator.ConfigureProperty(
         //     builder,
-        //     e => e.Packing,
+        //     e => e.OrderMain,
         //     comment: "Id Упаковки"
         // );
 
@@ -182,7 +181,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order> {
         );
         // propertyConfigurator.ConfigureProperty(
         //     builder,
-        //     e => e.Equipment,
+        //     e => e.OrderMain,
         //     comment: "Id Комплектации"
         // );
 
@@ -194,11 +193,10 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order> {
         );
         // propertyConfigurator.ConfigureProperty(
         //     builder,
-        //     e => e.Shipment,
+        //     e => e.OrderMain,
         //     comment: "Id Отгрузки"
         // );
         propertyConfigurator.ConfigureProperty(builder, u => u.Note, comment: "Примечание");
-
         relationConfigurator.OTOConfigureRelation(
             builder,
             e => e.Mounting,
@@ -207,7 +205,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order> {
         );
         // propertyConfigurator.ConfigureProperty(
         //     builder,
-        //     e => e.Mounting,
+        //     e => e.OrderMain,
         //     comment: "Id Монтажа"
         // );
     }
@@ -228,10 +226,11 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order> {
             e => e.Order,
             e => e.OrderId
         );
-        propertyConfigurator.ConfigureProperty(
-            builder,
-            hasNavigationExpression,
-            comment: comment
-        );
+        // todo комментарии к свойствам закомментил пока, так как падает, потому что навигационных свойств нет в бд. Комменты нужно юзать на idшках в зависимых классах, нужно будет для них конфигурационные классы так же написать 
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     hasNavigationExpression,
+        //     comment: comment
+        // );
     }
 }

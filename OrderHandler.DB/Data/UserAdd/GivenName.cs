@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace OrderHandler.DB.Data.UserAdd;
@@ -8,7 +9,7 @@ namespace OrderHandler.DB.Data.UserAdd;
 /// ФИО Пользователя.
 /// Модель БД.
 /// </summary>
-public class GivenName {
+public class GivenName : ICloneable {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>
@@ -25,89 +26,27 @@ public class GivenName {
     /// Отчество
     /// </summary>
     public string MiddleName { get; set; }
-
-    /// <summary>
-    /// Id Личного имени, для которого данное ФИО представлено в именительном падеже.
-    /// Внешний ключ
-    /// </summary>
-    public int IdNominative { get; set; }
-    /// <summary>
-    /// Личное имя, для которого данное ФИО представлено в именительном падеже.
-    /// </summary>
-    public CaseName? Nominative { get; set; }
-
-    /// <summary>
-    /// Id Личного имени, для которого данное ФИО представлено в родительном падеже.
-    /// Внешний ключ
-    /// </summary>
-    public int IdGenitive { get; set; }
-    /// <summary>
-    /// Личное имя, для которого данное ФИО представлено в родительном падеже.
-    /// </summary>
-    public CaseName? Genitive { get; set; }
-
-    /// <summary>
-    /// Id Личного имени, для которого данное ФИО представлено в дательном падеже.
-    /// Внешний ключ
-    /// </summary>
-    public int IdDative { get; set; }
-    /// <summary>
-    /// Личное имя, для которого данное ФИО представлено в дательном падеже.
-    /// </summary>
-    public CaseName? Dative { get; set; }
-
-    /// <summary>
-    /// Id Личного имени, для которого данное ФИО представлено в винительонм падеже.
-    /// Внешний ключ
-    /// </summary>
-    public int IdAccusative { get; set; }
-    /// <summary>
-    /// Личное имя, для которого данное ФИО представлено в винительонм падеже.
-    /// </summary>
-    public CaseName? Accusative { get; set; }
-
-    /// <summary>
-    /// Id Личного имени, для которого данное ФИО представлено в творительном падеже.
-    /// Внешний ключ
-    /// </summary>
-    public int IdAblative { get; set; }
-    /// <summary>
-    /// Личное имя, для которого данное ФИО представлено в творительном падеже.
-    /// </summary>
-    public CaseName? Ablative { get; set; }
-
-    /// <summary>
-    /// Id Личного имени, для которого данное ФИО представлено в предложном падеже.
-    /// Внешний ключ
-    /// </summary>
-    public int IdPrepositional { get; set; }
-    /// <summary>
-    /// Личное имя, для которого данное ФИО представлено в предложном падеже.
-    /// </summary>
-    public CaseName? Prepositional { get; set; }
-
-
+    
     /// <summary>
     /// Возвращает полное имя пользователя
     /// </summary>
     /// <returns>
     /// Cтрока вида "Фамилия Имя Отчество"
     /// </returns>
-    public string GetFullRecordName() =>
-        _removeTwoMoreSpace.Replace(
-            $"{LastName} {FirstName} {MiddleName}".Trim(), 
-            "");
+    public string GetFullRecordName() =>RemoveTwoMoreSpace.Replace(
+        $"{LastName} {FirstName} {MiddleName}".Trim(), 
+        ""
+    );
 
     /// <summary>
     /// Возвращает среднюю форму имени пользователя
     /// </summary>
     /// <returns>Строка вида "Фамилия И.О."</returns>
-    public string GerMiddleRecordName() =>
-        _removeTwoMoreSpace.Replace(
-            $"{LastName} {FirstName.FirstOrDefault()}.{MiddleName.FirstOrDefault()}.".Trim(), 
-            "");
-
-
+    public string GerMiddleRecordName() => RemoveTwoMoreSpace.Replace(
+        $"{LastName} {FirstName.FirstOrDefault()}.{MiddleName.FirstOrDefault()}.".Trim(), 
+        ""
+    );
+    
     /// <summary>
     /// Возвращает короткую форму имени пользователя
     /// </summary>
@@ -117,7 +56,9 @@ public class GivenName {
     public string GetShortRecordName() =>
         $"{LastName.FirstOrDefault()}{FirstName.FirstOrDefault()}{MiddleName.FirstOrDefault()}".Trim();
 
-    static Regex _removeTwoMoreSpace = new Regex(
+    public object Clone() => MemberwiseClone();
+    
+    static readonly Regex RemoveTwoMoreSpace = new(
         "\\s{2,}",
         RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace
     );

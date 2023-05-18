@@ -27,49 +27,14 @@ public class CaseNameConfiguration : IEntityTypeConfiguration<CaseName> {
     /// </summary>
     /// <param name="builder">Конструктор, который будет использоваться для настройки типа объекта.</param>
     public void Configure(EntityTypeBuilder<CaseName> builder) {
-        var getComment = (string fkCaseName) => $"Личное имя, для которого данное ФИО представлено в {fkCaseName} падеже.";
-        OTOConfigureRelationAndProperty(
-            builder,
-            e => e.Nominative,
-            e => e.Nominative,
-            e => e.IdNominative,
-            getComment("именительном")
-        );
-        OTOConfigureRelationAndProperty(
-            builder,
-            e => e.Genitive,
-            e => e.Genitive,
-            e => e.IdGenitive,
-            getComment("родительном")
-        );
-        OTOConfigureRelationAndProperty(
-            builder,
-            e => e.Dative,
-            e => e.Dative,
-            e => e.IdDative,
-            getComment("дательном")
-        );
-        OTOConfigureRelationAndProperty(
-            builder,
-            e => e.Accusative,
-            e => e.Accusative,
-            e => e.IdAccusative,
-            getComment("винительонм")
-        );
-        OTOConfigureRelationAndProperty(
-            builder,
-            e => e.Ablative,
-            e => e.Ablative,
-            e => e.IdAblative,
-            getComment("творительном")
-        );
-        OTOConfigureRelationAndProperty(
-            builder,
-            e => e.Prepositional,
-            e => e.Prepositional,
-            e => e.IdPrepositional,
-            getComment("предложном")
-        );
+        // todo комментарии к свойствам закомментил пока, так как падает, потому что навигационных свойств нет в бд. Комменты нужно юзать на idшках в зависимых классах, нужно будет для них конфигурационные классы так же написать 
+        // var getComment = (string fkCaseName) => $"Личное имя, для которого данное ФИО представлено в {fkCaseName} падеже.";
+        builder.OwnsOne(u => u.Nominative);
+        builder.OwnsOne(u => u.Genitive);
+        builder.OwnsOne(u => u.Dative);
+        builder.OwnsOne(u => u.Accusative);
+        builder.OwnsOne(u => u.Ablative);
+        builder.OwnsOne(u => u.Prepositional);
     }
 
     /// <summary>
@@ -93,10 +58,11 @@ public class CaseNameConfiguration : IEntityTypeConfiguration<CaseName> {
             withNavigationExpression,
             foreignKeyExpression
         );
-        propertyConfigurator.ConfigureProperty(
-            builder,
-            hasNavigationExpression,
-            comment: comment
-        );
+        // todo комментарии к свойствам закомментил пока, так как падает, потому что навигационных свойств нет в бд. Комменты нужно юзать на idшках в зависимых классах, нужно будет для них конфигурационные классы так же написать 
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     hasNavigationExpression,
+        //     comment: comment
+        // );
     }
 }

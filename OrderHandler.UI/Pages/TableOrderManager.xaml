@@ -87,14 +87,14 @@
                         <Border.Width>
                             <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
                                 <MultiBinding.Bindings>
-                                    <Binding ElementName="IdColumn" Path="Width" />
-                                    <Binding ElementName="OrderManagerColumn" Path="Width" />
-                                    <Binding ElementName="OrderIssueColumn" Path="Width" />
-                                    <Binding ElementName="OrderDateColumn" Path="Width" />
-                                    <Binding ElementName="DeliveryDateColumn" Path="Width" />
-                                    <Binding ElementName="NumberOfDaysColumn" Path="Width" />
-                                    <Binding ElementName="ProductTypeColumn" Path="Width" />
-                                    <Binding ElementName="ProductCostColumn" Path="Width" />
+                                    <Binding ElementName="IdColumn" Path="ActualWidth" UpdateSourceTrigger="PropertyChanged" />
+                                    <Binding ElementName="OrderManagerColumn" Path="ActualWidth" UpdateSourceTrigger="PropertyChanged" />
+                                    <Binding ElementName="OrderIssueColumn" Path="ActualWidth" UpdateSourceTrigger="PropertyChanged" />
+                                    <Binding ElementName="OrderDateColumn" Path="ActualWidth" UpdateSourceTrigger="PropertyChanged" />
+                                    <Binding ElementName="DeliveryDateColumn" Path="ActualWidth" UpdateSourceTrigger="PropertyChanged" />
+                                    <Binding ElementName="NumberOfDaysColumn" Path="ActualWidth" UpdateSourceTrigger="PropertyChanged" />
+                                    <Binding ElementName="ProductTypeColumn" Path="ActualWidth" UpdateSourceTrigger="PropertyChanged" />
+                                    <Binding ElementName="ProductCostColumn" Path="ActualWidth" UpdateSourceTrigger="PropertyChanged" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
                         </Border.Width>
@@ -107,9 +107,9 @@
                         <Border.Width>
                             <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
                                 <MultiBinding.Bindings>
-                                    <Binding ElementName="DocConstPlannedDateColumn" Path="Width" />
-                                    <Binding ElementName="DocConstFIOColumn" Path="Width" />
-                                    <Binding ElementName="DocConstDateColumn" Path="Width" />
+                                    <Binding ElementName="DocConstPlannedDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="DocConstFIOColumn" Path="ActualWidth" />
+                                    <Binding ElementName="DocConstDateColumn" Path="ActualWidth" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
                         </Border.Width>
@@ -123,9 +123,9 @@
                         <Border.Width>
                             <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
                                 <MultiBinding.Bindings>
-                                    <Binding ElementName="DocTechPlannedDateColumn" Path="Width" />
-                                    <Binding ElementName="DocTechFIOColumn" Path="Width" />
-                                    <Binding ElementName="DocTechDateColumn" Path="Width" />
+                                    <Binding ElementName="DocTechPlannedDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="DocTechFIOColumn" Path="ActualWidth" />
+                                    <Binding ElementName="DocTechDateColumn" Path="ActualWidth" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
                         </Border.Width>
@@ -139,10 +139,10 @@
                         <Border.Width>
                             <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
                                 <MultiBinding.Bindings>
-                                    <Binding ElementName="SupplyPlannedDateColumn" Path="Width" />
-                                    <Binding ElementName="SupplyFIOColumn" Path="Width" />
-                                    <Binding ElementName="SupplyDateColumn" Path="Width" />
-                                    <Binding ElementName="SupplyRequiredAmountColumn" Path="Width" />
+                                    <Binding ElementName="SupplyPlannedDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="SupplyFIOColumn" Path="ActualWidth" />
+                                    <Binding ElementName="SupplyDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="SupplyRequiredAmountColumn" Path="ActualWidth" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
                         </Border.Width>
@@ -156,11 +156,11 @@
                         <Border.Width>
                             <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
                                 <MultiBinding.Bindings>
-                                    <Binding ElementName="SawCenterPlannedDateColumn" Path="Width" />
-                                    <Binding ElementName="SawCenterFIOColumn" Path="Width" />
-                                    <Binding ElementName="SawCenterDateColumn" Path="Width" />
-                                    <Binding ElementName="SawCenterAreaOfLCBOrMDFColumn" Path="Width" />
-                                    <Binding ElementName="SawCenterAreaOfLHDFColumn" Path="Width" />
+                                    <Binding ElementName="SawCenterPlannedDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="SawCenterFIOColumn" Path="ActualWidth" />
+                                    <Binding ElementName="SawCenterDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="SawCenterAreaOfLCBOrMDFColumn" Path="ActualWidth" />
+                                    <Binding ElementName="SawCenterAreaOfLHDFColumn" Path="ActualWidth" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
                         </Border.Width>
@@ -174,10 +174,10 @@
                         <Border.Width>
                             <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
                                 <MultiBinding.Bindings>
-                                    <Binding ElementName="EdgePlannedDateColumn" Path="Width" />
-                                    <Binding ElementName="EdgeFIOColumn" Path="Width" />
-                                    <Binding ElementName="EdgeDateColumn" Path="Width" />
-                                    <Binding ElementName="EdgeAreaOfLCBOrMDFColumn" Path="Width" />
+                                    <Binding ElementName="EdgePlannedDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="EdgeFIOColumn" Path="ActualWidth" />
+                                    <Binding ElementName="EdgeDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="EdgeAreaOfLCBOrMDFColumn" Path="ActualWidth" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
                         </Border.Width>
@@ -191,10 +191,10 @@
                         <Border.Width>
                             <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
                                 <MultiBinding.Bindings>
-                                    <Binding ElementName="AdditivePlannedDateColumn" Path="Width" />
-                                    <Binding ElementName="AdditiveFIOColumn" Path="Width" />
-                                    <Binding ElementName="AdditiveDateColumn" Path="Width" />
-                                    <Binding ElementName="AdditiveAreaOfLCBOrMDFColumn" Path="Width" />
+                                    <Binding ElementName="AdditivePlannedDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="AdditiveFIOColumn" Path="ActualWidth" />
+                                    <Binding ElementName="AdditiveDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="AdditiveAreaOfLCBOrMDFColumn" Path="ActualWidth" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
                         </Border.Width>
@@ -208,10 +208,10 @@
                         <Border.Width>
                             <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
                                 <MultiBinding.Bindings>
-                                    <Binding ElementName="MillingPlannedDateColumn" Path="Width" />
-                                    <Binding ElementName="MillingFIOColumn" Path="Width" />
-                                    <Binding ElementName="MillingDateColumn" Path="Width" />
-                                    <Binding ElementName="MillingAreaOfMDFColumn" Path="Width" />
+                                    <Binding ElementName="MillingPlannedDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="MillingFIOColumn" Path="ActualWidth" />
+                                    <Binding ElementName="MillingDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="MillingAreaOfMDFColumn" Path="ActualWidth" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
                         </Border.Width>
@@ -225,10 +225,10 @@
                         <Border.Width>
                             <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
                                 <MultiBinding.Bindings>
-                                    <Binding ElementName="GrindingPlannedDateColumn" Path="Width" />
-                                    <Binding ElementName="GrindingFIOColumn" Path="Width" />
-                                    <Binding ElementName="GrindingDateColumn" Path="Width" />
-                                    <Binding ElementName="GrindingAreaOfMDFColumn" Path="Width" />
+                                    <Binding ElementName="GrindingPlannedDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="GrindingFIOColumn" Path="ActualWidth" />
+                                    <Binding ElementName="GrindingDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="GrindingAreaOfMDFColumn" Path="ActualWidth" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
                         </Border.Width>
@@ -242,10 +242,10 @@
                         <Border.Width>
                             <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
                                 <MultiBinding.Bindings>
-                                    <Binding ElementName="PressPlannedDateColumn" Path="Width" />
-                                    <Binding ElementName="PressFIOColumn" Path="Width" />
-                                    <Binding ElementName="PressDateColumn" Path="Width" />
-                                    <Binding ElementName="PressAreaOfMDFColumn" Path="Width" />
+                                    <Binding ElementName="PressPlannedDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="PressFIOColumn" Path="ActualWidth" />
+                                    <Binding ElementName="PressDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="PressAreaOfMDFColumn" Path="ActualWidth" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
                         </Border.Width>
@@ -259,10 +259,10 @@
                         <Border.Width>
                             <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
                                 <MultiBinding.Bindings>
-                                    <Binding ElementName="AssemblingPlannedDateColumn" Path="Width" />
-                                    <Binding ElementName="AssemblingFIOColumn" Path="Width" />
-                                    <Binding ElementName="AssemblingDateColumn" Path="Width" />
-                                    <Binding ElementName="AssemblingAreaOfLCBOrMDFColumn" Path="Width" />
+                                    <Binding ElementName="AssemblingPlannedDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="AssemblingFIOColumn" Path="ActualWidth" />
+                                    <Binding ElementName="AssemblingDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="AssemblingAreaOfLCBOrMDFColumn" Path="ActualWidth" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
                         </Border.Width>
@@ -276,10 +276,10 @@
                         <Border.Width>
                             <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
                                 <MultiBinding.Bindings>
-                                    <Binding ElementName="PackingPlannedDateColumn" Path="Width" />
-                                    <Binding ElementName="PackingFIOColumn" Path="Width" />
-                                    <Binding ElementName="PackingDateColumn" Path="Width" />
-                                    <Binding ElementName="PackingAreaOfLCBOrMDFColumn" Path="Width" />
+                                    <Binding ElementName="PackingPlannedDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="PackingFIOColumn" Path="ActualWidth" />
+                                    <Binding ElementName="PackingDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="PackingAreaOfLCBOrMDFColumn" Path="ActualWidth" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
                         </Border.Width>
@@ -293,9 +293,9 @@
                         <Border.Width>
                             <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
                                 <MultiBinding.Bindings>
-                                    <Binding ElementName="EquipmentPlannedDateColumn" Path="Width" />
-                                    <Binding ElementName="EquipmentFIOColumn" Path="Width" />
-                                    <Binding ElementName="EquipmentDateColumn" Path="Width" />
+                                    <Binding ElementName="EquipmentPlannedDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="EquipmentFIOColumn" Path="ActualWidth" />
+                                    <Binding ElementName="EquipmentDateColumn" Path="ActualWidth" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
                         </Border.Width>
@@ -309,9 +309,9 @@
                         <Border.Width>
                             <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
                                 <MultiBinding.Bindings>
-                                    <Binding ElementName="ShipmentPlannedDateColumn" Path="Width" />
-                                    <Binding ElementName="ShipmentFIOColumn" Path="Width" />
-                                    <Binding ElementName="ShipmentDateColumn" Path="Width" />
+                                    <Binding ElementName="ShipmentPlannedDateColumn" Path="ActualWidth" />
+                                    <Binding ElementName="ShipmentFIOColumn" Path="ActualWidth" />
+                                    <Binding ElementName="ShipmentDateColumn" Path="ActualWidth" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
                         </Border.Width>
@@ -325,7 +325,7 @@
                         <Border.Width>
                             <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
                                 <MultiBinding.Bindings>
-                                    <Binding ElementName="NoteColumn" Path="Width" />
+                                    <Binding ElementName="NoteColumn" Path="ActualWidth" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
                         </Border.Width>
@@ -339,8 +339,8 @@
                         <Border.Width>
                             <MultiBinding Converter="{StaticResource ColumnToBorderWidthConverter}">
                                 <MultiBinding.Bindings>
-                                    <Binding ElementName="MountingIsNeedColumn" Path="Width" />
-                                    <Binding ElementName="MountingPlannedDateColumn" Path="Width" />
+                                    <Binding ElementName="MountingIsNeedColumn" Path="ActualWidth" />
+                                    <Binding ElementName="MountingPlannedDateColumn" Path="ActualWidth" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
                         </Border.Width>

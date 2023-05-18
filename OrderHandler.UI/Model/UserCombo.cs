@@ -8,7 +8,9 @@ public class UserCombo : PropertyChanger {
     public int Id { get; init; }
     public string FIO {
         get => _fio;
-        set => OnPropertyChanged();
+        set {
+            _fio = value;
+            OnPropertyChanged();
+        }
     }
-
 }

@@ -34,26 +34,190 @@ public class UserConfiguration : IEntityTypeConfiguration<User> {
     }
 
     protected void ConfigureOneToMany(EntityTypeBuilder<User> builder) {
-        OTMConfigureRelationAndProperty(builder, e => e.OrderMain, comment: "Id Основной информации");
-        OTMConfigureRelationAndProperty(builder, e => e.DocConst, comment: "Id Документации конструктора");
-        OTMConfigureRelationAndProperty(builder, e => e.DocTech, comment: "Id Документации технолога");
-        OTMConfigureRelationAndProperty(builder, e => e.Supply, comment: "Id Снабжения");
-        OTMConfigureRelationAndProperty(builder, e => e.SawCenter, comment: "Id Пильного центра");
-        OTMConfigureRelationAndProperty(builder, e => e.Edge, comment: "Id Кромки");
-        OTMConfigureRelationAndProperty(builder, e => e.Additive, comment: "Id Присадки");
-        OTMConfigureRelationAndProperty(builder, e => e.Milling, comment: "Id Фрезеровки");
-        OTMConfigureRelationAndProperty(builder, e => e.Grinding, comment: "Id Шлифовки");
-        OTMConfigureRelationAndProperty(builder, e => e.Press, comment: "Id Пресса");
-        OTMConfigureRelationAndProperty(builder, e => e.Assembling, comment: "Id Сборки");
-        OTMConfigureRelationAndProperty(builder, e => e.Packing, comment: "Id Упаковки");
-        OTMConfigureRelationAndProperty(builder, e => e.Equipment, comment: "Id Комплектации");
-        OTMConfigureRelationAndProperty(builder, e => e.Shipment, comment: "Id Отгрузки");
-        OTMConfigureRelationAndProperty(builder, e => e.Mounting, comment: "Id Монтажа");
+        // todo комментарии к свойствам закомментил пока, так как падает, потому что навигационных свойств нет в бд. Комменты нужно юзать на idшках в зависимых классах, нужно будет для них конфигурационные классы так же написать 
+        relationConfigurator.OTMConfigureRelation(
+            builder,
+            e => e.OrderMain,
+            e => e.User,
+            e => e.UserId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.OrderMain,
+        //     comment: "Id Основной информации"
+        // );
+        relationConfigurator.OTMConfigureRelation(
+            builder,
+            e => e.DocConst,
+            e => e.User,
+            e => e.UserId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.DocConst,
+        //     comment: "Id Документации конструктора"
+        // );
+
+        relationConfigurator.OTMConfigureRelation(
+            builder,
+            e => e.DocTech,
+            e => e.User,
+            e => e.UserId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.DocTech,
+        //     comment: "Id Документации технолога"
+        // );
+        
+        relationConfigurator.OTMConfigureRelation(
+            builder,
+            e => e.Supply,
+            e => e.User,
+            e => e.UserId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.Supply,
+        //     comment: "Id Снабжения"
+        // );
+        
+        relationConfigurator.OTMConfigureRelation(
+            builder,
+            e => e.SawCenter,
+            e => e.User,
+            e => e.UserId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.SawCenter,
+        //     comment: "Id Пильного центра"
+        // );
+
+        relationConfigurator.OTMConfigureRelation(
+            builder,
+            e => e.Edge,
+            e => e.User,
+            e => e.UserId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.Edge,
+        //     comment: "Id Кромки"
+        // );
+
+        relationConfigurator.OTMConfigureRelation(
+            builder,
+            e => e.Additive,
+            e => e.User,
+            e => e.UserId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.Additive,
+        //     comment: "Id Присадки"
+        // );
+
+        relationConfigurator.OTMConfigureRelation(
+            builder,
+            e => e.Milling,
+            e => e.User,
+            e => e.UserId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.Milling,
+        //     comment: "Id Фрезеровки"
+        // );
+
+        relationConfigurator.OTMConfigureRelation(
+            builder,
+            e => e.Grinding,
+            e => e.User,
+            e => e.UserId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.Grinding,
+        //     comment: "Id Шлифовки"
+        // );
+
+        relationConfigurator.OTMConfigureRelation(
+            builder,
+            e => e.Press,
+            e => e.User,
+            e => e.UserId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.OrderMain,
+        //     comment: "Id Пресса"
+        // );
+
+        relationConfigurator.OTMConfigureRelation(
+            builder,
+            e => e.Assembling,
+            e => e.User,
+            e => e.UserId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.OrderMain,
+        //     comment: "Id Сборки"
+        // );
+
+        relationConfigurator.OTMConfigureRelation(
+            builder,
+            e => e.Packing,
+            e => e.User,
+            e => e.UserId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.OrderMain,
+        //     comment: "Id Упаковки"
+        // );
+
+        relationConfigurator.OTMConfigureRelation(
+            builder,
+            e => e.Equipment,
+            e => e.User,
+            e => e.UserId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.OrderMain,
+        //     comment: "Id Комплектации"
+        // );
+
+        relationConfigurator.OTMConfigureRelation(
+            builder,
+            e => e.Shipment,
+            e => e.User,
+            e => e.UserId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.OrderMain,
+        //     comment: "Id Отгрузки"
+        // );
+        relationConfigurator.OTMConfigureRelation(
+            builder,
+            e => e.Mounting,
+            e => e.User,
+            e => e.UserId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.OrderMain,
+        //     comment: "Id Монтажа"
+        // );
     }
 
     protected void ConfigureOneToOne(EntityTypeBuilder<User> builder) {
         relationConfigurator.OTOConfigureRelation(builder, e => e.Profile, e => e.User, e => e.IdUser);
-        propertyConfigurator.ConfigureProperty(builder, e => e.Profile, comment: "Id ФИО пользователея во всех склонениях");
+        // todo комментарии к свойствам закомментил пока, так как падает, потому что навигационных свойств нет в бд. Комменты нужно юзать на idшках в зависимых классах, нужно будет для них конфигурационные классы так же написать 
+        //propertyConfigurator.ConfigureProperty(builder, e => e.Profile, comment: "Id ФИО пользователея во всех склонениях");
     }
 
     /// <summary>
@@ -72,10 +236,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User> {
             e => e.User,
             e => e.UserId
         );
-        propertyConfigurator.ConfigureProperty(
-            builder,
-            hasNavigationExpression,
-            comment: comment
-        );
+        // todo комментарии к свойствам закомментил пока, так как падает, потому что навигационных свойств нет в бд. Комменты нужно юзать на idшках в зависимых классах, нужно будет для них конфигурационные классы так же написать 
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     hasNavigationExpression,
+        //     comment: comment
+        // );
     }
 }

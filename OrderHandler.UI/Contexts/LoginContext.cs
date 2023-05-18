@@ -4,6 +4,8 @@ using System.Windows;
 using System.Security.Cryptography;
 using System.Collections.ObjectModel;
 
+using NPOI.HSSF.UserModel;
+
 using OrderHandler.DB;
 using OrderHandler.DB.Data;
 
@@ -66,57 +68,22 @@ public class LoginContext : PropertyChanger {
             PasswordHash = GetHashSHA256("Admin")
         };
         db.Users.Add(user);
+        var givenName = new GivenName {
+            LastName = "Admin",
+            FirstName = "Admin",
+            MiddleName = "Admin"
+        };
         
         var profile = new CaseName {
-            User = user
+            User = user,
+            Nominative = (GivenName)givenName.Clone(),
+            Genitive = (GivenName)givenName.Clone(),
+            Dative = (GivenName)givenName.Clone(),
+            Accusative = (GivenName)givenName.Clone(),
+            Ablative = (GivenName)givenName.Clone(),
+            Prepositional = (GivenName)givenName.Clone()
         };
         db.CaseNames.Add(profile);
-    
-        
-        var nominative = new GivenName {
-            LastName = "Admin",
-            FirstName = "Admin",
-            MiddleName = "Admin",
-            Nominative = profile
-        };
-        var genitive = new GivenName {
-            LastName = "Admin",
-            FirstName = "Admin",
-            MiddleName = "Admin",
-            Genitive = profile
-        };
-        var dative = new GivenName {
-            LastName = "Admin",
-            FirstName = "Admin",
-            MiddleName = "Admin",
-            Dative = profile
-        };
-        var accusative = new GivenName {
-            LastName = "Admin",
-            FirstName = "Admin",
-            MiddleName = "Admin",
-            Accusative = profile
-        };
-        var ablative = new GivenName {
-            LastName = "Admin",
-            FirstName = "Admin",
-            MiddleName = "Admin",
-            Ablative = profile
-        };
-        var prepositional = new GivenName() {
-            LastName = "Admin",
-            FirstName = "Admin",
-            MiddleName = "Admin",
-            Prepositional = profile
-        };
-        db.GivenNames.AddRange(
-            nominative,
-            genitive,
-            dative,
-            accusative,
-            ablative,
-            prepositional
-        );
 
         db.SaveChanges();
     }
@@ -157,7 +124,7 @@ public class LoginContext : PropertyChanger {
                 Id = -1,
                 PasswordHash = string.Empty,
             };
-            var user = db.Users.FirstOrDefault(user => user.Id == _currentSelection.Id, defaultUser);
+            var user = db.Users.ToList().FirstOrDefault(user => user.Id == _currentSelection.Id, defaultUser);
 
             if (ValidateUser(user.PasswordHash, _passwordHash)) {
                 GoToPage("TableOrderManager");

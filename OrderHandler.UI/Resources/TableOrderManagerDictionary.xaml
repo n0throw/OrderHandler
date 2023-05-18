@@ -33,7 +33,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
     </Style>
     <Style x:Key="HeaderBorder" TargetType="Border">
-        <Setter Property="BorderThickness" Value="0 0 1.5 0"/>
+        <Setter Property="BorderThickness" Value="0 0 1 0"/>
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="Height" Value="20" />
     </Style>

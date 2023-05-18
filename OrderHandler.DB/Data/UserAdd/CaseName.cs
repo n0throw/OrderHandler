@@ -14,27 +14,27 @@ public class CaseName {
     /// <summary>
     /// Личное имя, для которого данное ФИО представлено в именительном падеже.
     /// </summary>
-    public GivenName? Nominative { get; set; }
+    public GivenName Nominative { get; set; }
     /// <summary>
     /// Личное имя, для которого данное ФИО представлено в родительном падеже.
     /// </summary>
-    public GivenName? Genitive { get; set; }
+    public GivenName Genitive { get; set; }
     /// <summary>
     /// Личное имя, для которого данное ФИО представлено в дательном падеже.
     /// </summary>
-    public GivenName? Dative { get; set; }
+    public GivenName Dative { get; set; }
     /// <summary>
     /// Личное имя, для которого данное ФИО представлено в винительонм падеже.
     /// </summary>
-    public GivenName? Accusative { get; set; }
+    public GivenName Accusative { get; set; }
     /// <summary>
     /// Личное имя, для которого данное ФИО представлено в творительном падеже.
     /// </summary>
-    public GivenName? Ablative { get; set; }
+    public GivenName Ablative { get; set; }
     /// <summary>
     /// Личное имя, для которого данное ФИО представлено в предложном падеже.
     /// </summary>
-    public GivenName? Prepositional { get; set; }
+    public GivenName Prepositional { get; set; }
 
     /// <summary>
     /// Id Пользователя.
