@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using OrderHandler.UI.Contexts;
 using OrderHandler.UI.Contexts.CommandsImpl;
-using OrderHandler.UI.Core.Dialog;
+using OrderHandler.UI.Core.Service.Dialog;
+using OrderHandler.UI.Core.Service.File;
 
 namespace OrderHandler.UI.Core.Resolver;
 
@@ -17,6 +18,6 @@ public class ContextResolver : Resolver<PropertyChanger> {
     {
         { nameof(LoginContext), () => new LoginContext() },
         { nameof(DefaultPageContext), () => new DefaultPageContext() },
-        { nameof(TableOrderManagerContext), () => new TableOrderManagerContext(new TableOrderManagerCommandsImpl(new DefaultDialogService(), new ExcelOrderService())) }
+        { nameof(TableOrderManagerContext), () => new TableOrderManagerContext(new TableOrderManagerCommandsImpl(new DialogService(), new ExcelOrderFileService())) }
     }) { }
 }

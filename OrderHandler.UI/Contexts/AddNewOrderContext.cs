@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 using OrderHandler.DB;
 using OrderHandler.UI.Core;
-using OrderHandler.UI.Core.Dialog;
 using OrderHandler.UI.Model;
 
 using System;
+
+using OrderHandler.UI.Core.Service.Dialog;
 
 namespace OrderHandler.UI.Contexts;
 
@@ -33,7 +34,7 @@ public class AddNewOrderContext : PropertyChanger {
 
     public AddNewOrderContext() {
         _viewOrder = new();
-        _dialogService = new DefaultDialogService();
+        _dialogService = new DialogService();
     }
 
 

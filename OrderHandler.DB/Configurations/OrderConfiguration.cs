@@ -29,22 +29,187 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order> {
     /// </summary>
     /// <param name="builder">Конструктор, который будет использоваться для настройки типа объекта.</param>
     public void Configure(EntityTypeBuilder<Order> builder) {
-        OTOConfigureRelationAndProperty(builder, e => e.OrderMain, comment: "Id Основной информации");
-        OTOConfigureRelationAndProperty(builder, e => e.DocConst, comment: "Id Документации конструктора");
-        OTOConfigureRelationAndProperty(builder, e => e.DocTech, comment: "Id Документации технолога");
-        OTOConfigureRelationAndProperty(builder, e => e.Supply, comment: "Id Снабжения");
-        OTOConfigureRelationAndProperty(builder, e => e.SawCenter, comment: "Id Пильного центра");
-        OTOConfigureRelationAndProperty(builder, e => e.Edge, comment: "Id Кромки");
-        OTOConfigureRelationAndProperty(builder, e => e.Additive, comment: "Id Присадки");
-        OTOConfigureRelationAndProperty(builder, e => e.Milling, comment: "Id Фрезеровки");
-        OTOConfigureRelationAndProperty(builder, e => e.Grinding, comment: "Id Шлифовки");
-        OTOConfigureRelationAndProperty(builder, e => e.Press, comment: "Id Пресса");
-        OTOConfigureRelationAndProperty(builder, e => e.Assembling, comment: "Id Сборки");
-        OTOConfigureRelationAndProperty(builder, e => e.Packing, comment: "Id Упаковки");
-        OTOConfigureRelationAndProperty(builder, e => e.Equipment, comment: "Id Комплектации");
-        OTOConfigureRelationAndProperty(builder, e => e.Shipment, comment: "Id Отгрузки");
+        // todo комментарии к свойствам закомментил пока, так как падает, потому что навигационных свойств нет в бд. Комменты нужно юзать на idшках в зависимых классах, нужно будет для них конфигурационные классы так же написать
+         propertyConfigurator.ConfigureProperty(
+             builder,
+            e => e.OrderMain,
+             comment: "Id Основной информации"
+         );
+        relationConfigurator.OTOConfigureRelation(
+            builder,
+            e => e.OrderMain,
+            e => e.Order,
+            e => e.OrderId
+        );
+
+        relationConfigurator.OTOConfigureRelation(
+            builder,
+            e => e.DocConst,
+            e => e.Order,
+            e => e.OrderId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.DocConst,
+        //     comment: "Id Документации конструктора"
+        // );
+
+        relationConfigurator.OTOConfigureRelation(
+            builder,
+            e => e.DocTech,
+            e => e.Order,
+            e => e.OrderId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.DocTech,
+        //     comment: "Id Документации технолога"
+        // );
+        
+        relationConfigurator.OTOConfigureRelation(
+            builder,
+            e => e.Supply,
+            e => e.Order,
+            e => e.OrderId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.Supply,
+        //     comment: "Id Снабжения"
+        // );
+        
+        relationConfigurator.OTOConfigureRelation(
+            builder,
+            e => e.SawCenter,
+            e => e.Order,
+            e => e.OrderId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.SawCenter,
+        //     comment: "Id Пильного центра"
+        // );
+
+        relationConfigurator.OTOConfigureRelation(
+            builder,
+            e => e.Edge,
+            e => e.Order,
+            e => e.OrderId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.Edge,
+        //     comment: "Id Кромки"
+        // );
+
+        relationConfigurator.OTOConfigureRelation(
+            builder,
+            e => e.Additive,
+            e => e.Order,
+            e => e.OrderId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.Additive,
+        //     comment: "Id Присадки"
+        // );
+
+        relationConfigurator.OTOConfigureRelation(
+            builder,
+            e => e.Milling,
+            e => e.Order,
+            e => e.OrderId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.Milling,
+        //     comment: "Id Фрезеровки"
+        // );
+
+        relationConfigurator.OTOConfigureRelation(
+            builder,
+            e => e.Grinding,
+            e => e.Order,
+            e => e.OrderId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.Grinding,
+        //     comment: "Id Шлифовки"
+        // );
+
+        relationConfigurator.OTOConfigureRelation(
+            builder,
+            e => e.Press,
+            e => e.Order,
+            e => e.OrderId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.Press,
+        //     comment: "Id Пресса"
+        // );
+
+        relationConfigurator.OTOConfigureRelation(
+            builder,
+            e => e.Assembling,
+            e => e.Order,
+            e => e.OrderId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.Assembling,
+        //     comment: "Id Сборки"
+        // );
+
+        relationConfigurator.OTOConfigureRelation(
+            builder,
+            e => e.Packing,
+            e => e.Order,
+            e => e.OrderId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.Packing,
+        //     comment: "Id Упаковки"
+        // );
+
+        relationConfigurator.OTOConfigureRelation(
+            builder,
+            e => e.Equipment,
+            e => e.Order,
+            e => e.OrderId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.Equipment,
+        //     comment: "Id Комплектации"
+        // );
+
+        relationConfigurator.OTOConfigureRelation(
+            builder,
+            e => e.Shipment,
+            e => e.Order,
+            e => e.OrderId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.Shipment,
+        //     comment: "Id Отгрузки"
+        // );
         propertyConfigurator.ConfigureProperty(builder, u => u.Note, comment: "Примечание");
-        OTOConfigureRelationAndProperty(builder, e => e.Mounting, comment: "Id Монтажа");
+
+        relationConfigurator.OTOConfigureRelation(
+            builder,
+            e => e.Mounting,
+            e => e.Order,
+            e => e.OrderId
+        );
+        // propertyConfigurator.ConfigureProperty(
+        //     builder,
+        //     e => e.Mounting,
+        //     comment: "Id Монтажа"
+        // );
     }
 
     /// <summary>

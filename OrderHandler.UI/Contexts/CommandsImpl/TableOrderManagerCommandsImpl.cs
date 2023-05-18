@@ -4,19 +4,21 @@ using System.Collections.Generic;
 using System.IO;
 
 using OrderHandler.UI.Core;
+using OrderHandler.UI.Core.FilesExtensions.Excel;
+using OrderHandler.UI.Core.Service.Dialog;
+using OrderHandler.UI.Core.Service.File;
 using OrderHandler.UI.Model;
 using OrderHandler.UI.Windows;
-using OrderHandler.UI.Core.Dialog;
 
 namespace OrderHandler.UI.Contexts.CommandsImpl; 
 
 public class TableOrderManagerCommandsImpl : ITableOrderManagerCommandsImpl {
 	readonly IDialogService _dialogService;
-	readonly IOrderService _orderService;
+	readonly IFileService<ViewOrder, ExcelFileInfo> _excelFileService;
 
-	public TableOrderManagerCommandsImpl(IDialogService dialogService, IOrderService orderService) {
+	public TableOrderManagerCommandsImpl(IDialogService dialogService, IFileService<ViewOrder, ExcelFileInfo> excelFileService) {
 		_dialogService = dialogService;
-		_orderService = orderService;
+		_excelFileService = excelFileService;
 		// _dialogService = new DefaultDialogService();
 		// _orderService = new ExcelOrderService(_dialogService);
 	}
@@ -27,7 +29,7 @@ public class TableOrderManagerCommandsImpl : ITableOrderManagerCommandsImpl {
 		func.Invoke("MainMenu");
 
 	public void ShowStatusCommand() => 
-		_dialogService.ShowMessage("Нет прав");
+		_dialogService.ShowMessage("Нет прав", DialogLevel.Warning);
 
 	public void ExitCommand(Action<string> func) =>
 		func.Invoke("Login");
@@ -44,29 +46,51 @@ public class TableOrderManagerCommandsImpl : ITableOrderManagerCommandsImpl {
 	}
 
 	public IEnumerable<ViewOrder> MassLoadingOrdersCommand() {
-		_dialogService.ShowMessage("Массовая загрузка из Excel не работает с вашей версией MS Office");
+		_dialogService.ShowMessage("Массовая загрузка из Excel не работает с вашей версией MS Office", DialogLevel.Error);
 		throw new NotImplementedException();
 	}
 
 	public void UploadToExcelData(IEnumerable<ViewOrder> data) {
-		if (_dialogService.SaveFileDialog($"Данные заказов от {DateTime.Now:dd.MM.yyyy HH.mm.ss}"))
-			_orderService.Save(_dialogService.FilePath, data);
+		// todo Тут окно, в котором заполняется ExcelFileInfo. Данные должны запоминаться и храниться в БД, а так же в сессии для каждого клиента
+		string? filePath = _dialogService.SaveFileDialog(
+			"Сохранение",
+			$"Данные заказов от {DateTime.Now:dd.MM.yyyy HH.mm.ss}",
+			".xlsx", 
+			new List<string> {
+				"Excel (.xlsx)|*.xlsx", 
+				"Старый Excel (.xls)|*.xls"
+			}
+		);
+		if (filePath is not null)
+			_excelFileService.Save(filePath, data, new(ExcelVersion.XSSF, true));
 	}
 
 	public void UploadTemplateExcel() {
-		string? filePath = Utilities.GetTempExcelPath();
+		// todo Тут выбор скачивать старый или новый шаблон, в зависимости от того, что юзер выбрал
+		string? templateFilePath = Utilities.GetTempExcelPath();
 
-		if (filePath is null) {
-			_dialogService.ShowMessage("Отсутствует файл шаблона. Обратитесь к администратору!");
+		if (templateFilePath is null) {
+			_dialogService.ShowMessage(
+				"Отсутствует файл шаблона. Обратитесь к администратору!", 
+				DialogLevel.Error
+			);
 			return;
 		}
-
-		if (_dialogService.SaveFileDialog("Шаблон Excel"))
-			File.Copy(filePath, _dialogService.FilePath);
+		string? filePath = _dialogService.SaveFileDialog(
+			"Сохранение",
+			$"Excel шаблон данных заказов",
+			".xlsx", 
+			new List<string> {
+				"Excel (.xlsx)|*.xlsx", 
+				"Старый Excel (.xls)|*.xls"
+			}
+		);
+		if (filePath is not null)
+			File.Copy(templateFilePath, filePath);
 	}
 
 	public void ShowCountOrders(int count) =>
-		_dialogService.ShowMessage($"Количество заказов: {count}");
+		_dialogService.ShowMessage($"Количество заказов: {count}", DialogLevel.Information);
 	
 	List<ViewOrder> GetData() {
 		throw new NotImplementedException();

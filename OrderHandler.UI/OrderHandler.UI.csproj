@@ -28,6 +28,7 @@
 
     <ItemGroup>
       <Folder Include="Converters\DataType\" />
+      <Folder Include="Core\FilesExtensions\Doc\" />
     </ItemGroup>
 
     <ItemGroup>
