@@ -5,10 +5,6 @@ namespace OrderHandler.UI.Model;
 
 public class ViewOrder : PropertyChanger {
     /// <summary>
-    /// Id в БД
-    /// </summary>
-    int _idDb;
-    /// <summary>
     /// Id в отображении
     /// </summary>
     int _id;
@@ -28,11 +24,12 @@ public class ViewOrder : PropertyChanger {
     ViewShipment _shipment;
     string _note;
     ViewMounting _mounting;
-    
-    internal int IdDb {
-        get => _idDb;
-        set => _idDb = value;
-    }
+
+    /// <summary>
+    /// Id в БД
+    /// </summary>
+    internal int IdDb { get; set; }
+
     public int Id {
         get => _id;
         set {

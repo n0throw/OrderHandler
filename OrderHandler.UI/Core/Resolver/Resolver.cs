@@ -5,22 +5,19 @@ using System.Collections.ObjectModel;
 namespace OrderHandler.UI.Core.Resolver;
 
 public abstract class Resolver<T> : IResolver<T> {
-    private readonly ReadOnlyDictionary<string, Func<T>> contexts;
-    public abstract string DefaultInstance { get; }
+    readonly ReadOnlyDictionary<string, Func<T>> _contexts;
+    protected abstract string DefaultInstance { get; }
     protected abstract string DefaultPostfixAlias { get; }
 
     protected Resolver(IDictionary<string, Func<T>> contexts) =>
-        this.contexts = new(contexts);
+        _contexts = new(contexts);
 
     public T GetInstance(string? alias) {
-        if (alias is null)
-            alias = DefaultInstance;
-        else
-            alias = $"{alias}{DefaultPostfixAlias}";
+        alias = alias is null ? DefaultInstance : $"{alias}{DefaultPostfixAlias}";
 
-        if (!contexts.ContainsKey(alias))
+        if (!_contexts.ContainsKey(alias))
             alias = DefaultInstance;
 
-        return contexts[alias]();
+        return _contexts[alias]();
     }
 }

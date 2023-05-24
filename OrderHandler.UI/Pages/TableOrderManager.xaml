@@ -3,9 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:conv="clr-namespace:OrderHandler.UI.Converters"
       xmlns:contexts="clr-namespace:OrderHandler.UI.Contexts"
-      xmlns:model="clr-namespace:OrderHandler.UI.Model"
       xmlns:converters="clr-namespace:OrderHandler.UI.Converters.AttributeType"
       d:DataContext="{d:DesignInstance Type=contexts:TableOrderManagerContext}"
       mc:Ignorable="d" 
@@ -20,7 +18,6 @@
             <converters:DateTimeToStringConverter x:Key="DateConverter" />
             <converters:BoolToStringConverter x:Key="BoolConverter" />
             <converters:ColumnToBorderWidthConverter x:Key="ColumnToBorderWidthConverter" />
-            <converters:ColumnNameToEnumConverter x:Key="ColumnNameToEnumConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -54,7 +51,59 @@
                 <MenuItem Header="Выгрузить в Excel"        
                           ToolTip="Выгрузка всех заказов из таблицы в Excel"  
                           Command="{Binding UploadToExcelData}" />
-                <Separator/>
+                <Separator />
+                <MenuItem Header="Изменить"
+                          ToolTip="Изменяет заказ"
+                          Command="{Binding EditRowOrder}" />
+                <MenuItem Header="Удалить"
+                          ToolTip="Удаляет заказ"
+                          Command="{Binding DelRowOrder}" />
+                <MenuItem Header="Изменить статус Документации Конструктора"
+                          ToolTip="Изменяет статус Документации Конструктора"
+                          Command="{Binding SetStatusDocConst}" />
+                <MenuItem Header="Изменить статус Документации Технолога"
+                          ToolTip="Изменяет статус Документации Технолога"
+                          Command="{Binding SetStatusDocTech}" />
+                <MenuItem Header="Изменить статус Снабжения"
+                          ToolTip="Изменяет статус Снабжения"
+                          Command="{Binding SetStatusSupply}" />
+                <MenuItem Header="Изменить статус Пильного Центра"
+                          ToolTip="Изменяет статус Пильного Центра"
+                          Command="{Binding SetStatusSawCenter}" />
+                <MenuItem Header="Изменить статус Кромки"
+                          ToolTip="Изменяет статус Кромки"
+                          Command="{Binding SetStatusEdge}" />
+                <MenuItem Header="Изменить статус Присадки"
+                          ToolTip="Изменяет статус Присадки"
+                          Command="{Binding SetStatusAdditive}" />
+                <MenuItem Header="Изменить статус Фрезеровки"
+                          ToolTip="Изменяет статус Фрезеровки"
+                          Command="{Binding SetStatusMilling}" />
+                <MenuItem Header="Изменить статус Шлифовки"
+                          ToolTip="Изменяет статус Шлифовки"
+                          Command="{Binding SetStatusGrinding}" />
+                <MenuItem Header="Изменить статус Пресса"
+                          ToolTip="Изменяет статус Пресса"
+                          Command="{Binding SetStatusPress}" />
+                <MenuItem Header="Изменить статус Сборки"
+                          ToolTip="Изменяет статус Сборки"
+                          Command="{Binding SetStatusAssembling}" />
+                <MenuItem Header="Изменить статус Упаковки"
+                          ToolTip="Изменяет статус Упаковки"
+                          Command="{Binding SetStatusPacking}" />
+                <MenuItem Header="Изменить статус Комплектации"
+                          ToolTip="Изменяет статус Комплектации"
+                          Command="{Binding SetStatusEquipment}" />
+                <MenuItem Header="Изменить статус Отгрузки"
+                          ToolTip="Изменяет статус Отгрузки"
+                          Command="{Binding SetStatusShipment}" />
+                <MenuItem Header="Изменить примечание"
+                          ToolTip="Изменяет примечание к заказу"
+                          Command="{Binding EditNoteColumn}" />
+                <MenuItem Header="Изменить статус Монтажа"
+                          ToolTip="Изменяет статус Монтажа"
+                          Command="{Binding SetStatusMounting}" />
+                <Separator />
                 <MenuItem Header="Шаблон Excel заказов" 
                           ToolTip="Скачивает шаблон для массовой загрузки заказов из Excel" 
                           Command="{Binding UploadTemplateExcel}" />
@@ -351,11 +400,10 @@
                                    TextTrimming="CharacterEllipsis" />
                     </Border>
                 </StackPanel>
-                <DataGrid x:Name="OrderDG"
-                              ItemsSource="{Binding Orders}"
-                              SelectedItem="{Binding SelectedOrder}"
-                              Style="{StaticResource BaseDataGrid}"
-                              CellStyle="{StaticResource BaseDataGridCell}">
+                <DataGrid ItemsSource="{Binding Orders}"
+                          SelectedItem="{Binding SelectedOrder}"
+                          Style="{StaticResource BaseDataGrid}"
+                          CellStyle="{StaticResource BaseDataGridCell}">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Изменить"
@@ -364,13 +412,57 @@
                                 <MenuItem Header="Удалить"
                                           ToolTip="Удаляет заказ"
                                           Command="{Binding DelRowOrder}" />
-                                <MenuItem Header="Переключить статус"
-                                          ToolTip="Переключает статус заказа"
-                                          Command="{Binding ChangeStatusRowOrder}"
-                                          CommandParameter="{Binding ElementName=OrderDG, Path=CurrentColumn.Header, Converter={StaticResource ColumnNameToEnumConverter}}" />
-                                <MenuItem Header="Изменить описание"
-                                          ToolTip="Изменяет описание к заказу"
-                                          Command="{Binding EditNoteRowOrder}" />
+                                <MenuItem Header="Изменить статус Документации Конструктора"
+                                          ToolTip="Изменяет статус Документации Конструктора"
+                                          Command="{Binding SetStatusDocConst}" />
+                                <MenuItem Header="Изменить статус Документации Технолога"
+                                          ToolTip="Изменяет статус Документации Технолога"
+                                          Command="{Binding SetStatusDocTech}" />
+                                <MenuItem Header="Изменить статус Снабжения"
+                                          ToolTip="Изменяет статус Снабжения"
+                                          Command="{Binding SetStatusSupply}" />
+                                <MenuItem Header="Изменить статус Пильного Центра"
+                                          ToolTip="Изменяет статус Пильного Центра"
+                                          Command="{Binding SetStatusSawCenter}" />
+                                <MenuItem Header="Изменить статус Кромки"
+                                          ToolTip="Изменяет статус Кромки"
+                                          Command="{Binding SetStatusEdge}" />
+                                <MenuItem Header="Изменить статус Присадки"
+                                          ToolTip="Изменяет статус Присадки"
+                                          Command="{Binding SetStatusAdditive}" />
+                                <MenuItem Header="Изменить статус Фрезеровки"
+                                          ToolTip="Изменяет статус Фрезеровки"
+                                          Command="{Binding SetStatusMilling}" />
+                                <MenuItem Header="Изменить статус Шлифовки"
+                                          ToolTip="Изменяет статус Шлифовки"
+                                          Command="{Binding SetStatusGrinding}" />
+                                <MenuItem Header="Изменить статус Пресса"
+                                          ToolTip="Изменяет статус Пресса"
+                                          Command="{Binding SetStatusPress}" />
+                                <MenuItem Header="Изменить статус Сборки"
+                                          ToolTip="Изменяет статус Сборки"
+                                          Command="{Binding SetStatusAssembling}" />
+                                <MenuItem Header="Изменить статус Упаковки"
+                                          ToolTip="Изменяет статус Упаковки"
+                                          Command="{Binding SetStatusPacking}" />
+                                <MenuItem Header="Изменить статус Комплектации"
+                                          ToolTip="Изменяет статус Комплектации"
+                                          Command="{Binding SetStatusEquipment}" />
+                                <MenuItem Header="Изменить статус Отгрузки"
+                                          ToolTip="Изменяет статус Отгрузки"
+                                          Command="{Binding SetStatusShipment}" />
+                                <!-- С общей комадной не удобно настраивать видимость -->
+                                <!-- Да и в целом обрабатывать её -->
+                                <!-- <MenuItem Header="Переключить статус" -->
+                                <!--           ToolTip="Переключает статус заказа" -->
+                                <!--           Command="{Binding ChangeStatusRowOrder}" -->
+                                <!--           CommandParameter="{Binding ElementName=OrderDG, Path=CurrentColumn.Header, Converter={StaticResource ColumnNameToEnumConverter}}" /> -->
+                                <MenuItem Header="Изменить примечание"
+                                          ToolTip="Изменяет примечание к заказу"
+                                          Command="{Binding EditNoteColumn}" />
+                                <MenuItem Header="Изменить статус Монтажа"
+                                          ToolTip="Изменяет статус Монтажа"
+                                          Command="{Binding SetStatusMounting}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
@@ -679,20 +771,20 @@
                                                 HeaderStyle="{StaticResource SecondDataGridColumnHeader}"
                                                 Binding="{Binding Path=Note}"
                                                 MinWidth="95">
-                                <DataGridTextColumn.CellStyle>
-                                    <Style TargetType="DataGridCell">
-                                        <Setter Property="ToolTip"
-                                                Value="{Binding Path=Note}" />
-                                        <Style.Triggers>
-                                            <Trigger Property="IsSelected" Value="true">
-                                                <Setter Property="Background" Value="Transparent"/>
-                                                <Setter Property="Foreground" Value="Black"/>
-                                                <Setter Property="BorderBrush" Value="Black"/>
-                                                <Setter Property="BorderThickness" Value="0 0 0 0"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </DataGridTextColumn.CellStyle>
+                                <!-- <DataGridTextColumn.CellStyle> -->
+                                    <!-- <Style TargetType="DataGridCell"> -->
+                                    <!--     <Setter Property="ToolTip" -->
+                                    <!--             Value="{Binding Path=SelectedOrder.Note}" /> -->
+                                    <!--     <Style.Triggers> -->
+                                    <!--         <Trigger Property="IsSelected" Value="true"> -->
+                                    <!--             <Setter Property="Background" Value="Transparent"/> -->
+                                    <!--             <Setter Property="Foreground" Value="Black"/> -->
+                                    <!--             <Setter Property="BorderBrush" Value="Black"/> -->
+                                    <!--             <Setter Property="BorderThickness" Value="0 0 0 0"/> -->
+                                    <!--         </Trigger> -->
+                                    <!--     </Style.Triggers> -->
+                                    <!-- </Style> -->
+                                <!-- </DataGridTextColumn.CellStyle> -->
                             </DataGridTextColumn>
                             <!-- Столбцы Монтажа -->
                             <DataGridTextColumn x:Name="MountingIsNeedColumn"

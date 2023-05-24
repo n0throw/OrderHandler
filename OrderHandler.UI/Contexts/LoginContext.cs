@@ -4,22 +4,19 @@ using System.Windows;
 using System.Security.Cryptography;
 using System.Collections.ObjectModel;
 
-using NPOI.HSSF.UserModel;
-
 using OrderHandler.DB;
 using OrderHandler.DB.Data;
+using OrderHandler.DB.Data.UserAdd;
 
 using OrderHandler.UI.Core;
 using OrderHandler.UI.Model;
-
-using OrderHandler.DB.Data.UserAdd;
 
 namespace OrderHandler.UI.Contexts;
 
 public class LoginContext : PropertyChanger {
     UserCombo _currentSelection;
     string _passwordHash;
-
+    
     public ObservableCollection<UserCombo> UserCombos { get; }
     public UserCombo CurrentSelection {
         get => _currentSelection;
@@ -87,18 +84,17 @@ public class LoginContext : PropertyChanger {
 
         db.SaveChanges();
     }
-    
+
     string GetHashSHA256(string str)
     {
-        var SHA256 = new SHA256Managed();
         var hash = new StringBuilder();
-        byte[] cryptBytes = SHA256.ComputeHash(Encoding.UTF8.GetBytes(str));
-        foreach (byte crypeByte in cryptBytes)
-            hash.Append(crypeByte.ToString("x2"));
-        
+        byte[] cryptBytes = SHA256.HashData(Encoding.UTF8.GetBytes(str));
+        foreach (byte cryptoByte in cryptBytes)
+            hash.Append(cryptoByte.ToString("x2"));
+
         return hash.ToString();
     }
-    
+
     void FillUserCombos() {
         using var db = new Context();
         db.Users.ToList().ForEach(user => {

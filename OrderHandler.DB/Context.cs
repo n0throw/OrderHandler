@@ -9,7 +9,7 @@ using OrderHandler.DB.Configurations;
 
 namespace OrderHandler.DB;
 
-public class Context : DbContext
+public sealed class Context : DbContext
 {
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderMain> OrderMains => Set<OrderMain>();
@@ -48,8 +48,8 @@ public class Context : DbContext
 
     public int GetLastIndex()
     {
-        Order? lastOrder = Orders.OrderBy(order => order.Id).LastOrDefault();
+        var lastOrder = Orders.OrderBy(order => order.Id).LastOrDefault();
 
-        return lastOrder is not null ? lastOrder.Id : 0;
+        return lastOrder?.Id ?? 0;
     }
 }

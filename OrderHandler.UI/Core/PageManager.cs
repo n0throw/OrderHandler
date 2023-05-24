@@ -1,42 +1,43 @@
 ﻿using System.Windows.Controls;
+
 using OrderHandler.UI.Core.Resolver;
 
 namespace OrderHandler.UI.Core;
 
 public class PageManager {
-    private readonly ContextResolver contextResolver;
-    private readonly PageResolver pageResolver;
-    private Page? currentPage = null;
+    readonly ContextResolver _contextResolver;
+    readonly PageResolver _pageResolver;
+    Page? _currentPage;
 
     public delegate void UpdateCurrentPageHandler(Page page);
     public event UpdateCurrentPageHandler? UpdateCurrentPage;
 
     public PageManager(UpdateCurrentPageHandler updateCurrentPageHandler) {
-        contextResolver = new();
-        pageResolver = new();
+        _contextResolver = new();
+        _pageResolver = new();
         UpdateCurrentPage += updateCurrentPageHandler;
     }
 
     public Page SetFirstPage(string alias) {
-        currentPage ??= this[alias];
-        return currentPage;
+        _currentPage ??= this[alias];
+        return _currentPage;
     }
 
-    private Page this[string? alias] {
+    Page this[string? alias] {
         get {
-            Page page = pageResolver.GetInstance(alias);
-            PropertyChanger context = contextResolver.GetInstance(alias);
+            var page = _pageResolver.GetInstance(alias);
+            var context = _contextResolver.GetInstance(alias);
 
             context.TurnPage += SetPage;
             page.DataContext = context;
-            currentPage = page;
+            _currentPage = page;
 
             return page;
         }
     }
 
-    private void SetPage(string? alias) {
-        currentPage = this[alias];
-        UpdateCurrentPage?.Invoke(currentPage);
+    void SetPage(string? alias) {
+        _currentPage = this[alias];
+        UpdateCurrentPage?.Invoke(_currentPage);
     }
 }

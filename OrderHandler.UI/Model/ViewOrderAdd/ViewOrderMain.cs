@@ -7,9 +7,7 @@ using OrderHandler.UI.Model.Validation.Validators;
 namespace OrderHandler.UI.Model.ViewOrderAdd;
 
 public class ViewOrderMain : PropertyChanger, IDataErrorInfo  {
-    int _id;
     string _orderNumber;
-    int? _idUser;
     string _FIO;
     DateTime _orderDate;
     DateTime _deliveryDate;
@@ -20,10 +18,8 @@ public class ViewOrderMain : PropertyChanger, IDataErrorInfo  {
     public string Error => throw new NotImplementedException();
     IViewOrderMainValidator Validator { get; }
 
-    internal int Id {
-        get => _id;
-        set => _id = value;
-    }
+    internal int Id { get; set; }
+
     public string OrderNumber {
         get => _orderNumber;
         set {
@@ -31,10 +27,8 @@ public class ViewOrderMain : PropertyChanger, IDataErrorInfo  {
             OnPropertyChanged();
         }
     }
-    internal int? IdUser {
-        get => _idUser;
-        set => _idUser = value;
-    }
+    internal int? IdUser { get; set; }
+
     public string FIO {
         get => _FIO;
         set {

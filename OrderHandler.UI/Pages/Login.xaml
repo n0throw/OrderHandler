@@ -11,7 +11,30 @@
       Title="Login">
 
     <Grid Background="White">
-        <GroupBox Header="Авторизация" HorizontalAlignment="Left" VerticalAlignment="Top" Width="170" Margin="10,10,0,0">
+        <Menu Height="20" VerticalAlignment="Top">
+            <MenuItem Header="Настройки"  Height="20">
+                <MenuItem Header="Основные"
+                          ToolTip="Основные настройки приложения"
+                          Command="{Binding ShowSettingsWindow}" />
+                <MenuItem Header="Настройки подключения"
+                          ToolTip="Настройки подключения к базе данных"
+                           Command="{Binding ShowBDConnectSettingsWindow}" />
+            </MenuItem>
+            <MenuItem Header="Информация" Height="20" ToolTip="Устанавливает различные фильтры отображения">
+                <MenuItem Header="О приложении"
+                          ToolTip="Общая информация о приложении"
+                          Command="{Binding ShowInfoWindow}" />
+                <MenuItem Header="Пользовательское соглашение"
+                          ToolTip="Лицензии"
+                          Command="{Binding ShowLicenceWindow}" />
+            </MenuItem>
+            <MenuItem Header="Закрыть программу"    
+                      ToolTip="Полностью закрывает программу"   
+                      Height="20"
+                      Command="{Binding CloseAppCommand}" />
+        </Menu>
+        <Grid Margin="0 20 0 0">
+            <GroupBox Header="Авторизация" HorizontalAlignment="Left" VerticalAlignment="Top" Width="170" Margin="10,10,0,0">
             <WrapPanel>
                 <ComboBox Width="145"
                           Height="22"
@@ -21,8 +44,13 @@
                           SelectedValuePath="FIO"
                           SelectedValue="{Binding CurrentSelection.FIO}"
                           SelectedItem="{Binding CurrentSelection}"/>
-                <PasswordBox Password="******" Width="145" Height="18" Margin="5" attach:PasswordBoxAttach.PasswordProp="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PasswordChanged="PasswordBox_PasswordChanged"/>
-                <Button Content="Войти" Width="145" Margin="5" Command="{Binding EntryCommand}"/>
+                <PasswordBox Password="******"
+                             Width="145"
+                             Height="18"
+                             Margin="5"
+                             attach:PasswordBoxAttach.PasswordProp="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             PasswordChanged="PasswordBox_PasswordChanged" />
+                <Button Content="Войти" Width="145" Margin="5" Command="{Binding EntryCommand}" />
             </WrapPanel>
         </GroupBox>
         <Button Content="Close" HorizontalAlignment="Left" Margin="10,795,0,0" VerticalAlignment="Top" Command="{Binding ClosePageCommand}" Height="20" Width="33"/>
@@ -32,7 +60,7 @@
             <ListBoxItem FontWeight="Bold" Background="LightGray" Content="Information" />
             <ListBoxItem>Оповещения работают для всех пользователей</ListBoxItem>
             <ListBoxItem FontWeight="Bold" Background="LightGray" Content="Any text" />
-            <ListBoxItem>Из интерфейса пока что не доступно</ListBoxItem>
+            <ListBoxItem>Настройка из интерфейса пока что не доступно</ListBoxItem>
             <ListBoxItem FontWeight="Bold" Background="LightGray" Content="Заголовок" />
             <ListBoxItem>Вообще можно хоть о чём оповещать</ListBoxItem>
             <ListBoxItem FontWeight="Bold" Background="LightGray" Content="1.0.1" />
@@ -40,5 +68,6 @@
             <ListBoxItem FontWeight="Bold" Background="LightGray" Content="1.0.0" />
             <ListBoxItem>Первая версия программы</ListBoxItem>
         </ListBox>
+        </Grid>
     </Grid>
 </Page>

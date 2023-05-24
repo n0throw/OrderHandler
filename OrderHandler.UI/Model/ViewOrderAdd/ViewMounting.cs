@@ -7,17 +7,14 @@ using OrderHandler.UI.Model.Validation.Validators;
 namespace OrderHandler.UI.Model.ViewOrderAdd;
 
 public class ViewMounting : PropertyChanger, IDataErrorInfo {
-    int _id;
     DateTime _plannedDate;
     bool _isNeed;
         
     public string Error => throw new NotImplementedException();
     IViewMountingValidator Validator { get; }
 
-    internal int Id {
-        get => _id;
-        set => _id = value;
-    }
+    internal int Id { get; set; }
+
     public DateTime PlannedDate {
         get => _plannedDate;
         set {

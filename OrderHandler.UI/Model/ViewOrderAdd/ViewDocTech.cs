@@ -7,19 +7,15 @@ using OrderHandler.UI.Model.Validation.Validators;
 namespace OrderHandler.UI.Model.ViewOrderAdd;
 
 public class ViewDocTech : PropertyChanger, IDataErrorInfo {
-    int _id;
     DateTime _plannedDate;
-    int? _idUser;
     string _FIO;
     DateTime _dateOfCompletion;
         
     public string Error => throw new NotImplementedException();
     IViewDocTechValidator Validator { get; }
 
-    internal int Id {
-        get => _id;
-        set => _id = value;
-    }
+    internal int Id { get; set; }
+
     public DateTime PlannedDate {
         get => _plannedDate;
         set {
@@ -27,10 +23,8 @@ public class ViewDocTech : PropertyChanger, IDataErrorInfo {
             OnPropertyChanged();
         }
     }
-    internal int? IdUser {
-        get => _idUser;
-        set => _idUser = value;
-    }
+    internal int? IdUser { get; set; }
+
     public string FIO {
         get => _FIO;
         set {

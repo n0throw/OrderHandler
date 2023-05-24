@@ -10,7 +10,7 @@ namespace OrderHandler.UI.Converters.AttributeType;
 // Тут шляпа
 // Нужно сделать адекватный column range template для таблиц
 // И уже по нему проверять, а не по наименованию столбца
-// А то парсить 20+ столбцов не вариант в виде Enumaration
+// А то парсить 20+ столбцов не вариант в виде Enumeration
 public class ColumnNameToEnumConverter  : IValueConverter
 {
 	public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {

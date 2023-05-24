@@ -1,12 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
-
-using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 
-using OrderHandler.DB.Data;
 using OrderHandler.UI.Contexts.CommandsImpl;
 using OrderHandler.UI.Core;
 using OrderHandler.UI.Model;
@@ -91,7 +87,103 @@ public class TableOrderManagerContext : PropertyChanger {
             _ => _commandsImpl.UploadToExcelData(Orders), 
             null
         );
+    
+    // ---------- Сепаратор ----------
+    
+    RelayCommand? _editRowOrder;
+    public RelayCommand EditRowOrder => _editRowOrder ??= new(_ => {
+        var newOrder = new AddNewOrder {
+            DataContext = new AddNewOrderContext()
+        };
 
+        if (newOrder.ShowDialog() == true)
+        {
+            
+        }
+    }, null);
+    
+    RelayCommand? _delRowOrder;
+    public RelayCommand DelRowOrder => _delRowOrder ??= new(_ => {
+        
+    }, null);
+    
+    RelayCommand? _setStatusDocConst;
+    public RelayCommand SetStatusDocConst => _setStatusDocConst ??= new(_ => {
+        
+    }, null);
+
+    RelayCommand? _setStatusDocTech;
+    public RelayCommand SetStatusDocTech => _setStatusDocTech ??= new(_ => {
+        
+    }, null);
+
+    RelayCommand? _setStatusSupply;
+    public RelayCommand SetStatusSupply => _setStatusSupply ??= new(_ => {
+        
+    }, null);
+
+    RelayCommand? _setStatusSawCenter;
+    public RelayCommand SetStatusSawCenter => _setStatusSawCenter ??= new(_ => {
+        
+    }, null);
+
+    RelayCommand? _setStatusEdge;
+    public RelayCommand SetStatusEdge => _setStatusEdge ??= new(_ => {
+        
+    }, null);
+
+    RelayCommand? _setStatusAdditive;
+    public RelayCommand SetStatusAdditive => _setStatusAdditive ??= new(_ => {
+        
+    }, null);
+
+    RelayCommand? _setStatusMilling;
+    public RelayCommand SetStatusMilling => _setStatusMilling ??= new(_ => {
+        
+    }, null);
+
+    RelayCommand? _setStatusGrinding;
+    public RelayCommand SetStatusGrinding => _setStatusGrinding ??= new(_ => {
+        
+    }, null);
+
+    RelayCommand? _setStatusPress;
+    public RelayCommand SetStatusPress => _setStatusPress ??= new(_ => {
+        
+    }, null);
+
+    RelayCommand? _setStatusAssembling;
+    public RelayCommand SetStatusAssembling => _setStatusAssembling ??= new(_ => {
+        
+    }, null);
+
+    RelayCommand? _setStatusPacking;
+    public RelayCommand SetStatusPacking => _setStatusPacking ??= new(_ => {
+        
+    }, null);
+
+    RelayCommand? _setStatusEquipment;
+    public RelayCommand SetStatusEquipment => _setStatusEquipment ??= new(_ => {
+        
+    }, null);
+
+    RelayCommand? _setStatusShipment;
+    public RelayCommand SetStatusShipment => _setStatusShipment ??= new(_ => {
+        
+    }, null);
+
+    RelayCommand? _editNoteColumn;
+    public RelayCommand EditNoteColumn => _editNoteColumn ??= new(_ => {
+        
+    }, null);
+    
+    RelayCommand? _setStatusMounting;
+    public RelayCommand SetStatusMounting => _setStatusMounting ??= new(_ => {
+        
+    }, null);
+    
+    // ---------- Сепаратор ----------
+    
     RelayCommand? _uploadTemplateExcel;
     public RelayCommand UploadTemplateExcel => 
         _uploadTemplateExcel ??= new(
@@ -123,24 +215,8 @@ public class TableOrderManagerContext : PropertyChanger {
         
     }, null);
 
-    // ---------- Контекстное меню ----------
-    RelayCommand? _editRowOrder;
-    public RelayCommand EditRowOrder => _editRowOrder ??= new(_ => {
-        var newOrder = new AddNewOrder {
-            DataContext = new AddNewOrderContext()
-        };
-
-        if (newOrder.ShowDialog() == true)
-        {
-            
-        }
-    }, null);
-    
-    RelayCommand? _delRowOrder;
-    public RelayCommand DelRowOrder => _delRowOrder ??= new(_ => {
-        
-    }, null);
-    
+    // ---------- Контекстное Меню ----------
+    // ---------- Больше не используется, все команды дублируются в Header Menu ----------
     RelayCommand? _changeStatusRowOrder;
     public RelayCommand ChangeStatusRowOrder => _changeStatusRowOrder ??= new(tableColumnInfoObj => {
         if (tableColumnInfoObj is not TableColumnInfo tableColumnInfo) {
@@ -154,12 +230,6 @@ public class TableOrderManagerContext : PropertyChanger {
         
     }, null);
     
-    RelayCommand? _editNoteRowOrder;
-    public RelayCommand EditNoteRowOrder => _editNoteRowOrder ??= new(_ => {
-        
-    }, null);
-    
-
     // тут фильтры учитываем
     void GetData() {
 

@@ -5,15 +5,14 @@ using OrderHandler.UI.Core;
 namespace OrderHandler.UI.Contexts;
 
 public class MainWindowContext : PropertyChanger {
-    private readonly PageManager pageManager;
-    private readonly NavigationService navigationService;
+    readonly NavigationService _navigationService;
 
     public MainWindowContext(NavigationService navigationService) {
-        this.navigationService = navigationService;
-        pageManager = new(Navigate);
+        _navigationService = navigationService;
+        PageManager pageManager = new(Navigate);
         Navigate(pageManager.SetFirstPage("Login"));
     }
 
-    private void Navigate(Page page) =>
-        navigationService.Navigate(page);
+    void Navigate(Page page) =>
+        _navigationService.Navigate(page);
 }

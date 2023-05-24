@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using System.Collections.Generic;
 
 namespace OrderHandler.UI.Model.Validation;
+
 public interface IValidator<in T> where T : class {
 	public List<ValidationResult> Errors { get; }
 	public string Separator { get; }
