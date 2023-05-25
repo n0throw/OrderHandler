@@ -13,41 +13,30 @@
             <MenuItem Header="Меню" Height="20" ToolTip="Основные для всех страниц функции">
                 <MenuItem Header="Статусы"              
                           ToolTip="Показыват статусы системы" 
-                          Command="{Binding ShowStatusCommand}"/>
+                          Command="{Binding ShowStatusWindowCommand}"/>
                 <MenuItem Header="Закрыть"  
                           ToolTip="Возвращает на начальный экран" 
-                          Command="{Binding GoBackCommand}" />
+                          Command="{Binding ReturnToMainMenuScreen}" />
                 <Separator/>
                 <MenuItem Header="Выход"                
                           ToolTip="Возвращает на экран авторизации"   
-                          Command="{Binding ExitCommand}" />
+                          Command="{Binding ReturnToLoginScreen}" />
                 <MenuItem Header="Закрыть программу"    
                           ToolTip="Полностью закрывает программу"     
                           Command="{Binding CloseAppCommand}" />
             </MenuItem>
-            <MenuItem Header="Утилиты" Height="20" ToolTip="Основные для данной страницы функции">
-                <MenuItem Header="Показывать избранное"
-                          IsCheckable="True"
-                          IsChecked="{Binding IsShowFavourites}" />
-                <MenuItem Header="Показывать общее избранное"
-                          IsCheckable="True"
-                          IsChecked="{Binding IsShowDescApp}" />
-                <MenuItem Header="Показывать основные приложения"
-                          IsCheckable="True"
-                          IsChecked="{Binding IsShowGenericApp}" />
-            </MenuItem>
             <MenuItem Header="Настройки" Height="20" ToolTip="Основные настройки приложения">
                 <MenuItem Header="Основные"
                           ToolTip="Основные настройки приложения"
-                          Command="{Binding BasicAppSettingsCommand}" />
+                          Command="{Binding ShowBasicAppSettingsWindowCommand}" />
             </MenuItem>
             <MenuItem Header="Информация" Height="20" ToolTip="Общая информация">
                 <MenuItem Header="О приложении"
                           ToolTip="Общая информация о приложении"
-                          Command="{Binding AboutAppCommand}" />
+                          Command="{Binding ShowAboutAppWindowCommand}" />
                 <MenuItem Header="Пользовательское соглашение"
                           ToolTip="Лицензии"
-                          Command="{Binding UserAgreementCommand}" />
+                          Command="{Binding ShowUserAgreementWindowCommand}" />
             </MenuItem>
         </Menu>
         <TextBlock Margin="10,100,10,0" TextWrapping="Wrap" Text="Ой, что то пошло не так.&#x0a;Почему я вижу эту страницу:" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" TextAlignment="Center"/>

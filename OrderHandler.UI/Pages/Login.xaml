@@ -15,7 +15,7 @@
             <MenuItem Header="Настройки"  Height="20">
                 <MenuItem Header="Основные"
                           ToolTip="Основные настройки приложения"
-                          Command="{Binding BasicAppSettingsCommand}" />
+                          Command="{Binding ShowBasicAppSettingsWindowCommand}" />
                 <MenuItem Header="Настройки подключения"
                           ToolTip="Настройки подключения к базе данных"
                            Command="{Binding ShowBDConnectSettingsWindow}" />
@@ -23,10 +23,10 @@
             <MenuItem Header="Информация" Height="20" ToolTip="Общая информация">
                 <MenuItem Header="О приложении"
                           ToolTip="Общая информация о приложении"
-                          Command="{Binding AboutAppCommand}" />
+                          Command="{Binding ShowAboutAppWindowCommand}" />
                 <MenuItem Header="Пользовательское соглашение"
                           ToolTip="Лицензии"
-                          Command="{Binding UserAgreementCommand}" />
+                          Command="{Binding ShowUserAgreementWindowCommand}" />
             </MenuItem>
             <MenuItem Header="Закрыть программу"    
                       ToolTip="Полностью закрывает программу"   
@@ -53,8 +53,6 @@
                 <Button Content="Войти" Width="145" Margin="5" Command="{Binding EntryCommand}" />
             </WrapPanel>
         </GroupBox>
-        <Button Content="Close" HorizontalAlignment="Left" Margin="10,795,0,0" VerticalAlignment="Top" Command="{Binding ClosePageCommand}" Height="20" Width="33"/>
-        <Button Content="Table" HorizontalAlignment="Left" Margin="10,820,0,0" VerticalAlignment="Top" Command="{Binding TablePageCommand}" Height="20" Width="31"/>
         <ListBox Margin="185,10,10,10">
             <TextBlock FontWeight="Bold" TextDecorations="Underline" Text="Обновления" />
             <ListBoxItem FontWeight="Bold" Background="LightGray" Content="Information" />

@@ -17,25 +17,25 @@ public class PropertyChanger : INotifyPropertyChanged {
             null
         );
 
-    RelayCommand? _basicAppSettingsCommand;
-    public virtual RelayCommand BasicAppSettingsCommand =>
-        _basicAppSettingsCommand ??= new(
+    RelayCommand? _showBasicAppSettingsWindowCommand;
+    public virtual RelayCommand ShowBasicAppSettingsWindowCommand =>
+        _showBasicAppSettingsWindowCommand ??= new(
             _ => {
                 //todo тут открываем окно "Основные настройки приложения". С настройкой языка, темы, формта, etc. Оно для всех одно
             }, null
         );
     
-    RelayCommand? _aboutAppCommand;
-    public virtual RelayCommand AboutAppCommand =>
-        _aboutAppCommand ??= new(
+    RelayCommand? _showAboutAppWindowCommand;
+    public virtual RelayCommand ShowAboutAppWindowCommand =>
+        _showAboutAppWindowCommand ??= new(
             _ => {
                 //todo тут открываем окно "О приложении". Оно для всех одно
             }, null
         );
     
-    RelayCommand? _userAgreementCommand;
-    public virtual RelayCommand UserAgreementCommand =>
-        _userAgreementCommand ??= new(
+    RelayCommand? _showUserAgreementWindowCommand;
+    public virtual RelayCommand ShowUserAgreementWindowCommand =>
+        _showUserAgreementWindowCommand ??= new(
             _ => {
                 //todo тут открываем окно "Пользовательское соглашение". Показывает информацию о лицензии на приложении и доп. библиотеки. Оно для всех одно
             }, null

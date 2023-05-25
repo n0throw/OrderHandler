@@ -29,6 +29,7 @@ public class TableOrderManagerContext : PropertyChanger {
             OnPropertyChanged();
         }
     }
+    
     // ---------- Меню страницы ----------
     // ---------- Меню ----------
     RelayCommand? _updateDataCommand;
@@ -38,23 +39,23 @@ public class TableOrderManagerContext : PropertyChanger {
             null
         );
 
-    RelayCommand? _goBackCommand;
-    public RelayCommand GoBackCommand => 
-        _goBackCommand ??= new(
+    RelayCommand? _returnToMainMenuScreen;
+    public RelayCommand ReturnToMainMenuScreen => 
+        _returnToMainMenuScreen ??= new(
             _ => _commandsImpl.GoBackCommand(GoToPage), 
             null
         );
     
-    RelayCommand? _showStatusCommand;
-    public RelayCommand ShowStatusCommand => 
-        _showStatusCommand ??= new(
+    RelayCommand? _showStatusWindowCommand;
+    public RelayCommand ShowStatusWindowCommand => 
+        _showStatusWindowCommand ??= new(
             _ => _commandsImpl.ShowStatusCommand(), 
             null
         );
     
-    RelayCommand? _exitCommand;
-    public RelayCommand ExitCommand => 
-        _exitCommand ??= new(
+    RelayCommand? _returnToLoginScreen;
+    public RelayCommand ReturnToLoginScreen => 
+        _returnToLoginScreen ??= new(
             _ => _commandsImpl.ExitCommand(GoToPage), 
             null
         );
@@ -212,6 +213,18 @@ public class TableOrderManagerContext : PropertyChanger {
     
     RelayCommand? _setQueryFilter;
     public RelayCommand SetQueryFilter => _setQueryFilter ??= new(_ => {
+        
+    }, null);
+    
+    // ---------- Настройки ----------
+    
+    RelayCommand? _showUserSettingsWindowCommand;
+    public RelayCommand ShowUserSettingsWindowCommand => _showUserSettingsWindowCommand ??= new(_ => {
+        
+    }, null);
+    
+    RelayCommand? _showAddSettingsWindowCommand;
+    public RelayCommand ShowAddSettingsWindowCommand => _showAddSettingsWindowCommand ??= new(_ => {
         
     }, null);
 

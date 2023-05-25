@@ -58,7 +58,57 @@ public class LoginContext : PropertyChanger {
             CurrentSelection = UserCombos.First();
         Password = string.Empty;
     }
+    
+    // ---------- Меню страницы ----------
+    // ---------- Настройки ----------
+    RelayCommand? _showBDConnectSettingsWindow;
+    public RelayCommand ShowBDConnectSettingsWindow => 
+        _showBDConnectSettingsWindow ??= new(
+            _ => {
+                
+            }, 
+            null
+        );
+    
+    // ---------- Команды на странице ----------
+    RelayCommand? _entryCommand;
+    public RelayCommand EntryCommand =>
+        _entryCommand ??= new(_ => {
+            using var db = new Context();
 
+            bool ValidateUser(string dbPass, string currPass) {
+                if (dbPass == string.Empty)
+                    return false;
+                return dbPass == currPass;
+            }
+
+            User defaultUser = new() {
+                Id = -1,
+                PasswordHash = string.Empty,
+            };
+            var user = db.Users.ToList().FirstOrDefault(user => user.Id == _currentSelection.Id, defaultUser);
+
+            if (ValidateUser(user.PasswordHash, _passwordHash)) {
+                GoToPage("TableOrderManager");
+            } else {
+                MessageBox.Show(
+                    "Вы ввели не правильный пароль",
+                    "Ошибка авторизации", 
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Exclamation
+                );
+            }
+        }, _ => {
+            if (_currentSelection is null)
+                return false;
+
+            return _passwordHash switch {
+                null => false,
+                "" => false,
+                var _ => true
+            };
+        });
+    
     void CreateAdminUser() {
         using var db = new Context();
         var user = new User {
@@ -108,54 +158,4 @@ public class LoginContext : PropertyChanger {
             });
         });
     }
-
-    RelayCommand? _entryCommand;
-    public RelayCommand EntryCommand =>
-        _entryCommand ??= new(_ => {
-            using var db = new Context();
-
-            bool ValidateUser(string dbPass, string currPass) {
-                if (dbPass == string.Empty)
-                    return false;
-                return dbPass == currPass;
-            }
-
-            User defaultUser = new() {
-                Id = -1,
-                PasswordHash = string.Empty,
-            };
-            var user = db.Users.ToList().FirstOrDefault(user => user.Id == _currentSelection.Id, defaultUser);
-
-            if (ValidateUser(user.PasswordHash, _passwordHash)) {
-                GoToPage("TableOrderManager");
-            } else {
-                MessageBox.Show(
-                    "Вы ввели не правильный пароль",
-                    "Ошибка авторизации", 
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Exclamation
-                );
-            }
-        }, (_) => {
-            if (_currentSelection is null)
-                return false;
-
-            return _passwordHash switch {
-                null => false,
-                "" => false,
-                var _ => true
-            };
-        });
-
-    RelayCommand? _closePageCommand;
-    public RelayCommand ClosePageCommand =>
-        _closePageCommand ??= new(_ => {
-            GoToPage(null);
-        }, null);
-
-    RelayCommand? _tablePageCommand;
-    public RelayCommand TablePageCommand =>
-        _tablePageCommand ??= new(_ => {
-            GoToPage("TableOrderManager");
-        }, null);
 }
