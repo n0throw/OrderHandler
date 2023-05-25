@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Security.Cryptography;
@@ -14,18 +15,18 @@ using OrderHandler.UI.Model;
 namespace OrderHandler.UI.Contexts;
 
 public class LoginContext : PropertyChanger {
-    UserCombo _currentSelection;
-    string _passwordHash;
+    UserCombo? _currentSelection;
+    string? _passwordHash;
     
     public ObservableCollection<UserCombo> UserCombos { get; }
-    public UserCombo CurrentSelection {
+    public UserCombo? CurrentSelection {
         get => _currentSelection;
         set {
             _currentSelection = value;
             OnPropertyChanged();
         }
     }
-    public string Password {
+    public string? Password {
         get => _passwordHash;
         set {
             _passwordHash = GetHashSHA256(value);
@@ -36,7 +37,8 @@ public class LoginContext : PropertyChanger {
     public LoginContext() {
         UserCombos = new();
         FillUserCombos();
-
+        
+        // todo это надо будет вынести в "Настройки подключения к базе данных".
         if (UserCombos.Count == 0) {
             var isCreateNewUser = MessageBox.Show(
                 "В системе отсутствуют пользователи, создать нового?",
@@ -85,8 +87,10 @@ public class LoginContext : PropertyChanger {
         db.SaveChanges();
     }
 
-    string GetHashSHA256(string str)
-    {
+    string? GetHashSHA256(string? str) {
+        if (str is null)
+            return null;
+        
         var hash = new StringBuilder();
         byte[] cryptBytes = SHA256.HashData(Encoding.UTF8.GetBytes(str));
         foreach (byte cryptoByte in cryptBytes)
@@ -132,7 +136,16 @@ public class LoginContext : PropertyChanger {
                     MessageBoxImage.Exclamation
                 );
             }
-        }, null);
+        }, (_) => {
+            if (_currentSelection is null)
+                return false;
+
+            return _passwordHash switch {
+                null => false,
+                "" => false,
+                var _ => true
+            };
+        });
 
     RelayCommand? _closePageCommand;
     public RelayCommand ClosePageCommand =>

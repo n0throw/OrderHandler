@@ -122,6 +122,25 @@
                           ToolTip="Фильтры выборки данных" 
                           Command="{Binding SetQueryFilter}" />
             </MenuItem>
+            <MenuItem Header="Настройки" Height="20" ToolTip="Основные настройки приложения">
+                <MenuItem Header="Основные"
+                          ToolTip="Основные настройки приложения"
+                          Command="{Binding BasicAppSettingsCommand}" />
+                <MenuItem Header="Пользовательские"
+                          ToolTip="Настройки пользователя"
+                          Command="{Binding ShowUserSettingsWindow}" />
+                <MenuItem Header="Дополнительные"
+                          ToolTip="Дополнительные настройки"
+                          Command="{Binding ShowAddSettingsWindow}" />
+            </MenuItem>
+            <MenuItem Header="Информация" Height="20" ToolTip="Общая информация">
+                <MenuItem Header="О приложении"
+                          ToolTip="Общая информация о приложении"
+                          Command="{Binding AboutAppCommand}" />
+                <MenuItem Header="Пользовательское соглашение"
+                          ToolTip="Лицензии"
+                          Command="{Binding UserAgreementCommand}" />
+            </MenuItem>
         </Menu>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto"

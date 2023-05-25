@@ -60,7 +60,7 @@ public class TableOrderManagerContext : PropertyChanger {
         );
     
     RelayCommand? _closeAppCommand;
-    public RelayCommand CloseAppCommand => 
+    public override RelayCommand CloseAppCommand => 
         _closeAppCommand ??= new(
             _ => _commandsImpl.CloseAppCommand(), 
             null

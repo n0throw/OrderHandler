@@ -3,7 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:OrderHandler.UI.Pages"
+      xmlns:contexts="clr-namespace:OrderHandler.UI.Contexts"
+      d:DataContext="{d:DesignInstance Type=contexts:MainMenuContext}"
       mc:Ignorable="d"
       Title="MainMenu" Height="550" Width="800">
     <Grid>
@@ -33,7 +34,7 @@
             <MenuItem Header="Настройки" Height="20" ToolTip="Основные настройки приложения">
                 <MenuItem Header="Основные"
                           ToolTip="Основные настройки приложения"
-                          Command="{Binding ShowSettingsWindow}" />
+                          Command="{Binding BasicAppSettingsCommand}" />
                 <MenuItem Header="Пользовательские"
                           ToolTip="Настройки пользователя"
                           Command="{Binding ShowUserSettingsWindow}" />
@@ -41,13 +42,13 @@
                           ToolTip="Дополнительные настройки"
                           Command="{Binding ShowAddSettingsWindow}" />
             </MenuItem>
-            <MenuItem Header="Информация" Height="20" ToolTip="Устанавливает различные фильтры отображения">
+            <MenuItem Header="Информация" Height="20" ToolTip="Общая информация">
                 <MenuItem Header="О приложении"
                           ToolTip="Общая информация о приложении"
-                          Command="{Binding ShowInfoWindow}" />
+                          Command="{Binding AboutAppCommand}" />
                 <MenuItem Header="Пользовательское соглашение"
                           ToolTip="Лицензии"
-                          Command="{Binding ShowLicenceWindow}" />
+                          Command="{Binding UserAgreementCommand}" />
             </MenuItem>
         </Menu>
         <TreeView Margin="0 20 0 0">

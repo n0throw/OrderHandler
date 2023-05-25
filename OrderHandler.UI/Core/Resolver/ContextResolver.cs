@@ -15,8 +15,7 @@ public class ContextResolver : Resolver<PropertyChanger> {
     protected override string DefaultInstance => DefaultContext;
     protected override string DefaultPostfixAlias => PostfixAlias;
 
-    public ContextResolver() : base(new Dictionary<string, Func<PropertyChanger>>()
-    {
+    public ContextResolver() : base(new Dictionary<string, Func<PropertyChanger>> {
         { nameof(LoginContext), () => new LoginContext() },
         { nameof(DefaultPageContext), () => new DefaultPageContext() },
         { nameof(TableOrderManagerContext), () => new TableOrderManagerContext(new TableOrderManagerCommandsImpl(new DialogService(), new ExcelOrderFileService())) }
