@@ -1,14 +1,17 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Security.Cryptography;
+using System.Collections.ObjectModel;
 
 using OrderHandler.DB;
 using OrderHandler.DB.Data;
 using OrderHandler.DB.Data.UserAdd;
+
 using OrderHandler.UI.Core;
 using OrderHandler.UI.Model;
+using OrderHandler.UI.Pages;
+using OrderHandler.UI.Windows.LoginWindows;
 
 namespace OrderHandler.UI.Contexts.Pages;
 
@@ -67,7 +70,7 @@ public class LoginContext : PropertyChanger {
     public RelayCommand ShowDBConnectSettingsWindow => 
         _showDBConnectSettingsWindow ??= new(
             _ => {
-                
+                GoToPage(nameof(DBConnectSettingsWindow));
             }, 
             null
         );
@@ -91,7 +94,7 @@ public class LoginContext : PropertyChanger {
             var user = db.Users.ToList().FirstOrDefault(user => user.Id == _currentSelection.Id, defaultUser);
 
             if (ValidateUser(user.PasswordHash, _passwordHash)) {
-                GoToPage("TableOrderManager");
+                GoToPage(nameof(OrderManager));
             } else {
                 MessageBox.Show(
                     "Вы ввели не правильный пароль",

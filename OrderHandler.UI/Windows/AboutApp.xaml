@@ -1,0 +1,90 @@
+﻿<Window x:Class="OrderHandler.UI.Windows.AboutApp"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:OrderHandler.UI.Windows"
+        mc:Ignorable="d"
+        MinHeight="400"
+        Height="400"
+        MinWidth="800"
+        Width="800"
+        Title="Обработчик заказов: О приложении">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Приложение">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="20" />
+                    </Grid.RowDefinitions>
+                    <FlowDocumentScrollViewer Grid.Row="0">
+                        <!-- todo Тут binding, который из xml подгружается -->
+                        <!--" FlowDocument Background="#FFE5E5E5" DataContext={Binding AboutApp, Mode=OneWay}-->
+                        <FlowDocument Background="#FFE5E5E5">
+                            <Paragraph>Обработчик заказов</Paragraph>
+                            <Paragraph>27.05.2023</Paragraph>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="4, 0, 3, 0">
+                            <TextBlock Text="Разработчик:" TextWrapping="Wrap" Margin="1, 0, 1, 0" FontWeight="Bold" />
+                            <TextBlock Text="Рязанов Я.С." TextWrapping="Wrap" Margin="3, 0, 1, 0" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="4, 0, 3, 0">
+                            <TextBlock Text="Версия:" TextWrapping="Wrap" Margin="1, 0, 1, 0" FontWeight="Bold" />
+                            <TextBlock Text="1.500.500 NR" TextWrapping="Wrap" Margin="3, 0, 1, 0" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="4, 0, 10, 0">
+                            <TextBlock Text="От:" TextWrapping="Wrap" Margin="1, 0, 1, 0" FontWeight="Bold" />
+                            <TextBlock Text="27.05.2023" TextWrapping="Wrap" Margin="3, 0, 1, 0" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="База знаний">
+                <!-- todo Тут binding, который из xml подгружает как список, так и описание -->
+                <Grid x:Name="KnowledgeBaseGrid" Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TreeView Grid.Column="0" Background="{Binding Background, ElementName=KnowledgeBaseGrid}">
+                        <TreeViewItem Header="Настройка БД" IsExpanded="True">
+                            <TreeViewItem Header="Базы данных" /> 
+                            <TreeViewItem Header="О конфигураторе подключения" />       
+                            <TreeViewItem Header="Создание и настройка базы данных" />    
+                        </TreeViewItem>
+                        <TreeViewItem Header="Начало работы с приложением" IsExpanded="True">
+                            <TreeViewItem Header="Заказы" />    
+                            <TreeViewItem Header="Фильтры" />    
+                            <TreeViewItem Header="Документы" IsExpanded="True">
+                                <TreeViewItem Header="Выгрузка в Excel" />    
+                                <TreeViewItem Header="Выгрузка в Word" />    
+                            </TreeViewItem>
+                        </TreeViewItem>
+                        <TreeViewItem Header="Администрирование" IsExpanded="True">
+                            <TreeViewItem Header="Пользователи" />    
+                            <TreeViewItem Header="Роли" />    
+                            <TreeViewItem Header="Права" />    
+                        </TreeViewItem>
+                    </TreeView>
+                    <GridSplitter Grid.Column="1" 
+                                  ShowsPreview="False"
+                                  Width="3"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Stretch" />
+                    <Grid Grid.Column="2">
+
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

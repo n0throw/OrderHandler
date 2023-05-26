@@ -1,4 +1,5 @@
 ﻿using OrderHandler.UI.Core;
+using OrderHandler.UI.Pages;
 
 namespace OrderHandler.UI.Contexts.Pages;
 
@@ -32,6 +33,6 @@ public class ErrorContext : PropertyChanger {
     RelayCommand? _returnToLoginScreen;
     public RelayCommand ReturnToLoginScreen =>
         _returnToLoginScreen ??= new(obj => {
-            GoToPage("Login");
+            GoToPage(nameof(Login));
         }, null);
 }
