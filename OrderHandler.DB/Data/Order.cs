@@ -10,7 +10,7 @@ public class Order {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>
-    public int Id { get; set; }
+    public long Id { get; set; }
     /// <summary>
     /// Ссылка на основную информацию о заказе
     /// </summary>

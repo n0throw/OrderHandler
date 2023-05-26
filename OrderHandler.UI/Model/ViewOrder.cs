@@ -7,7 +7,7 @@ public class ViewOrder : PropertyChanger {
     /// <summary>
     /// Id в отображении
     /// </summary>
-    int _id;
+    long _id;
     ViewOrderMain _orderMain;
     ViewDocConst _docConst;
     ViewDocTech _docTech;
@@ -28,9 +28,9 @@ public class ViewOrder : PropertyChanger {
     /// <summary>
     /// Id в БД
     /// </summary>
-    internal int IdDb { get; set; }
+    internal long IdDb { get; set; }
 
-    public int Id {
+    public long Id {
         get => _id;
         set {
             _id = value;

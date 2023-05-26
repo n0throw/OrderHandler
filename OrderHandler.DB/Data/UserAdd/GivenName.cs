@@ -13,7 +13,7 @@ public class GivenName : ICloneable {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>
-    public int Id { get; set; }
+    public long Id { get; set; }
     /// <summary>
     /// Фамилия
     /// </summary>

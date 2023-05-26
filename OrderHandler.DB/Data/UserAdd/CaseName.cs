@@ -9,7 +9,7 @@ public class CaseName {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>
-    public int Id { get; set; }
+    public long Id { get; set; }
 
     /// <summary>
     /// Личное имя, для которого данное ФИО представлено в именительном падеже.
@@ -40,7 +40,7 @@ public class CaseName {
     /// Id Пользователя.
     /// Внешний ключ
     /// </summary>
-    public int IdUser { get; set; }
+    public long IdUser { get; set; }
     /// <summary>
     /// Пользователь.
     /// Внешний ключ

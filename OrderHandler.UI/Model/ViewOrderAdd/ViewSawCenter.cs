@@ -16,7 +16,7 @@ public class ViewSawCenter : PropertyChanger, IDataErrorInfo {
     public string Error => throw new NotImplementedException();
     IViewSawCenterValidator Validator { get; }
 
-    internal int Id { get; set; }
+    internal long Id { get; set; }
 
     public DateTime PlannedDate {
         get => _plannedDate;
@@ -25,7 +25,7 @@ public class ViewSawCenter : PropertyChanger, IDataErrorInfo {
             OnPropertyChanged();
         }
     }
-    internal int? IdUser { get; set; }
+    internal long? IdUser { get; set; }
 
     public string FIO {
         get => _FIO;

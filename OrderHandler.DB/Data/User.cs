@@ -13,7 +13,7 @@ public class User
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>
-    public int Id { get; set; }
+    public long Id { get; set; }
     /// <summary>
     /// Логин пользователя
     /// </summary>

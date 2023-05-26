@@ -1,21 +1,22 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 
 using OrderHandler.UI.Contexts.CommandsImpl;
+using OrderHandler.UI.Contexts.Windows;
 using OrderHandler.UI.Core;
 using OrderHandler.UI.Model;
 using OrderHandler.UI.Windows;
 
-namespace OrderHandler.UI.Contexts;
+namespace OrderHandler.UI.Contexts.Pages;
 
-public class TableOrderManagerContext : PropertyChanger {
+public class OrderManagerContext : PropertyChanger {
 
     readonly ITableOrderManagerCommandsImpl _commandsImpl;
     public ObservableCollection<ViewOrder> Orders { get; private set; }
 
-    public TableOrderManagerContext(ITableOrderManagerCommandsImpl commandsImpl) {
+    public OrderManagerContext(ITableOrderManagerCommandsImpl commandsImpl) {
         Orders = new();
         _commandsImpl = commandsImpl;
         GetData();
@@ -93,8 +94,8 @@ public class TableOrderManagerContext : PropertyChanger {
     
     RelayCommand? _editRowOrder;
     public RelayCommand EditRowOrder => _editRowOrder ??= new(_ => {
-        var newOrder = new AddNewOrder {
-            DataContext = new AddNewOrderContext()
+        var newOrder = new NewOrder {
+            DataContext = new NewOrderContext()
         };
 
         if (newOrder.ShowDialog() == true)

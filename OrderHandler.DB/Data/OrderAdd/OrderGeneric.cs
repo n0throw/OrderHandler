@@ -9,12 +9,12 @@ public abstract class OrderGeneric {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>
-    public abstract int Id { get; set; }
+    public abstract long Id { get; set; }
     /// <summary>
     /// Id Пользователя.
     /// Внешний ключ
     /// </summary>
-    public abstract int UserId { get; set; }
+    public abstract long UserId { get; set; }
     /// <summary>
     /// Выполнивший пользователь.
     /// Внешний ключ
@@ -29,5 +29,5 @@ public abstract class OrderGeneric {
     /// Id Заказа.
     /// Внешний ключ
     /// </summary>
-    public abstract int OrderId { get; set; }
+    public abstract long OrderId { get; set; }
 }

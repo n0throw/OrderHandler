@@ -11,7 +11,7 @@ public class OrderMain : OrderGeneric {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>
-    public override int Id { get; set; }
+    public override long Id { get; set; }
     #region [ Basic Information ]
     /// <summary>
     /// Номер заказа
@@ -43,7 +43,7 @@ public class OrderMain : OrderGeneric {
     /// Id Менеджера заказа.
     /// Внешний ключ
     /// </summary>
-    public override int UserId { get; set; }
+    public override long UserId { get; set; }
     /// <summary>
     /// Менеджер заказа.
     /// Внешний ключ
@@ -53,7 +53,7 @@ public class OrderMain : OrderGeneric {
     /// Id Заказа.
     /// Внешний ключ
     /// </summary>
-    public override int OrderId { get; set; }
+    public override long OrderId { get; set; }
     /// <summary>
     /// Заказ.
     /// Внешний ключ

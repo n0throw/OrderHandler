@@ -46,7 +46,7 @@ public sealed class Context : DbContext
         modelBuilder.ApplyConfiguration(new CaseNameConfiguration());
     }
 
-    public int GetLastIndex()
+    public long GetLastIndex()
     {
         var lastOrder = Orders.OrderBy(order => order.Id).LastOrDefault();
 

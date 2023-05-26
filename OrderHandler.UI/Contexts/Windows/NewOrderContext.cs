@@ -1,10 +1,10 @@
 ﻿using OrderHandler.UI.Core;
-using OrderHandler.UI.Model;
 using OrderHandler.UI.Core.Service.Dialog;
+using OrderHandler.UI.Model;
 
-namespace OrderHandler.UI.Contexts;
+namespace OrderHandler.UI.Contexts.Windows;
 
-public class AddNewOrderContext : PropertyChanger {
+public class NewOrderContext : PropertyChanger {
     ViewOrder _viewOrder;
     public ViewOrder ViewOrder {
         get => _viewOrder;
@@ -27,7 +27,7 @@ public class AddNewOrderContext : PropertyChanger {
 
     readonly IDialogService _dialogService;
 
-    public AddNewOrderContext() {
+    public NewOrderContext() {
         _viewOrder = new();
         _dialogService = new DialogService();
     }

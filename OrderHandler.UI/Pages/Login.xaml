@@ -4,11 +4,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:attach="clr-namespace:OrderHandler.UI.AttachedProp"
-      xmlns:contexts="clr-namespace:OrderHandler.UI.Contexts"
+      xmlns:contexts="clr-namespace:OrderHandler.UI.Contexts.Pages"
       d:DataContext="{d:DesignInstance Type=contexts:LoginContext}"
       mc:Ignorable="d" 
-      d:DesignHeight="850" d:DesignWidth="1400"
-      Title="Login">
+      MinHeight="400"
+      Height="400"
+      MinWidth="800"
+      Width="800"
+      Title="Обработчик заказов: Авторизация">
 
     <Grid Background="White">
         <Menu Height="20" VerticalAlignment="Top">
@@ -18,7 +21,7 @@
                           Command="{Binding ShowBasicAppSettingsWindowCommand}" />
                 <MenuItem Header="Настройки подключения"
                           ToolTip="Настройки подключения к базе данных"
-                           Command="{Binding ShowBDConnectSettingsWindow}" />
+                           Command="{Binding ShowDBConnectSettingsWindow}" />
             </MenuItem>
             <MenuItem Header="Информация" Height="20" ToolTip="Общая информация">
                 <MenuItem Header="О приложении"

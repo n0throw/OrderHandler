@@ -11,7 +11,7 @@ public class SawCenter : OrderGeneric {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>
-    public override int Id { get; set; }
+    public override long Id { get; set; }
     #region [ Basic Information ]
     /// <summary>
     /// Плановая дата
@@ -35,7 +35,7 @@ public class SawCenter : OrderGeneric {
     /// Id Пользователя.
     /// Внешний ключ
     /// </summary>
-    public override int UserId { get; set; }
+    public override long UserId { get; set; }
     /// <summary>
     /// Выполнивший пользователь.
     /// Внешний ключ
@@ -45,7 +45,7 @@ public class SawCenter : OrderGeneric {
     /// Id Заказа.
     /// Внешний ключ
     /// </summary>
-    public override int OrderId { get; set; }
+    public override long OrderId { get; set; }
     /// <summary>
     /// Заказ.
     /// Внешний ключ

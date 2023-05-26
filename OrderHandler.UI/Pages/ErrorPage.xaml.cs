@@ -2,7 +2,7 @@
 
 namespace OrderHandler.UI.Pages;
 
-public partial class TableOrderManager : Page {
-    public TableOrderManager() =>
+public partial class ErrorPage : Page {
+    public ErrorPage() =>
         InitializeComponent();
 }

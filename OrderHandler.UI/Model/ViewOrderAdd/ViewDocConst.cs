@@ -14,7 +14,7 @@ public class ViewDocConst : PropertyChanger, IDataErrorInfo {
     public string Error => throw new NotImplementedException();
     IViewDocConstValidator Validator { get; }
 
-    internal int Id { get; set; }
+    internal long Id { get; set; }
 
     public DateTime PlannedDate {
         get => _plannedDate;
@@ -23,7 +23,7 @@ public class ViewDocConst : PropertyChanger, IDataErrorInfo {
             OnPropertyChanged();
         }
     }
-    internal int? IdUser { get; set; }
+    internal long? IdUser { get; set; }
 
     public string FIO {
         get => _FIO;

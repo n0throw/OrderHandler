@@ -13,7 +13,7 @@ public class ViewMounting : PropertyChanger, IDataErrorInfo {
     public string Error => throw new NotImplementedException();
     IViewMountingValidator Validator { get; }
 
-    internal int Id { get; set; }
+    internal long Id { get; set; }
 
     public DateTime PlannedDate {
         get => _plannedDate;

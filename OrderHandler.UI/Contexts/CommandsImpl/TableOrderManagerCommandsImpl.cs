@@ -38,7 +38,7 @@ public class TableOrderManagerCommandsImpl : ITableOrderManagerCommandsImpl {
 		Application.Current.Shutdown();
 
 	public IEnumerable<ViewOrder> AddNewOrderCommand() {
-		AddNewOrder addNewOrderWindow = new();
+		NewOrder addNewOrderWindow = new();
 
 		return addNewOrderWindow.ShowDialog() == true 
 			? GetData() 

@@ -1,17 +1,6 @@
-﻿using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Security.Cryptography;
-using System.Collections.ObjectModel;
+﻿using OrderHandler.UI.Core;
 
-using OrderHandler.DB;
-using OrderHandler.DB.Data;
-using OrderHandler.DB.Data.UserAdd;
-
-using OrderHandler.UI.Core;
-using OrderHandler.UI.Model;
-
-namespace OrderHandler.UI.Contexts; 
+namespace OrderHandler.UI.Contexts.Pages; 
 
 public class MainMenuContext : PropertyChanger {
 

@@ -18,7 +18,7 @@ public class ViewOrderMain : PropertyChanger, IDataErrorInfo  {
     public string Error => throw new NotImplementedException();
     IViewOrderMainValidator Validator { get; }
 
-    internal int Id { get; set; }
+    internal long Id { get; set; }
 
     public string OrderNumber {
         get => _orderNumber;
@@ -27,7 +27,7 @@ public class ViewOrderMain : PropertyChanger, IDataErrorInfo  {
             OnPropertyChanged();
         }
     }
-    internal int? IdUser { get; set; }
+    internal long? IdUser { get; set; }
 
     public string FIO {
         get => _FIO;
