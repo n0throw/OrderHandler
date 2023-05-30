@@ -8,9 +8,7 @@
       d:DataContext="{d:DesignInstance Type=contexts:LoginContext}"
       mc:Ignorable="d"
       MinHeight="400"
-      Height="400"
       MinWidth="800"
-      Width="800"
       Title="Обработчик заказов: Авторизация">
 
     <Grid Background="White">
@@ -47,7 +45,7 @@
                           SelectedValuePath="FIO"
                           SelectedValue="{Binding CurrentSelection.FIO}"
                           SelectedItem="{Binding CurrentSelection}"/>
-                <PasswordBox Password="******"
+                <PasswordBox Password=""
                              Width="145"
                              Height="18"
                              Margin="5"

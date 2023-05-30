@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Security.Cryptography;
@@ -143,13 +144,15 @@ public class LoginContext : PropertyChanger {
     }
 
     string GetHashSHA256(string str) {
+       if (str == string.Empty)
+           return string.Empty;
        
-        var hash = new StringBuilder();
-        byte[] cryptBytes = SHA256.HashData(Encoding.UTF8.GetBytes(str));
-        foreach (byte cryptoByte in cryptBytes)
-            hash.Append(cryptoByte.ToString("x2"));
+       var hash = new StringBuilder();
+       byte[] cryptBytes = SHA256.HashData(Encoding.UTF8.GetBytes(str));
+       foreach (byte cryptoByte in cryptBytes)
+           hash.Append(cryptoByte.ToString("x2"));
 
-        return hash.ToString();
+       return hash.ToString();
     }
 
     void FillUserCombos() {

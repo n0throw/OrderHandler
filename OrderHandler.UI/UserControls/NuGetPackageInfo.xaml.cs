@@ -16,5 +16,5 @@ public partial class NuGetPackageInfo : UserControl {
 	public string PackageVersion { get; set; }
 
 	void Hyperlink_OnClick(object sender, RoutedEventArgs e)
-		=> Process.Start(Link.ToString());
+		=> Process.Start(new ProcessStartInfo(Link.AbsoluteUri) { UseShellExecute = true });
 }
