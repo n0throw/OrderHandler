@@ -1,0 +1,37 @@
+﻿<Window x:Class="OrderHandler.UI.Windows.UserAgreement"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:uc="clr-namespace:OrderHandler.UI.UserControls"
+        mc:Ignorable="d"
+        MinHeight="400"
+        Height="400"
+        MinWidth="800"
+        Width="800"
+        Title="Обработчик заказов: Пользовательское соглашение">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/OrderHandler.UI;component/Resources/UserAgreementDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <TabControl>
+            <TabItem Header="Приложение">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="#FFE5E5E5">
+                    <TextBlock TextWrapping="Wrap" Text="{StaticResource AppLicense}" />
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Сторонние соглашения">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Background="#FFE5E5E5">
+                        <uc:NuGetPackageInfo Link="{StaticResource EFCoreLink}" PackageName="{StaticResource EFCoreName}" PackageVersion="{StaticResource EFCoreVersion}" />
+                        <uc:NuGetPackageInfo Link="{StaticResource NPOILink}" PackageName="{StaticResource NPOIName}" PackageVersion="{StaticResource NPOIVersion}" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

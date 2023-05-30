@@ -18,7 +18,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/OrderHandler.UI;component/Resources/TableOrderManagerDictionary.xaml" />
+                <ResourceDictionary Source="/OrderHandler.UI;component/Resources/OrderManagerDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:DateTimeToStringConverter x:Key="DateConverter" />
             <converters:BoolToStringConverter x:Key="BoolConverter" />

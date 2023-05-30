@@ -51,9 +51,9 @@
                 <!-- todo Тут binding, который из xml подгружает как список, так и описание -->
                 <Grid x:Name="KnowledgeBaseGrid" Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" MinWidth="250" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" MinWidth="250" />
                     </Grid.ColumnDefinitions>
                     <TreeView Grid.Column="0" Background="{Binding Background, ElementName=KnowledgeBaseGrid}">
                         <TreeViewItem Header="Настройка БД" IsExpanded="True">
