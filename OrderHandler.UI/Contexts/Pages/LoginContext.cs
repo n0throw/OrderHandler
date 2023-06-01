@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 using OrderHandler.DB;
 using OrderHandler.DB.Data;
 using OrderHandler.DB.Data.UserAdd;
-
+using OrderHandler.UI.Contexts.Windows;
 using OrderHandler.UI.Core;
 using OrderHandler.UI.Model;
 using OrderHandler.UI.Pages;
@@ -71,7 +71,11 @@ public class LoginContext : PropertyChanger {
     public RelayCommand ShowDBConnectSettingsWindow => 
         _showDBConnectSettingsWindow ??= new(
             _ => {
-                GoToPage(nameof(DBConnectSettingsWindow));
+                var dbConnectSettingsWindow = new DBConnectSettingsWindow {
+                    Owner = Application.Current.MainWindow,
+                    DataContext = new DBConnectSettingsWindowContext()
+                };
+                dbConnectSettingsWindow.ShowDialog();
             }, 
             null
         );
@@ -95,7 +99,7 @@ public class LoginContext : PropertyChanger {
             var user = db.Users.ToList().FirstOrDefault(user => user.Id == _currentSelection.Id, defaultUser);
 
             if (ValidateUser(user.PasswordHash, _passwordHash)) {
-                GoToPage(nameof(OrderManager));
+                GoToPage(nameof(MainMenu));
             } else {
                 MessageBox.Show(
                     "Вы ввели не правильный пароль",

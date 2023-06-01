@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Windows;
 
 using OrderHandler.UI.Core;
 using OrderHandler.UI.Model;
@@ -27,7 +29,7 @@ public class DBConnectSettingsWindowContext : PropertyChanger {
 	
 	void FillDBCombos() {
 		// todo тут json где-то в %appdata%
-		throw new System.NotImplementedException();
+		//throw new System.NotImplementedException();
 	}
 	
 	RelayCommand? _exportCommand;
@@ -57,6 +59,11 @@ public class DBConnectSettingsWindowContext : PropertyChanger {
 	RelayCommand? _openConfigureConnectionAppCommand;
 	public RelayCommand OpenConfigureConnectionAppCommand =>
 		_openConfigureConnectionAppCommand ??= new(_ => {
+			try {
+				Process.Start("OrderHandler.DBConfigurator.exe");
+			} catch {
+				MessageBox.Show("Отсутствует конфигуратор БД", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
 			
 		}, null);
 }

@@ -3,9 +3,9 @@ using OrderHandler.UI.Pages;
 
 namespace OrderHandler.UI.Contexts.Pages;
 
-public class ErrorContext : PropertyChanger {
+public class ErrorPageContext : PropertyChanger {
     string _description;
-    public ErrorContext() { }
+    public ErrorPageContext() { }
 
     public string Description {
         get => _description;

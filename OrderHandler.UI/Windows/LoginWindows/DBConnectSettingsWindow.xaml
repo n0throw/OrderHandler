@@ -7,7 +7,7 @@
         d:DataContext="{d:DesignInstance Type=contexts:DBConnectSettingsWindowContext}"
         mc:Ignorable="d"
         MinHeight="450"
-        MinWidth="325"
+        MinWidth="345"
         Title="Обработчик заказов: Настройки подключения к базе данных">
     <Grid>
         <TextBlock Text="База данных:"
@@ -20,7 +20,6 @@
                   Width="120"
                   HorizontalAlignment="Left"
                   ItemsSource="{Binding DBCombos}"
-                  DisplayMemberPath="DisplayName"
                   SelectedValuePath="DisplayName"
                   SelectedValue="{Binding CurrentSelection.DisplayName}"
                   SelectedItem="{Binding CurrentSelection}">

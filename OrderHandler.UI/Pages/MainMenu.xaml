@@ -4,12 +4,11 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:contexts="clr-namespace:OrderHandler.UI.Contexts.Pages"
+      xmlns:commandBehaviors="clr-namespace:OrderHandler.UI.Core.CommandBehaviors"
       d:DataContext="{d:DesignInstance Type=contexts:MainMenuContext}"
       mc:Ignorable="d" 
       MinHeight="400"
-      Height="400"
       MinWidth="800"
-      Width="800"
       Title="Обработчик заказов: Главное меню">
     <Grid>
         <Menu Height="20" VerticalAlignment="Top">
@@ -27,13 +26,10 @@
             <MenuItem Header="Утилиты" Height="20" ToolTip="Основные для данной страницы функции">
                 <MenuItem Header="Показывать избранное"
                           IsCheckable="True"
-                          IsChecked="{Binding IsShowFavourites}" />
-                <MenuItem Header="Показывать общее избранное"
-                          IsCheckable="True"
-                          IsChecked="{Binding IsShowDescApp}" />
+                          IsChecked="{Binding IsShowFavouritesSubApp}" />
                 <MenuItem Header="Показывать основные приложения"
                           IsCheckable="True"
-                          IsChecked="{Binding IsShowGenericApp}" />
+                          IsChecked="{Binding IsShowGenericSubApp}" />
             </MenuItem>
             <MenuItem Header="Настройки" Height="20" ToolTip="Основные настройки приложения">
                 <MenuItem Header="Основные"
@@ -55,48 +51,28 @@
                           Command="{Binding ShowUserAgreementWindowCommand}" />
             </MenuItem>
         </Menu>
-        <TreeView Margin="0 20 0 0">
-            <TreeViewItem Header="Избранное">
-                
-            </TreeViewItem>
-            <TreeViewItem Header="Общее избранное">
-                
-            </TreeViewItem>
-            <TreeViewItem Header="Приложения" IsExpanded="True">
-                <TreeViewItem Header="Основные" IsExpanded="True">
-                    <TreeViewItem Header="Заказы" IsExpanded="True">
-                        <TreeViewItem Header="Список заказов" />
-                        <TreeViewItem Header="Все заказы" />
-                        <TreeViewItem Header="Добавить заказ" />
-                        <TreeViewItem Header="Массовая загрузка заказов" />
-                    </TreeViewItem>
-                    <TreeViewItem Header="Документы" IsExpanded="True">
-                        <TreeViewItem Header="Выгрузка заказов в Excel" />
-                        <TreeViewItem Header="Выгрузка всех заказов в Excel" />
-                    </TreeViewItem>
-                </TreeViewItem>
-                <TreeViewItem Header="Администрирование" IsExpanded="True">
-                    <TreeViewItem Header="Роли" IsExpanded="True">
-                        <TreeViewItem Header="Список ролей" />
-                        <TreeViewItem Header="Создать роль"></TreeViewItem>
-                    </TreeViewItem>
-                    <TreeViewItem Header="Пользователи" IsExpanded="True">
-                        <TreeViewItem Header="Список пользователей" />
-                        <TreeViewItem Header="Создать пользователя" />
-                    </TreeViewItem>
-                </TreeViewItem>
-                <TreeViewItem Header="Настройки" IsExpanded="True">
-                    <TreeViewItem Header="Основные" />
-                    <TreeViewItem Header="Пользовательские" />
-                    <TreeViewItem Header="Дополнительные" />
-                </TreeViewItem>
-                <TreeViewItem Header="Информация" IsExpanded="True">
-                    <TreeViewItem Header="О приложении"
-                                  ToolTip="Общая информация о приложении" />
-                    <TreeViewItem Header="Пользовательское соглашение"
-                                  ToolTip="Лицензии" />
-                </TreeViewItem>
-            </TreeViewItem>
+        <TreeView Margin="0 20 0 0" ItemsSource="{Binding MenuNodes}">
+            <TreeView.Style>
+                <Style TargetType="TreeView">
+                    <Setter Property="commandBehaviors:MouseDoubleClick.Command"
+                            Value="{Binding DoubleClickToSubApp}" />
+                </Style>
+            </TreeView.Style>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="IsSelected"
+                            Value="{Binding IsSelected}" />
+                    <Setter Property="IsExpanded"
+                            Value="{Binding IsExpanded}" />
+                </Style>
+            </TreeView.ItemContainerStyle>    
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Path=Childrens}">
+                    <StackPanel>
+                        <Label Content="{Binding Path=Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>    
+            </TreeView.ItemTemplate>
         </TreeView>
     </Grid>
 </Page>

@@ -9,7 +9,7 @@ using OrderHandler.UI.Contexts.CommandsImpl;
 namespace OrderHandler.UI.Core.Resolver;
 
 public class ContextResolver : Resolver<PropertyChanger> {
-    const string DefaultContext = "ErrorPageContext";
+    const string DefaultContext = nameof(ErrorPageContext);
     const string PostfixAlias = "Context";
 
     protected override string DefaultInstance => DefaultContext;
@@ -17,7 +17,7 @@ public class ContextResolver : Resolver<PropertyChanger> {
 
     public ContextResolver() : base(new Dictionary<string, Func<PropertyChanger>> {
         { nameof(LoginContext), () => new LoginContext() },
-        { nameof(ErrorContext), () => new ErrorContext() },
+        { nameof(ErrorPageContext), () => new ErrorPageContext() },
         { nameof(OrderManagerContext), () => new OrderManagerContext(new TableOrderManagerCommandsImpl(new DialogService(), new ExcelOrderFileService())) },
         { nameof(MainMenuContext), () => new MainMenuContext() }
     }) { }

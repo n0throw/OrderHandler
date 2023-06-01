@@ -4,12 +4,10 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:contexts="clr-namespace:OrderHandler.UI.Contexts.Pages"
-      d:DataContext="{d:DesignInstance Type=contexts:ErrorContext}"
+      d:DataContext="{d:DesignInstance Type=contexts:ErrorPageContext}"
       mc:Ignorable="d" 
       MinHeight="400"
-      Height="400"
       MinWidth="800"
-      Width="800"
       Title="Обработчик заказов: Ошибка">
     <Grid>
         <Menu Height="20" VerticalAlignment="Top">

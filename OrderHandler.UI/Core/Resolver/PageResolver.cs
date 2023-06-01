@@ -7,7 +7,7 @@ using OrderHandler.UI.Pages;
 namespace OrderHandler.UI.Core.Resolver;
 
 public sealed class PageResolver : Resolver<Page> {
-    const string DefaultPageName = "ErrorPage";
+    const string DefaultPageName = nameof(ErrorPage);
     protected override string DefaultInstance => DefaultPageName;
     protected override string DefaultPostfixAlias => string.Empty;
 
