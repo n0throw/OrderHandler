@@ -67,7 +67,7 @@
                 </Style>
             </TreeView.ItemContainerStyle>    
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Path=Childrens}">
+                <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
                     <StackPanel>
                         <Label Content="{Binding Path=Name}" />
                     </StackPanel>

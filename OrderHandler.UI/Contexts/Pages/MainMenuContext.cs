@@ -1,8 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Linq;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 using OrderHandler.UI.Core;
-using OrderHandler.UI.Model.MainMenuAdd;
 using OrderHandler.UI.Pages;
+using OrderHandler.UI.Model.MainMenuAdd;
 
 namespace OrderHandler.UI.Contexts.Pages; 
 
@@ -63,10 +65,27 @@ public class MainMenuContext : PropertyChanger {
 	RelayCommand? _doubleClickToSubApp;
 	public RelayCommand DoubleClickToSubApp =>
 		_doubleClickToSubApp ??= new(_ => {
-			GoToPage(nameof(OrderManager));
+			string? subAppPageName = GetAllDescendants(MenuNodes)
+				.First(node => node.IsSelected).SubAppPageName;
+			
+			if (subAppPageName is not null)
+				GoToPage(subAppPageName);
 		}, null);
 
-
+	
+	IEnumerable<SubAppNode> GetAllDescendants(IEnumerable<SubAppNode> rootNodes)
+	{
+		var nodes = new Stack<SubAppNode>(rootNodes);
+		
+		while (nodes.Any())
+		{
+			var node = nodes.Pop();
+			yield return node;
+			foreach (var n in node.Children) 
+				nodes.Push(n);
+		}
+	}
+	
 	//todo Тут загрузка из JSON'a который в %APPDATA%
 	void FillMenuNodes() {
 		//todo тут загрузка из БД для каждого пользователя отдельно
@@ -83,21 +102,20 @@ public class MainMenuContext : PropertyChanger {
 		MenuNodes.Add(favourites);
 		MenuNodes.Add(apps);
 		
-		apps.Childrens.Add(new() {
+		apps.Children.Add(new() {
 			Id = 2,
 			IdParent = 1,
 			Name = "Основные",
-			Childrens = {
+			Children = {
 				new SubAppNode {
 					Id = 3,
 					IdParent = 2,
 					Name = "Заказы",
-					Childrens = {
+					Children = {
 						new SubAppNode {
 							Id = 4,
 							IdParent = 3,
-							Name = "Заказы по фильтрам",
-							SubAppPageName = nameof(Login)
+							Name = "Заказы по фильтрам"
 						},
 						new SubAppNode {
 							Id = 5,
@@ -121,7 +139,7 @@ public class MainMenuContext : PropertyChanger {
 					Id = 8,
 					IdParent = 2,
 					Name = "Документы",
-					Childrens = {
+					Children = {
 						new SubAppNode {
 							Id = 9,
 							IdParent = 8,
@@ -136,16 +154,16 @@ public class MainMenuContext : PropertyChanger {
 				}
 			}
 		});
-		apps.Childrens.Add(new() {
+		apps.Children.Add(new() {
 			Id = 11,
 			IdParent = 1,
 			Name = "Администрирование",
-			Childrens = {
+			Children = {
 				new SubAppNode {
 					Id = 12,
 					IdParent = 11,
 					Name = "Роли",
-					Childrens = {
+					Children = {
 						new SubAppNode {
 							Id = 13,
 							IdParent = 12,
@@ -162,7 +180,7 @@ public class MainMenuContext : PropertyChanger {
 					Id = 15,
 					IdParent = 11,
 					Name = "Пользователи",
-					Childrens = {
+					Children = {
 						new SubAppNode {
 							Id = 16,
 							IdParent = 15,

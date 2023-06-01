@@ -12,12 +12,13 @@ public class SubAppNode : PropertyChanger {
 	bool _isExpanded;
 
 	public SubAppNode() {
-		Childrens = new();
+		Children = new();
+		_name = string.Empty;
 	}
 
-	public ObservableCollection<SubAppNode> Childrens { get; set; }
+	public ObservableCollection<SubAppNode> Children { get; set; }
 	
-	public string? SubAppPageName { get; set; }
+	public string? SubAppPageName { get; init; }
 	
 	public int Id {
 		get => _id;
