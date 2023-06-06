@@ -96,7 +96,8 @@ public class MainMenuContext : PropertyChanger {
 
 		var apps = new SubAppNode {
 			Id = 1,
-			Name = "Приложения"
+			Name = "Приложения",
+			IsExpanded = true
 		};
 		
 		MenuNodes.Add(favourites);
@@ -106,16 +107,18 @@ public class MainMenuContext : PropertyChanger {
 			Id = 2,
 			IdParent = 1,
 			Name = "Основные",
+			IsExpanded = true,
 			Children = {
 				new SubAppNode {
 					Id = 3,
 					IdParent = 2,
 					Name = "Заказы",
+					IsExpanded = true,
 					Children = {
 						new SubAppNode {
 							Id = 4,
 							IdParent = 3,
-							Name = "Заказы по фильтрам"
+							Name = "Заказы по фильтрам",
 						},
 						new SubAppNode {
 							Id = 5,
@@ -139,6 +142,7 @@ public class MainMenuContext : PropertyChanger {
 					Id = 8,
 					IdParent = 2,
 					Name = "Документы",
+					IsExpanded = true,
 					Children = {
 						new SubAppNode {
 							Id = 9,
@@ -158,11 +162,13 @@ public class MainMenuContext : PropertyChanger {
 			Id = 11,
 			IdParent = 1,
 			Name = "Администрирование",
+			IsExpanded = true,
 			Children = {
 				new SubAppNode {
 					Id = 12,
 					IdParent = 11,
 					Name = "Роли",
+					IsExpanded = true,
 					Children = {
 						new SubAppNode {
 							Id = 13,
@@ -180,6 +186,7 @@ public class MainMenuContext : PropertyChanger {
 					Id = 15,
 					IdParent = 11,
 					Name = "Пользователи",
+					IsExpanded = true,
 					Children = {
 						new SubAppNode {
 							Id = 16,

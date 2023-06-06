@@ -1,0 +1,173 @@
+﻿<Page x:Class="OrderHandler.UI.Pages.EmbeddedUserEditor"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:OrderHandler.UI.Pages"
+      mc:Ignorable="d"
+      Height="400" 
+      Width="800"
+      Title="EmbeddedUserEditor">
+
+    <Grid>
+        <TabControl Margin="0, 0, 0, 37.5">
+            <TabItem Header="Основные">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                        <TextBlock Text="Логин пользователя:" Width="130" />
+                        <TextBox MinWidth="130" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                        <TextBlock Text="Новый пароль:" Width="130" />
+                        <TextBox MinWidth="130" />
+                        <Button MinWidth="50" Content="Задать" Margin="2.5, 0, 2.5, 0" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                        <TextBlock Text="Дата создания:" Width="130" />
+                        <TextBox MinWidth="130" IsReadOnly="True" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                        <TextBlock Text="Дата редактирования:" Width="130" />
+                        <TextBox MinWidth="130" IsReadOnly="True" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                        <TextBlock Text="Роль:" Width="130" />
+                        <!-- todo тут подгрузка из БД -->
+                        <ComboBox MinWidth="130">
+                            <ComboBoxItem Content="Роль 1" />
+                            <ComboBoxItem Content="Роль 2" />
+                            <ComboBoxItem Content="Роль 3" />
+                            <ComboBoxItem Content="Роль 1" />
+                            <ComboBoxItem Content="Роль 2" />
+                            <ComboBoxItem Content="Роль 3" />
+                            <ComboBoxItem Content="Роль 1" />
+                            <ComboBoxItem Content="Роль 2" />
+                            <ComboBoxItem Content="Роль 3" />
+                        </ComboBox>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="ФИО">
+                <StackPanel Margin="5">
+                    <GroupBox Header="Именительный падеж">
+                        <StackPanel Margin="5">
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Фамилия:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Имя:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Отчество:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Родительный падеж">
+                        <StackPanel Margin="5">
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Фамилия:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Имя:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Отчество:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Дательный падеж">
+                        <StackPanel Margin="5">
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Фамилия:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Имя:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Отчество:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Винительный падеж">
+                        <StackPanel Margin="5">
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Фамилия:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Имя:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Отчество:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Творительный падеж">
+                        <StackPanel Margin="5">
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Фамилия:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Имя:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Отчество:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Предложный падеж">
+                        <StackPanel Margin="5">
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Фамилия:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Имя:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                                <TextBlock Text="Отчество:" Width="60" />
+                                <TextBox MinWidth="150" />
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+        
+        <StackPanel HorizontalAlignment="Left" 
+                    VerticalAlignment="Bottom" 
+                    Margin="2.5, 7.5, 2.5, 5"
+                    Orientation="Horizontal">
+            <Button HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Height="20"
+                    Margin="2.5"
+                    Content="Сохранить" />
+            <Button HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Height="20"
+                    Margin="2.5"
+                    Content="Отменить" />
+            <Button HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Height="20"
+                    Margin="2.5"
+                    Content="Удалить" />
+        </StackPanel>
+    </Grid>
+</Page>

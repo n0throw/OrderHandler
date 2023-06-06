@@ -1,0 +1,382 @@
+﻿<Page x:Class="OrderHandler.UI.Pages.EmbeddedRoleEditor"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:OrderHandler.UI.Pages"
+      mc:Ignorable="d"
+      Height="400"
+      Width="800"
+      Title="EmbeddedRoleEditor">
+    <Grid>
+        <TabControl Margin="0, 0, 0, 37.5">
+            <TabItem Header="Основное">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                        <TextBlock Text="Наименование роли:" Width="130" />
+                        <TextBox MinWidth="130" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                        <TextBlock Text="Дата создания:" Width="130" />
+                        <TextBox MinWidth="130" IsReadOnly="True" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                        <TextBlock Text="Дата редактирования:" Width="130" />
+                        <TextBox MinWidth="130" IsReadOnly="True" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                        <TextBlock Text="Пользователь:" Width="130" />
+                        <TextBox MinWidth="130" IsReadOnly="True" />
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Просмотр">
+                <ScrollViewer VerticalScrollBarVisibility="Visible">
+                    <StackPanel Margin="5">
+                        <!-- todo Пункты меню будут в БД -->
+                        <GroupBox Header="Пункты главного меню">
+                            <!-- todo тут так же как в главном меню TreeView, но с чекбоксами -->
+                            <StackPanel Margin="5">
+                                <CheckBox Content="Заказы по фильтрам" />
+                                <CheckBox Content="Все заказы" />
+                                <CheckBox Content="Добавить заказ" />
+                                <CheckBox Content="Массовая загрузка заказов" />
+                                <CheckBox Content="Выгрузка заказов в Excel" />
+                                <CheckBox Content="Выгрузка всех заказов в Excel" />
+                                <CheckBox Content="Список ролей" />
+                                <CheckBox Content="Создать роль" />
+                                <CheckBox Content="Список пользователей" />
+                                <CheckBox Content="Создать пользователя" />
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Группы столбцов таблицы заказов">
+                            <StackPanel Margin="5">
+                                <CheckBox Content="Основные столбцы заказа" />
+                                <CheckBox Content="Документация конструктор" />
+                                <CheckBox Content="Документация технолог" />
+                                <CheckBox Content="Снабжение" />
+                                <CheckBox Content="Пильный центр" />
+                                <CheckBox Content="Кромка" />
+                                <CheckBox Content="Присадка" />
+                                <CheckBox Content="Фрезеровка" />
+                                <CheckBox Content="Шлифовка" />
+                                <CheckBox Content="Пресс" />
+                                <CheckBox Content="Сборка" />
+                                <CheckBox Content="Упаковка" />
+                                <CheckBox Content="Комплектация" />
+                                <CheckBox Content="Отгрузка" />
+                                <CheckBox Content="Примечание" />
+                                <CheckBox Content="Монтаж" />
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Фильтры">
+                            <StackPanel Margin="5">
+                                <GroupBox Header="Основные столбцы заказа">
+                                    <StackPanel Margin="5">
+                                        <CheckBox Content="Менеджер заказа" />
+                                        <CheckBox Content="N заказа" />
+                                        <CheckBox Content="Дата заказа" />
+                                        <CheckBox Content="Дата доставки" />
+                                        <CheckBox Content="Срок, дн." />
+                                        <CheckBox Content="Тип изделия" />
+                                        <CheckBox Content="Сумма заказа" />
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Документация конструктор">
+                                    <StackPanel Margin="5">
+                                        <CheckBox Content="Плановая дата" />
+                                        <CheckBox Content="ФИО" />
+                                        <CheckBox Content="Дата" />
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Документация технолог">
+                                    <StackPanel Margin="5">
+                                        <CheckBox Content="Плановая дата" />
+                                        <CheckBox Content="ФИО" />
+                                        <CheckBox Content="Дата" />
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Снабжение">
+                                    <StackPanel Margin="5">
+                                        <CheckBox Content="Плановая дата" />
+                                        <CheckBox Content="ФИО" />
+                                        <CheckBox Content="Дата" />
+                                        <CheckBox Content="Необходимая сумма" />
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Пильный центр">
+                                    <StackPanel Margin="5">
+                                        <CheckBox Content="Плановая дата" />
+                                        <CheckBox Content="ФИО" />
+                                        <CheckBox Content="Дата" />
+                                        <CheckBox Content="ЛДСП/МДФ м2" />
+                                        <CheckBox Content="ЛХДФ м2" />
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Кромка">
+                                    <StackPanel Margin="5">
+                                        <CheckBox Content="Плановая дата" />
+                                        <CheckBox Content="ФИО" />
+                                        <CheckBox Content="Дата" />
+                                        <CheckBox Content="ЛДСП/МДФ м2" />
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Присадка">
+                                    <StackPanel Margin="5">
+                                        <CheckBox Content="Плановая дата" />
+                                        <CheckBox Content="ФИО" />
+                                        <CheckBox Content="Дата" />
+                                        <CheckBox Content="ЛДСП/МДФ м2" />
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Фрезеровка">
+                                    <StackPanel Margin="5">
+                                        <CheckBox Content="Плановая дата" />
+                                        <CheckBox Content="ФИО" />
+                                        <CheckBox Content="Дата" />
+                                        <CheckBox Content="МДФ м2" />
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Шлифовка">
+                                    <StackPanel Margin="5">
+                                        <CheckBox Content="Плановая дата" />
+                                        <CheckBox Content="ФИО" />
+                                        <CheckBox Content="Дата" />
+                                        <CheckBox Content="МДФ м2" />
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Пресс">
+                                    <StackPanel Margin="5">
+                                        <CheckBox Content="Плановая дата" />
+                                        <CheckBox Content="ФИО" />
+                                        <CheckBox Content="Дата" />
+                                        <CheckBox Content="МДФ м2" />
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Сборка">
+                                    <StackPanel Margin="5">
+                                        <CheckBox Content="Плановая дата" />
+                                        <CheckBox Content="ФИО" />
+                                        <CheckBox Content="Дата" />
+                                        <CheckBox Content="ЛДСП/МДФ м2" />
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Упаковка">
+                                    <StackPanel Margin="5">
+                                        <CheckBox Content="Плановая дата" />
+                                        <CheckBox Content="ФИО" />
+                                        <CheckBox Content="Дата" />
+                                        <CheckBox Content="ЛДСП/МДФ м2" />
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Комплектация">
+                                    <StackPanel Margin="5">
+                                        <CheckBox Content="Плановая дата" />
+                                        <CheckBox Content="ФИО" />
+                                        <CheckBox Content="Дата" />
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Отгрузка">
+                                    <StackPanel Margin="5">
+                                        <CheckBox Content="Плановая дата" />
+                                        <CheckBox Content="ФИО" />
+                                        <CheckBox Content="Дата" />
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Монтаж">
+                                    <StackPanel Margin="5">
+                                        <CheckBox Content="Да/Нет" />
+                                        <CheckBox Content="Дата" />
+                                    </StackPanel>
+                                </GroupBox>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Администрирование">
+                            <StackPanel Margin="5">
+                                <CheckBox Content="Просмотр информации о ролях" />
+                                <CheckBox Content="Просмотр информации о пользователях" />
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Редактирование">
+                
+                <ScrollViewer VerticalScrollBarVisibility="Visible">
+                    <StackPanel Margin="5">
+                        <GroupBox Header="Группы столбцов таблицы заказов">
+                        <StackPanel Margin="5">
+                            <CheckBox Content="Основные столбцы заказа" />
+                            <CheckBox Content="Документация конструктор" />
+                            <CheckBox Content="Документация технолог" />
+                            <CheckBox Content="Снабжение" />
+                            <CheckBox Content="Пильный центр" />
+                            <CheckBox Content="Кромка" />
+                            <CheckBox Content="Присадка" />
+                            <CheckBox Content="Фрезеровка" />
+                            <CheckBox Content="Шлифовка" />
+                            <CheckBox Content="Пресс" />
+                            <CheckBox Content="Сборка" />
+                            <CheckBox Content="Упаковка" />
+                            <CheckBox Content="Комплектация" />
+                            <CheckBox Content="Отгрузка" />
+                            <CheckBox Content="Примечание" />
+                            <CheckBox Content="Монтаж" />
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Фильтры">
+                        <StackPanel Margin="5">
+                            <GroupBox Header="Основные столбцы заказа">
+                                <StackPanel Margin="5">
+                                    <CheckBox Content="Менеджер заказа" />
+                                    <CheckBox Content="N заказа" />
+                                    <CheckBox Content="Дата заказа" />
+                                    <CheckBox Content="Дата доставки" />
+                                    <CheckBox Content="Срок, дн." />
+                                    <CheckBox Content="Тип изделия" />
+                                    <CheckBox Content="Сумма заказа" />
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Документация конструктор">
+                                <StackPanel Margin="5">
+                                    <CheckBox Content="Плановая дата" />
+                                    <CheckBox Content="ФИО" />
+                                    <CheckBox Content="Дата" />
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Документация технолог">
+                                <StackPanel Margin="5">
+                                    <CheckBox Content="Плановая дата" />
+                                    <CheckBox Content="ФИО" />
+                                    <CheckBox Content="Дата" />
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Снабжение">
+                                <StackPanel Margin="5">
+                                    <CheckBox Content="Плановая дата" />
+                                    <CheckBox Content="ФИО" />
+                                    <CheckBox Content="Дата" />
+                                    <CheckBox Content="Необходимая сумма" />
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Пильный центр">
+                                <StackPanel Margin="5">
+                                    <CheckBox Content="Плановая дата" />
+                                    <CheckBox Content="ФИО" />
+                                    <CheckBox Content="Дата" />
+                                    <CheckBox Content="ЛДСП/МДФ м2" />
+                                    <CheckBox Content="ЛХДФ м2" />
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Кромка">
+                                <StackPanel Margin="5">
+                                    <CheckBox Content="Плановая дата" />
+                                    <CheckBox Content="ФИО" />
+                                    <CheckBox Content="Дата" />
+                                    <CheckBox Content="ЛДСП/МДФ м2" />
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Присадка">
+                                <StackPanel Margin="5">
+                                    <CheckBox Content="Плановая дата" />
+                                    <CheckBox Content="ФИО" />
+                                    <CheckBox Content="Дата" />
+                                    <CheckBox Content="ЛДСП/МДФ м2" />
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Фрезеровка">
+                                <StackPanel Margin="5">
+                                    <CheckBox Content="Плановая дата" />
+                                    <CheckBox Content="ФИО" />
+                                    <CheckBox Content="Дата" />
+                                    <CheckBox Content="МДФ м2" />
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Шлифовка">
+                                <StackPanel Margin="5">
+                                    <CheckBox Content="Плановая дата" />
+                                    <CheckBox Content="ФИО" />
+                                    <CheckBox Content="Дата" />
+                                    <CheckBox Content="МДФ м2" />
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Пресс">
+                                <StackPanel Margin="5">
+                                    <CheckBox Content="Плановая дата" />
+                                    <CheckBox Content="ФИО" />
+                                    <CheckBox Content="Дата" />
+                                    <CheckBox Content="МДФ м2" />
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Сборка">
+                                <StackPanel Margin="5">
+                                    <CheckBox Content="Плановая дата" />
+                                    <CheckBox Content="ФИО" />
+                                    <CheckBox Content="Дата" />
+                                    <CheckBox Content="ЛДСП/МДФ м2" />
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Упаковка">
+                                <StackPanel Margin="5">
+                                    <CheckBox Content="Плановая дата" />
+                                    <CheckBox Content="ФИО" />
+                                    <CheckBox Content="Дата" />
+                                    <CheckBox Content="ЛДСП/МДФ м2" />
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Комплектация">
+                                <StackPanel Margin="5">
+                                    <CheckBox Content="Плановая дата" />
+                                    <CheckBox Content="ФИО" />
+                                    <CheckBox Content="Дата" />
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Отгрузка">
+                                <StackPanel Margin="5">
+                                    <CheckBox Content="Плановая дата" />
+                                    <CheckBox Content="ФИО" />
+                                    <CheckBox Content="Дата" />
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Монтаж">
+                                <StackPanel Margin="5">
+                                    <CheckBox Content="Да/Нет" />
+                                    <CheckBox Content="Дата" />
+                                </StackPanel>
+                            </GroupBox>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Администрирование">
+                        <StackPanel Margin="5">
+                            <CheckBox Content="Редактирование информации о ролях" />
+                            <CheckBox Content="Редактирование информации о пользователях" />
+                            <CheckBox Content="Редактирование пароля пользователя" />
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+        
+        <StackPanel HorizontalAlignment="Left" 
+                    VerticalAlignment="Bottom" 
+                    Margin="2.5, 7.5, 2.5, 5"
+                    Orientation="Horizontal">
+            <Button HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Height="20"
+                    Margin="2.5"
+                    Content="Сохранить" />
+            <Button HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Height="20"
+                    Margin="2.5"
+                    Content="Отменить" />
+            <Button HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Height="20"
+                    Margin="2.5"
+                    Content="Удалить" />
+        </StackPanel>
+    </Grid>
+</Page>

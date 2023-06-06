@@ -1,0 +1,107 @@
+﻿<Page x:Class="OrderHandler.UI.Pages.RolesList"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:OrderHandler.UI.Pages"
+      mc:Ignorable="d" 
+      MinHeight="400"
+      d:DesignHeight="400"
+      MinWidth="800"
+      Title="Обработчик заказов: Список ролей">
+    <Grid>
+        <Menu Height="20" VerticalAlignment="Top">
+            <MenuItem Header="Меню" Height="20" ToolTip="Основные для всех страниц функции">
+                <MenuItem Header="Статусы"              
+                          ToolTip="Показыват статусы системы" 
+                          Command="{Binding ShowStatusWindowCommand}"/>
+                <MenuItem Header="Закрыть"  
+                          ToolTip="Возвращает на начальный экран" 
+                          Command="{Binding ReturnToMainMenuScreen}" />
+                <MenuItem Header="Выход"                
+                          ToolTip="Возвращает на экран авторизации"   
+                          Command="{Binding ReturnToLoginScreen}" />
+                <MenuItem Header="Закрыть программу"    
+                          ToolTip="Полностью закрывает программу"     
+                          Command="{Binding CloseAppCommand}" />
+            </MenuItem>
+            <MenuItem Header="Утилиты" Height="20" ToolTip="Основные для данной страницы функции">
+                <MenuItem Header="Удалить"
+                          IsChecked="{Binding DelRoleOrUser}" />
+            </MenuItem>
+            <MenuItem Header="Настройки" Height="20" ToolTip="Основные настройки приложения">
+                <MenuItem Header="Основные"
+                          ToolTip="Основные настройки приложения"
+                          Command="{Binding ShowBasicAppSettingsWindowCommand}" />
+                <MenuItem Header="Пользовательские"
+                          ToolTip="Настройки пользователя"
+                          Command="{Binding ShowUserSettingsWindowCommand}" />
+                <MenuItem Header="Дополнительные"
+                          ToolTip="Дополнительные настройки"
+                          Command="{Binding ShowAddSettingsWindowCommand}" />
+            </MenuItem>
+            <MenuItem Header="Информация" Height="20" ToolTip="Общая информация">
+                <MenuItem Header="О приложении"
+                          ToolTip="Общая информация о приложении"
+                          Command="{Binding ShowAboutAppWindowCommand}" />
+                <MenuItem Header="Пользовательское соглашение"
+                          ToolTip="Лицензии"
+                          Command="{Binding ShowUserAgreementWindowCommand}" />
+            </MenuItem>
+        </Menu>
+        <Grid Margin="0, 20, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="200" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="2*" MinWidth="250" />
+            </Grid.ColumnDefinitions>
+            <TreeView Grid.Column="0">
+                <TreeViewItem Header="Роли" IsExpanded="True">
+                    <TreeViewItem Header="Роль 1" IsExpanded="True">
+                        <TreeViewItem Header="Пользователь 1" />
+                        <TreeViewItem Header="Пользователь 2" />
+                        <TreeViewItem Header="Пользователь 3" />
+                    </TreeViewItem>
+                    <TreeViewItem Header="Роль 2" IsExpanded="True">
+                        <TreeViewItem Header="Пользователь 1" />
+                        <TreeViewItem Header="Пользователь 2" />
+                        <TreeViewItem Header="Пользователь 3" />
+                    </TreeViewItem>
+                    <TreeViewItem Header="Роль 3" IsExpanded="True">
+                        <TreeViewItem Header="Пользователь 1" />
+                        <TreeViewItem Header="Пользователь 2" />
+                        <TreeViewItem Header="Пользователь 3" />
+                    </TreeViewItem>
+                    <TreeViewItem Header="Роль 4" IsExpanded="True">
+                        <TreeViewItem Header="Пользователь 1" />
+                        <TreeViewItem Header="Пользователь 2" />
+                        <TreeViewItem Header="Пользователь 3" />
+                    </TreeViewItem>
+                    <TreeViewItem Header="Роль 5" IsExpanded="True">
+                        <TreeViewItem Header="Пользователь 1" />
+                        <TreeViewItem Header="Пользователь 2" />
+                        <TreeViewItem Header="Пользователь 3" />
+                    </TreeViewItem>
+                    <TreeViewItem Header="Роль 6" IsExpanded="True">
+                        <TreeViewItem Header="Пользователь 1" />
+                        <TreeViewItem Header="Пользователь 2" />
+                        <TreeViewItem Header="Пользователь 3" />
+                    </TreeViewItem>
+                    <TreeViewItem Header="Роль 7" IsExpanded="True">
+                        <TreeViewItem Header="Пользователь 1" />
+                        <TreeViewItem Header="Пользователь 2" />
+                        <TreeViewItem Header="Пользователь 3" />
+                    </TreeViewItem>
+                </TreeViewItem>
+            </TreeView>
+            <GridSplitter Grid.Column="1" 
+                          ShowsPreview="False"
+                          Width="3"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Stretch" />
+            <Grid Grid.Column="2">
+            <!-- todo тут Navigate на встраиваемый редактор роли или пользователя, в зависимости от выбора -->
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

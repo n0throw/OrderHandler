@@ -1,15 +1,11 @@
-﻿<Page x:Class="OrderHandler.UI.Pages.MainMenu"
+﻿<Page x:Class="OrderHandler.UI.Pages.RoleEditor"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:contexts="clr-namespace:OrderHandler.UI.Contexts.Pages"
-      xmlns:commandBehaviors="clr-namespace:OrderHandler.UI.Core.CommandBehaviors"
-      d:DataContext="{d:DesignInstance Type=contexts:MainMenuContext}"
-      mc:Ignorable="d" 
-      MinHeight="400"
-      MinWidth="800"
-      Title="Обработчик заказов: Главное меню">
+      xmlns:local="clr-namespace:OrderHandler.UI.Pages"
+      mc:Ignorable="d"
+      Title="RoleEditor" Height="450" Width="800">
     <Grid>
         <Menu Height="20" VerticalAlignment="Top">
             <MenuItem Header="Меню" Height="20" ToolTip="Основные для всех страниц функции">
@@ -51,28 +47,6 @@
                           Command="{Binding ShowUserAgreementWindowCommand}" />
             </MenuItem>
         </Menu>
-        <TreeView Margin="0 20 0 0" ItemsSource="{Binding MenuNodes}">
-            <TreeView.Style>
-                <Style TargetType="TreeView">
-                    <Setter Property="commandBehaviors:MouseDoubleClick.Command"
-                            Value="{Binding DoubleClickToSubApp}" />
-                </Style>
-            </TreeView.Style>
-            <TreeView.ItemContainerStyle>
-                <Style TargetType="TreeViewItem">
-                    <Setter Property="IsSelected"
-                            Value="{Binding IsSelected}" />
-                    <Setter Property="IsExpanded"
-                            Value="{Binding IsExpanded}" />
-                </Style>
-            </TreeView.ItemContainerStyle>    
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
-                    <StackPanel>
-                        <TextBlock Text="{Binding Path=Name}" />
-                    </StackPanel>
-                </HierarchicalDataTemplate>    
-            </TreeView.ItemTemplate>
-        </TreeView>
+        <!-- todo тут Navigate на встраиваемый редактор роли  -->
     </Grid>
 </Page>
