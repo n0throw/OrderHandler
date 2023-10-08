@@ -3,7 +3,7 @@ using OrderHandler.UI.Pages;
 
 namespace OrderHandler.UI.Contexts.Pages;
 
-public class ErrorPageContext : PropertyChanger {
+public class ErrorPageContext : MainPagePropertyChanger {
     string _description;
     public ErrorPageContext() { }
 

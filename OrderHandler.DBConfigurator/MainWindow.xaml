@@ -31,7 +31,11 @@
             <MenuItem Header="Удалить" 
                       Height="20"
                       Command="{Binding DelCommand}"
-                      CommandParameter="{Binding SelectedSetting}"/>
+                      CommandParameter="{Binding SelectedSetting}" />
+            <MenuItem Header="Скопировать" 
+                      Height="20"
+                      Command="{Binding DelCommand}"
+                      CommandParameter="{Binding SelectedSetting}" />
             <MenuItem Header="Сохранить" 
                       Height="20"
                       Command="{Binding SaveCommand}" />

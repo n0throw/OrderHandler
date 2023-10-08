@@ -7,7 +7,7 @@
       mc:Ignorable="d"
       Title="UserEditor" Height="450" Width="800">
     <Grid>
-                <Menu Height="20" VerticalAlignment="Top">
+        <Menu Height="20" VerticalAlignment="Top">
             <MenuItem Header="Меню" Height="20" ToolTip="Основные для всех страниц функции">
                 <MenuItem Header="Статусы"              
                           ToolTip="Показыват статусы системы" 

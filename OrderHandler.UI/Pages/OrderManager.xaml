@@ -422,7 +422,7 @@
                                    TextTrimming="CharacterEllipsis" />
                     </Border>
                 </StackPanel>
-                <DataGrid ItemsSource="{Binding Orders}"
+                <DataGrid ItemsSource="{Binding Orders, Mode=OneWay}"
                           SelectedItem="{Binding SelectedOrder}"
                           Style="{StaticResource BaseDataGrid}"
                           CellStyle="{StaticResource BaseDataGridCell}">

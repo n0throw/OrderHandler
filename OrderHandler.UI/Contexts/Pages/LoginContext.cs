@@ -16,7 +16,7 @@ using OrderHandler.UI.Windows.LoginWindows;
 
 namespace OrderHandler.UI.Contexts.Pages;
 
-public class LoginContext : PropertyChanger {
+public class LoginContext : MainPagePropertyChanger {
     UserCombo _currentSelection;
     readonly UserCombo _defaultUserCombo = new(-1, "Выберите пользователя");
     string _passwordHash;
@@ -92,13 +92,9 @@ public class LoginContext : PropertyChanger {
                 return dbPass == currPass;
             }
 
-            User defaultUser = new() {
-                Id = -1,
-                PasswordHash = string.Empty,
-            };
-            var user = db.Users.ToList().FirstOrDefault(user => user.Id == _currentSelection.Id, defaultUser);
+            var user = db.UserInfos.ToList().FirstOrDefault(user => user != null && user.Id == _currentSelection.Id, null);
 
-            if (ValidateUser(user.PasswordHash, _passwordHash)) {
+            if (ValidateUser(user?.PasswordHash ?? string.Empty, _passwordHash)) {
                 GoToPage(nameof(MainMenu));
             } else {
                 MessageBox.Show(
@@ -121,30 +117,28 @@ public class LoginContext : PropertyChanger {
     
     void CreateAdminUser() {
         using var db = new Context();
-        var user = new User {
-            Id = 1,
-            Login = "Admin",
-            PasswordHash = GetHashSHA256("Admin")
-        };
-        db.Users.Add(user);
-        var givenName = new GivenName {
-            LastName = "Admin",
-            FirstName = "Admin",
-            MiddleName = "Admin"
-        };
+        using var transaction = db.Database.BeginTransaction();
+        try {
+            var caseName = new CaseName(
+                "Admin",
+                "Admin",
+                "Admin"
+            );
+            db.CaseNames.Add(caseName);
         
-        var profile = new CaseName {
-            User = user,
-            Nominative = (GivenName)givenName.Clone(),
-            Genitive = (GivenName)givenName.Clone(),
-            Dative = (GivenName)givenName.Clone(),
-            Accusative = (GivenName)givenName.Clone(),
-            Ablative = (GivenName)givenName.Clone(),
-            Prepositional = (GivenName)givenName.Clone()
-        };
-        db.CaseNames.Add(profile);
-
-        db.SaveChanges();
+            var user = new UserInfo() {
+                Id = 1,
+                Login = "Admin",
+                PasswordHash = GetHashSHA256("Admin"),
+                CaseName = caseName
+            };
+        
+            db.UserInfos.Add(user);
+            db.SaveChanges();
+            transaction.Commit();
+        } catch (Exception) {
+            transaction.Rollback();
+        }
     }
 
     string GetHashSHA256(string str) {
@@ -161,7 +155,7 @@ public class LoginContext : PropertyChanger {
 
     void FillUserCombos() {
         using var db = new Context();
-        db.Users.ToList().ForEach(user => {
+        db.UserInfos.ToList().ForEach(user => {
             UserCombos.Add(new(user.Id, user.Login));
         });
     }

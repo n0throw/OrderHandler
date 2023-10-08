@@ -4,7 +4,7 @@ using OrderHandler.UI.Core;
 
 namespace OrderHandler.UI.Model; 
 
-public class DBCombo : PropertyChanger, ICloneable {
+public class DBCombo : MainPagePropertyChanger, ICloneable {
 	string _displayName;
 	string _systemName;
 

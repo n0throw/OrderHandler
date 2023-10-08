@@ -3,7 +3,7 @@ using OrderHandler.UI.Model.ViewOrderAdd;
 
 namespace OrderHandler.UI.Model;
 
-public class ViewOrder : PropertyChanger {
+public class ViewOrder : MainPagePropertyChanger {
     /// <summary>
     /// Id в отображении
     /// </summary>
@@ -150,22 +150,39 @@ public class ViewOrder : PropertyChanger {
         }
     }
 
-    public ViewOrder() { }
+    public ViewOrder() {
+        _orderMain = new();
+        _docConst = new();
+        _docTech = new();
+        _supply = new();
+        _sawCenter = new();
+        _edge = new();
+        _additive = new();
+        _milling = new();
+        _grinding = new();
+        _press = new();
+        _assembling = new();
+        _packing = new();
+        _equipment = new();
+        _shipment = new();
+        _note = string.Empty;
+        _mounting = new();
+    }
     
     public bool Validate() =>
-        _orderMain.Validate() &&
-        _docConst.Validate() &&
-        _docTech.Validate() &&
-        _supply.Validate() &&
-        _sawCenter.Validate() &&
-        _edge.Validate() &&
-        _additive.Validate() &&
-        _milling.Validate() &&
-        _grinding.Validate() &&
-        _press.Validate() &&
-        _assembling.Validate() &&
-        _packing.Validate() &&
-        _equipment.Validate() &&
-        _shipment.Validate() &&
-        _mounting.Validate();
+        OrderMain.Validate() &&
+        DocConst.Validate() &&
+        DocTech.Validate() &&
+        Supply.Validate() &&
+        SawCenter.Validate() &&
+        Edge.Validate() &&
+        Additive.Validate() &&
+        Milling.Validate() &&
+        Grinding.Validate() &&
+        Press.Validate() &&
+        Assembling.Validate() &&
+        Packing.Validate() &&
+        Equipment.Validate() &&
+        Shipment.Validate() &&
+        Mounting.Validate();
 }

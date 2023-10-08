@@ -31,6 +31,10 @@
                         <TextBox MinWidth="130" IsReadOnly="True" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
+                        <TextBlock Text="Пользователь:" Width="130" />
+                        <TextBox MinWidth="130" IsReadOnly="True" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5, 2.5, 5, 2.5">
                         <TextBlock Text="Роль:" Width="130" />
                         <!-- todo тут подгрузка из БД -->
                         <ComboBox MinWidth="130">

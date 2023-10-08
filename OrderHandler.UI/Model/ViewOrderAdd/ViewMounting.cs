@@ -6,14 +6,21 @@ using OrderHandler.UI.Model.Validation.Validators;
 
 namespace OrderHandler.UI.Model.ViewOrderAdd;
 
-public class ViewMounting : PropertyChanger, IDataErrorInfo {
+public class ViewMounting : MainPagePropertyChanger, IDataErrorInfo {
+    long _id;
     DateTime _plannedDate;
     bool _isNeed;
         
     public string Error => throw new NotImplementedException();
     IViewMountingValidator Validator { get; }
 
-    internal long Id { get; set; }
+    public long Id {
+        get => _id;
+        set {
+            _id = value;
+            OnPropertyChanged();
+        }
+    }
 
     public DateTime PlannedDate {
         get => _plannedDate;
@@ -30,8 +37,11 @@ public class ViewMounting : PropertyChanger, IDataErrorInfo {
         }
     }
     
-    public ViewMounting(IViewMountingValidator validator) =>
+    public ViewMounting() : this(new ViewMountingValidator()) {}
+    
+    public ViewMounting(IViewMountingValidator validator) {
         Validator = validator;
+    }
     
     public bool Validate() =>
         Validator.Validate(this);

@@ -6,9 +6,11 @@ using OrderHandler.UI.Model.Validation.Validators;
 
 namespace OrderHandler.UI.Model.ViewOrderAdd;
 
-public class ViewSawCenter : PropertyChanger, IDataErrorInfo {
+public class ViewSawCenter : MainPagePropertyChanger, IDataErrorInfo {
+    long _id;
     DateTime _plannedDate;
-    string _FIO;
+    long? _idUser;
+    string _fio;
     DateTime _dateOfCompletion;
     decimal _areaOfLCBOrMDF;
     decimal _areaOfLHDF;
@@ -16,7 +18,13 @@ public class ViewSawCenter : PropertyChanger, IDataErrorInfo {
     public string Error => throw new NotImplementedException();
     IViewSawCenterValidator Validator { get; }
 
-    internal long Id { get; set; }
+    public long Id {
+        get => _id;
+        set {
+            _id = value;
+            OnPropertyChanged();
+        }
+    }
 
     public DateTime PlannedDate {
         get => _plannedDate;
@@ -25,12 +33,20 @@ public class ViewSawCenter : PropertyChanger, IDataErrorInfo {
             OnPropertyChanged();
         }
     }
-    internal long? IdUser { get; set; }
+
+    public long? IdUser {
+        get => _idUser;
+        set {
+            _idUser = value;
+            FIO = "asd"; // todo add fio from DB
+            OnPropertyChanged();
+        }
+    }
 
     public string FIO {
-        get => _FIO;
+        get => _fio;
         set {
-            _FIO = value;
+            _fio = value;
             OnPropertyChanged();
         }
     }
@@ -57,8 +73,12 @@ public class ViewSawCenter : PropertyChanger, IDataErrorInfo {
         }
     }
 
-    public ViewSawCenter(IViewSawCenterValidator validator) =>
+    public ViewSawCenter() : this(new ViewSawCenterValidator()) {}
+    
+    public ViewSawCenter(IViewSawCenterValidator validator) {
         Validator = validator;
+        _fio = string.Empty;
+    }
     
     public bool Validate() =>
         Validator.Validate(this);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OrderHandler.DB.Data.OrderAdd;
 
@@ -7,57 +8,63 @@ namespace OrderHandler.DB.Data.OrderAdd;
 /// Основная информация заказа.
 /// Модель БД.
 /// </summary>
-public class OrderMain : OrderGeneric {
+public class OrderMain {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>
-    public override long Id { get; set; }
-    #region [ Basic Information ]
+    public long Id { get; set; }
     /// <summary>
     /// Номер заказа
     /// </summary>
+    [Column("sOrderNumber")]
     public string OrderNumber { get; set; }
     /// <summary>
     /// Дата заказа
     /// </summary>
+    [Column("dOrderDate")]
     public DateTime OrderDate { get; set; }
     /// <summary>
     /// Дата доставки
     /// </summary>
+    [Column("dDeliveryDate")]
     public DateTime DeliveryDate { get; set; }
     /// <summary>
     /// Срок доставки дн.
     /// </summary>
-    public int Term { get; set; }
+    [Column("nTerm")]
+    public long Term { get; set; }
     /// <summary>
     /// Тип изделия
     /// </summary>
+    [Column("sProductType")]
     public string ProductType { get; set; }
     /// <summary>
     /// Сумма заказа
     /// </summary>
+    [Column("nOrderAmount")]
     public decimal OrderAmount { get; set; }
-    #endregion [ Basic Information ]
-    #region [ Foreign Keys ]
+    
     /// <summary>
-    /// Id Менеджера заказа.
+    /// Id Пользователя.
     /// Внешний ключ
     /// </summary>
-    public override long UserId { get; set; }
+    public long IdUser { get; set; }
     /// <summary>
-    /// Менеджер заказа.
+    /// Выполнивший пользователь.
     /// Внешний ключ
     /// </summary>
-    public override User? User { get; set; }
+    [ForeignKey("IdUser")]
+    public UserInfo? User { get; set; }
+    
     /// <summary>
     /// Id Заказа.
     /// Внешний ключ
     /// </summary>
-    public override long OrderId { get; set; }
+    public long? IdOrder { get; set; }
     /// <summary>
     /// Заказ.
     /// Внешний ключ
     /// </summary>
-    public override Order? Order{ get; set; }
-    #endregion [ Foreign Keys ]
+    [ForeignKey("IdOrder")]
+    public OrderInfo? Order { get; set; }
 }

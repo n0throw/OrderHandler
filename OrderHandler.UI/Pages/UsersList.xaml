@@ -14,6 +14,9 @@
                 <MenuItem Header="Статусы"              
                           ToolTip="Показыват статусы системы" 
                           Command="{Binding ShowStatusWindowCommand}"/>
+                <MenuItem Header="Закрыть"  
+                          ToolTip="Возвращает на начальный экран" 
+                          Command="{Binding ReturnToMainMenuScreen}" />
                 <MenuItem Header="Выход"                
                           ToolTip="Возвращает на экран авторизации"   
                           Command="{Binding ReturnToLoginScreen}" />
@@ -22,12 +25,7 @@
                           Command="{Binding CloseAppCommand}" />
             </MenuItem>
             <MenuItem Header="Утилиты" Height="20" ToolTip="Основные для данной страницы функции">
-                <MenuItem Header="Показывать избранное"
-                          IsCheckable="True"
-                          IsChecked="{Binding IsShowFavouritesSubApp}" />
-                <MenuItem Header="Показывать основные приложения"
-                          IsCheckable="True"
-                          IsChecked="{Binding IsShowGenericSubApp}" />
+                <MenuItem Header="Удалить" IsChecked="{Binding DelRoleOrUser}" />
             </MenuItem>
             <MenuItem Header="Настройки" Height="20" ToolTip="Основные настройки приложения">
                 <MenuItem Header="Основные"
@@ -53,7 +51,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" MinWidth="200" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" MinWidth="250" />
+                <ColumnDefinition Width="4*" MinWidth="250" />
             </Grid.ColumnDefinitions>
             <TreeView Grid.Column="0">
                 <TreeViewItem Header="Пользователи" IsExpanded="True">
@@ -74,7 +72,7 @@
                           HorizontalAlignment="Center"
                           VerticalAlignment="Stretch" />
             <Grid Grid.Column="2">
-            <!-- todo тут Navigate на редактор пользователя -->
+                <Frame Content="{Binding CurrentPage}"/>
             </Grid>
         </Grid>
     </Grid>

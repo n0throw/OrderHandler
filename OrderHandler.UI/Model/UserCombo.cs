@@ -4,7 +4,7 @@ using OrderHandler.UI.Core;
 
 namespace OrderHandler.UI.Model;
 
-public class UserCombo : PropertyChanger, ICloneable {
+public class UserCombo : MainPagePropertyChanger, ICloneable {
     string _fio;
 
     public UserCombo(long id, string? fio) {

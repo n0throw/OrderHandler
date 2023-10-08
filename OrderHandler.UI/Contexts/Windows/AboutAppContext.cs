@@ -2,7 +2,7 @@
 
 namespace OrderHandler.UI.Contexts.Windows; 
 
-public class AboutAppContext : PropertyChanger {
+public class AboutAppContext : MainPagePropertyChanger {
 	
 	
 }

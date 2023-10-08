@@ -13,10 +13,10 @@
         Height="400"
         MinWidth="800"
         Width="800"
+        d:DesignHeight="4000"
         Title="Обработчик заказов: Создание заказа">
     <!-- todo наименование должно подтягиваться из контекста по формуле: <Имя предка>: <Имя отображения> -->
     <Window.Resources>
-        <attributeType:DateTimeToStringConverter x:Key="DateConverter" />
         <attributeType:StringConverter x:Key="StringConverter" />
         <attributeType:DecimalConverter x:Key="DecimalConverter" />
         <Style TargetType="TextBox"
@@ -48,7 +48,7 @@
                             <TextBox MinWidth="150"
                                      Style="{StaticResource ErrorTextBox}">
                                 <TextBox.Text>
-                                    <Binding Path="NewOrder.MainData.UserName"
+                                    <Binding Path="ViewOrder.OrderMain.FIO"
                                              Mode="OneWayToSource"
                                              UpdateSourceTrigger="PropertyChanged"
                                              Converter="{StaticResource StringConverter}">
@@ -65,7 +65,7 @@
                             <TextBox MinWidth="150"
                                      Style="{StaticResource ErrorTextBox}">
                                 <TextBox.Text>
-                                    <Binding Path="NewOrder.MainData.OrderIssue"
+                                    <Binding Path="ViewOrder.OrderMain.OrderNumber"
                                              Mode="OneWayToSource"
                                              UpdateSourceTrigger="PropertyChanged"
                                              Converter="{StaticResource StringConverter}">
@@ -81,7 +81,7 @@
                             <TextBox MinWidth="150"
                                      Style="{StaticResource ErrorTextBox}">
                                 <TextBox.Text>
-                                    <Binding Path="NewOrder.MainData.ProductType"
+                                    <Binding Path="ViewOrder.OrderMain.ProductType"
                                              Mode="OneWayToSource"
                                              UpdateSourceTrigger="PropertyChanged"
                                              Converter="{StaticResource StringConverter}">
@@ -98,7 +98,7 @@
                             <TextBox MinWidth="150"
                                      Style="{StaticResource ErrorTextBox}">
                                 <TextBox.Text>
-                                    <Binding Path="NewOrder.MainData.ProductCost"
+                                    <Binding Path="ViewOrder.OrderMain.OrderAmount"
                                              Mode="OneWayToSource"
                                              UpdateSourceTrigger="PropertyChanged"
                                              Converter="{StaticResource DecimalConverter}">
@@ -111,30 +111,30 @@
                         </WrapPanel>
                         <WrapPanel Margin="2.5">
                             <Label MinWidth="110" Content="Дата заказа:"/>
-                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=NewOrder.Dates.OrderDate, Mode=TwoWay}" />
+                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=ViewOrder.OrderMain.OrderDate, Mode=TwoWay}" />
                         </WrapPanel>
                         <WrapPanel Margin="2.5">
                             <Label MinWidth="110" Content="Дата доставки:"/>
-                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=NewOrder.Dates.DeliveryDate, Mode=TwoWay}" />
+                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=ViewOrder.OrderMain.DeliveryDate, Mode=TwoWay}" />
                         </WrapPanel>
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="Документация Конструктор">
                     <WrapPanel Margin="2.5">
                         <Label MinWidth="110" Content="Плановая дата:"/>
-                        <DatePicker MinWidth="100" SelectedDate="{Binding Path=NewOrder.Dates.DocConstructorDate, Mode=TwoWay}" />
+                        <DatePicker MinWidth="100" SelectedDate="{Binding Path=ViewOrder.DocConst.PlannedDate, Mode=TwoWay}" />
                     </WrapPanel>
                 </GroupBox>
                 <GroupBox Header="Документация Технолог">
                     <WrapPanel Margin="2.5">
                         <Label MinWidth="110" Content="Плановая дата:"/>
-                        <DatePicker MinWidth="100" DisplayDateStart="01.01.2019" SelectedDate="{Binding Path=NewOrder.Dates.DocTechnologistDate, Mode=TwoWay}" />
+                        <DatePicker MinWidth="100" DisplayDateStart="01.01.2019" SelectedDate="{Binding Path=ViewOrder.DocTech.PlannedDate, Mode=TwoWay}" />
                     </WrapPanel>
                 </GroupBox>
                 <GroupBox Header="Снабжение">
                     <WrapPanel Margin="2.5">
                         <Label MinWidth="110" Content="Плановая дата:"/>
-                        <DatePicker MinWidth="100" SelectedDate="{Binding Path=NewOrder.Dates.SupplyDate, Mode=TwoWay}" />
+                        <DatePicker MinWidth="100" SelectedDate="{Binding Path=ViewOrder.Supply.PlannedDate, Mode=TwoWay}" />
                     </WrapPanel>
                 </GroupBox>
                 <GroupBox Header="Пильный центр">
@@ -142,41 +142,7 @@
                         <WrapPanel Margin="2.5">
                             <Label MinWidth="110"
                                    Content="Плановая дата:"/>
-                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=NewOrder.Dates.SawCenterDate, Mode=TwoWay}" />
-                        </WrapPanel>
-                        <WrapPanel Margin="2.5">
-                            <Label MinWidth="110"
-                                   Content="ЛДСП/МДФ м&#x00B2;:" />
-                            <TextBox MinWidth="100"
-                                     Style="{StaticResource ErrorTextBox}">
-                                <TextBox.Text>
-                                    <Binding Path="NewOrder.MainData.ChipboardOrMDF_SawCenter"
-                                             Mode="OneWayToSource"
-                                             UpdateSourceTrigger="PropertyChanged"
-                                             Converter="{StaticResource DecimalConverter}">
-                                        <Binding.ValidationRules>
-                                            <DataErrorValidationRule />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
-                        </WrapPanel>
-                        <WrapPanel Margin="2.5" >
-                            <Label MinWidth="110"
-                                   Content="ЛХДФ м&#x00B2;:"/>
-                            <TextBox MinWidth="100"
-                                     Style="{StaticResource ErrorTextBox}">
-                                <TextBox.Text>
-                                    <Binding Path="NewOrder.MainData.HDF_SawCenter"
-                                             Mode="OneWayToSource"
-                                             UpdateSourceTrigger="PropertyChanged"
-                                             Converter="{StaticResource DecimalConverter}">
-                                        <Binding.ValidationRules>
-                                            <DataErrorValidationRule />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
+                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=ViewOrder.SawCenter.PlannedDate, Mode=TwoWay}" />
                         </WrapPanel>
                     </StackPanel>
                 </GroupBox>
@@ -184,24 +150,7 @@
                     <StackPanel>
                         <WrapPanel Margin="2.5">
                             <Label MinWidth="110" Content="Плановая дата:"/>
-                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=NewOrder.Dates.EdgeDate, Mode=TwoWay}" />
-                        </WrapPanel>
-                        <WrapPanel Margin="2.5">
-                            <Label MinWidth="110"
-                                   Content="ЛДСП/МДФ м&#x00B2;:" />
-                            <TextBox MinWidth="100"
-                                     Style="{StaticResource ErrorTextBox}">
-                                <TextBox.Text>
-                                    <Binding Path="NewOrder.MainData.ChipboardOrMDF_Edge"
-                                             Mode="OneWayToSource"
-                                             UpdateSourceTrigger="PropertyChanged"
-                                             Converter="{StaticResource DecimalConverter}">
-                                        <Binding.ValidationRules>
-                                            <DataErrorValidationRule />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
+                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=ViewOrder.Edge.PlannedDate, Mode=TwoWay}" />
                         </WrapPanel>
                     </StackPanel>
                 </GroupBox>
@@ -209,24 +158,7 @@
                     <StackPanel>
                         <WrapPanel Margin="2.5">
                             <Label MinWidth="110" Content="Плановая дата:"/>
-                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=NewOrder.Dates.AdditiveDate, Mode=TwoWay}" />
-                        </WrapPanel>
-                        <WrapPanel Margin="2.5">
-                            <Label MinWidth="110"
-                                   Content="ЛДСП/МДФ м&#x00B2;:" />
-                            <TextBox MinWidth="100"
-                                     Style="{StaticResource ErrorTextBox}">
-                                <TextBox.Text>
-                                    <Binding Path="NewOrder.MainData.ChipboardOrMDF_Additive"
-                                             Mode="OneWayToSource"
-                                             UpdateSourceTrigger="PropertyChanged"
-                                             Converter="{StaticResource DecimalConverter}">
-                                        <Binding.ValidationRules>
-                                            <DataErrorValidationRule />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
+                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=ViewOrder.Additive.PlannedDate, Mode=TwoWay}" />
                         </WrapPanel>
                     </StackPanel>
                 </GroupBox>
@@ -234,24 +166,7 @@
                     <StackPanel>
                         <WrapPanel Margin="2.5">
                             <Label MinWidth="110" Content="Плановая дата:"/>
-                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=NewOrder.Dates.MillingDate, Mode=TwoWay}" />
-                        </WrapPanel>
-                        <WrapPanel Margin="2.5">
-                            <Label MinWidth="110"
-                                   Content="МДФ м&#x00B2;:" />
-                            <TextBox MinWidth="100"
-                                     Style="{StaticResource ErrorTextBox}">
-                                <TextBox.Text>
-                                    <Binding Path="NewOrder.MainData.MDF_Milling"
-                                             Mode="OneWayToSource"
-                                             UpdateSourceTrigger="PropertyChanged"
-                                             Converter="{StaticResource DecimalConverter}">
-                                        <Binding.ValidationRules>
-                                            <DataErrorValidationRule />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
+                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=ViewOrder.Milling.PlannedDate, Mode=TwoWay}" />
                         </WrapPanel>
                     </StackPanel>
                 </GroupBox>
@@ -259,24 +174,7 @@
                     <StackPanel>
                         <WrapPanel Margin="2.5">
                             <Label MinWidth="110" Content="Плановая дата:"/>
-                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=NewOrder.Dates.GrindingDate, Mode=TwoWay}" />
-                        </WrapPanel>
-                        <WrapPanel Margin="2.5">
-                            <Label MinWidth="110"
-                                   Content="МДФ м&#x00B2;:" />
-                            <TextBox MinWidth="100"
-                                     Style="{StaticResource ErrorTextBox}">
-                                <TextBox.Text>
-                                    <Binding Path="NewOrder.MainData.MDF_Grinding"
-                                             Mode="OneWayToSource"
-                                             UpdateSourceTrigger="PropertyChanged"
-                                             Converter="{StaticResource DecimalConverter}">
-                                        <Binding.ValidationRules>
-                                            <DataErrorValidationRule />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
+                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=ViewOrder.Grinding.PlannedDate, Mode=TwoWay}" />
                         </WrapPanel>
                     </StackPanel>
                 </GroupBox>
@@ -284,24 +182,7 @@
                     <StackPanel>
                         <WrapPanel Margin="2.5">
                             <Label MinWidth="110" Content="Плановая дата:"/>
-                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=NewOrder.Dates.PressDate, Mode=TwoWay}" />
-                        </WrapPanel>
-                        <WrapPanel Margin="2.5">
-                            <Label MinWidth="110"
-                                   Content="МДФ м&#x00B2;:" />
-                            <TextBox MinWidth="100"
-                                     Style="{StaticResource ErrorTextBox}">
-                                <TextBox.Text>
-                                    <Binding Path="NewOrder.MainData.MDF_Press"
-                                             Mode="OneWayToSource"
-                                             UpdateSourceTrigger="PropertyChanged"
-                                             Converter="{StaticResource DecimalConverter}">
-                                        <Binding.ValidationRules>
-                                            <DataErrorValidationRule />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
+                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=ViewOrder.Press.PlannedDate, Mode=TwoWay}" />
                         </WrapPanel>
                     </StackPanel>
                 </GroupBox>
@@ -309,24 +190,7 @@
                     <StackPanel>
                         <WrapPanel Margin="2.5">
                             <Label MinWidth="110" Content="Плановая дата:"/>
-                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=NewOrder.Dates.AssemblingDate, Mode=TwoWay}" />
-                        </WrapPanel>
-                        <WrapPanel Margin="2.5">
-                            <Label MinWidth="110"
-                                   Content="ЛДСП/МДФ м&#x00B2;:" />
-                            <TextBox MinWidth="100"
-                                     Style="{StaticResource ErrorTextBox}">
-                                <TextBox.Text>
-                                    <Binding Path="NewOrder.MainData.ChipboardOrMDF_Assembling"
-                                             Mode="OneWayToSource"
-                                             UpdateSourceTrigger="PropertyChanged"
-                                             Converter="{StaticResource DecimalConverter}">
-                                        <Binding.ValidationRules>
-                                            <DataErrorValidationRule />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
+                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=ViewOrder.Assembling.PlannedDate, Mode=TwoWay}" />
                         </WrapPanel>
                     </StackPanel>
                 </GroupBox>
@@ -334,54 +198,37 @@
                     <StackPanel>
                         <WrapPanel Margin="2.5">
                             <Label MinWidth="110" Content="Плановая дата:"/>
-                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=NewOrder.Dates.PackagingDate, Mode=TwoWay}" />
-                        </WrapPanel>
-                        <WrapPanel Margin="2.5">
-                            <Label MinWidth="110"
-                                   Content="ЛДСП/МДФ м&#x00B2;:" />
-                            <TextBox MinWidth="100"
-                                     Style="{StaticResource ErrorTextBox}">
-                                <TextBox.Text>
-                                    <Binding Path="NewOrder.MainData.ChipboardOrMDF_Packaging"
-                                             Mode="OneWayToSource"
-                                             UpdateSourceTrigger="PropertyChanged"
-                                             Converter="{StaticResource DecimalConverter}">
-                                        <Binding.ValidationRules>
-                                            <DataErrorValidationRule />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
+                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=ViewOrder.Packing.PlannedDate, Mode=TwoWay}" />
                         </WrapPanel>
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="Комплектация">
                     <WrapPanel Margin="2.5">
                         <Label MinWidth="110" Content="Плановая дата:"/>
-                        <DatePicker MinWidth="100" SelectedDate="{Binding Path=NewOrder.Dates.EquipmentDate, Mode=TwoWay}" />
+                        <DatePicker MinWidth="100" SelectedDate="{Binding Path=ViewOrder.Equipment.PlannedDate, Mode=TwoWay}" />
                     </WrapPanel>
                 </GroupBox>
                 <GroupBox Header="Отгрузка">
                     <WrapPanel Margin="2.5">
                         <Label MinWidth="110" Content="Плановая дата:"/>
-                        <DatePicker MinWidth="100" SelectedDate="{Binding Path=NewOrder.Dates.ShipmentDate, Mode=TwoWay}" />
+                        <DatePicker MinWidth="100" SelectedDate="{Binding Path=ViewOrder.Shipment.PlannedDate, Mode=TwoWay}" />
                     </WrapPanel>
                 </GroupBox>
                 <GroupBox Header="Примечание">
                     <WrapPanel Margin="2.5">
                         <Label MinWidth="110" Content="Примечание:"/>
-                        <TextBox Text="{Binding Path=NewOrder.MainData.Note, Mode=TwoWay, Converter={StaticResource StringConverter}}" MinWidth="646" MinHeight="100" AcceptsReturn="True" TextWrapping="Wrap" AcceptsTab="True" />
+                        <TextBox Text="{Binding Path=ViewOrder.Note, Mode=TwoWay, Converter={StaticResource StringConverter}}" MinWidth="646" MinHeight="100" AcceptsReturn="True" TextWrapping="Wrap" AcceptsTab="True" />
                     </WrapPanel>
                 </GroupBox>
                 <GroupBox Header="Монтаж">
                     <StackPanel>
                         <WrapPanel Margin="2.5">
                             <Label MinWidth="110" Content="Нужен монтаж:"/>
-                            <CheckBox IsChecked="{Binding Path=NewOrder.MainData.IsMounting, Mode=TwoWay}" Height="16" Width="16"/>
+                            <CheckBox IsChecked="{Binding Path=ViewOrder.Mounting.IsNeed, Mode=TwoWay}" Height="16" Width="16"/>
                         </WrapPanel>
                         <WrapPanel Margin="2.5">
                             <Label MinWidth="110" Content="Дата:"/>
-                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=NewOrder.Dates.MountingDate, Mode=TwoWay}" />
+                            <DatePicker MinWidth="100" SelectedDate="{Binding Path=ViewOrder.Mounting.PlannedDate, Mode=TwoWay}" />
                         </WrapPanel>
                     </StackPanel>
                 </GroupBox>

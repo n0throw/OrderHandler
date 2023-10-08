@@ -2,7 +2,9 @@
 using System.Windows;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
+using OrderHandler.DB;
 using OrderHandler.UI.Core;
 using OrderHandler.UI.Core.FilesExtensions.Excel;
 using OrderHandler.UI.Core.Service.Dialog;
@@ -93,6 +95,100 @@ public class TableOrderManagerCommandsImpl : ITableOrderManagerCommandsImpl {
 		_dialogService.ShowMessage($"Количество заказов: {count}", DialogLevel.Information);
 	
 	List<ViewOrder> GetData() {
-		throw new NotImplementedException();
+		using Context dbContext = new();
+		return dbContext.OrderInfos
+				.Select(x => new ViewOrder() {
+					IdDb = x.Id,
+					OrderMain = new() {
+						OrderNumber = x.OrderMain.OrderNumber,
+						IdUser = x.OrderMain.IdUser, 
+						FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.OrderMain.IdUser).CaseName.GetFullRecordName(),
+						OrderDate = x.OrderMain.OrderDate,
+						DeliveryDate = x.OrderMain.DeliveryDate,
+						Term = (int)x.OrderMain.Term,
+						ProductType = x.OrderMain.ProductType,
+						OrderAmount = x.OrderMain.OrderAmount,
+					},
+					DocConst = new() {
+						PlannedDate = x.DocConst.PlannedDate,
+						FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.DocConst.IdUser).CaseName.GetFullRecordName(),
+						DateOfCompletion = x.DocConst.DateOfCompletion
+					},
+					DocTech = new() {
+						PlannedDate = x.DocTech.PlannedDate,
+						FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.DocTech.IdUser).CaseName.GetFullRecordName(),
+						DateOfCompletion = x.DocTech.DateOfCompletion
+					},
+					Supply = new() {
+						PlannedDate = x.Supply.PlannedDate,
+						FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Supply.IdUser).CaseName.GetFullRecordName(),
+						DateOfCompletion = x.Supply.DateOfCompletion,
+						RequiredAmount = x.Supply.RequiredAmount
+					},
+					SawCenter = new() {
+						PlannedDate = x.SawCenter.PlannedDate,
+						FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.SawCenter.IdUser).CaseName.GetFullRecordName(),
+						DateOfCompletion = x.SawCenter.DateOfCompletion,
+						AreaOfLCBOrMDF = x.SawCenter.AreaOfLCBOrMDF,
+						AreaOfLHDF = x.SawCenter.AreaOfLHDF
+					},
+					Edge = new() {
+						PlannedDate = x.Edge.PlannedDate,
+						FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Edge.IdUser).CaseName.GetFullRecordName(),
+						DateOfCompletion = x.Edge.DateOfCompletion,
+						AreaOfLCBOrMDF = x.Edge.AreaOfLCBOrMDF
+					},
+					Additive = new() {
+						PlannedDate = x.Additive.PlannedDate,
+						FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Additive.IdUser).CaseName.GetFullRecordName(),
+						DateOfCompletion = x.Additive.DateOfCompletion,
+						AreaOfLCBOrMDF = x.Additive.AreaOfLCBOrMDF
+					},
+					Milling = new() {
+						PlannedDate = x.Milling.PlannedDate,
+						FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Milling.IdUser).CaseName.GetFullRecordName(),
+						DateOfCompletion = x.Milling.DateOfCompletion,
+						AreaOfMDF = x.Milling.AreaOfMDF
+					},
+					Grinding = new() {
+						PlannedDate = x.Grinding.PlannedDate,
+						FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Grinding.IdUser).CaseName.GetFullRecordName(),
+						DateOfCompletion = x.Grinding.DateOfCompletion,
+						AreaOfMDF = x.Grinding.AreaOfMDF
+					},
+					Press = new() {
+						PlannedDate = x.Press.PlannedDate,
+						FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Press.IdUser).CaseName.GetFullRecordName(),
+						DateOfCompletion = x.Press.DateOfCompletion,
+						AreaOfLCBOrMDF = x.Press.AreaOfLCBOrMDF
+					},
+					Assembling = new() {
+						PlannedDate = x.Assembling.PlannedDate,
+						FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Assembling.IdUser).CaseName.GetFullRecordName(),
+						DateOfCompletion = x.Assembling.DateOfCompletion,
+						AreaOfLCBOrMDF = x.Assembling.AreaOfLCBOrMDF
+					},
+					Packing = new() {
+						PlannedDate = x.Packing.PlannedDate,
+						FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Packing.IdUser).CaseName.GetFullRecordName(),
+						DateOfCompletion = x.Packing.DateOfCompletion,
+						AreaOfLCBOrMDF = x.Packing.AreaOfLCBOrMDF
+					},
+					Equipment = new() {
+						PlannedDate = x.Equipment.PlannedDate,
+						FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Equipment.IdUser).CaseName.GetFullRecordName(),
+						DateOfCompletion = x.Equipment.DateOfCompletion,
+					},
+					Shipment = new() {
+						PlannedDate = x.Shipment.PlannedDate,
+						FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Shipment.IdUser).CaseName.GetFullRecordName(),
+						DateOfCompletion = x.Shipment.DateOfCompletion,
+					},
+					Note = x.Note,
+					Mounting = new() {
+						PlannedDate = x.Mounting.PlannedDate,
+						IsNeed = x.Mounting.IsNeed
+					},
+				}).ToList();
 	}
 }

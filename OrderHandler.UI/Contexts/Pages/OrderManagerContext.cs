@@ -1,24 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
+using OrderHandler.DB;
 using OrderHandler.UI.Contexts.CommandsImpl;
 using OrderHandler.UI.Contexts.Windows;
 using OrderHandler.UI.Core;
+using OrderHandler.UI.Core.Service.Dialog;
 using OrderHandler.UI.Model;
 using OrderHandler.UI.Windows;
 
 namespace OrderHandler.UI.Contexts.Pages;
 
-public class OrderManagerContext : PropertyChanger {
+public class OrderManagerContext : MainPagePropertyChanger {
 
     readonly ITableOrderManagerCommandsImpl _commandsImpl;
+	readonly IDialogService _dialogService;
     public ObservableCollection<ViewOrder> Orders { get; private set; }
 
     public OrderManagerContext(ITableOrderManagerCommandsImpl commandsImpl) {
         Orders = new();
         _commandsImpl = commandsImpl;
+		_dialogService = new DialogService();
         GetData();
     }
 
@@ -36,7 +41,7 @@ public class OrderManagerContext : PropertyChanger {
     RelayCommand? _updateDataCommand;
     public RelayCommand UpdateDataCommand => 
         _updateDataCommand ??= new(
-            _ => Orders = new(_commandsImpl.UpdateDataCommand()), 
+            _ => SetNewOrders(_commandsImpl.UpdateDataCommand()), 
             null
         );
 
@@ -106,8 +111,28 @@ public class OrderManagerContext : PropertyChanger {
     
     RelayCommand? _delRowOrder;
     public RelayCommand DelRowOrder => _delRowOrder ??= new(_ => {
-        
-    }, null);
+		long? idDb = SelectedOrder?.IdDb;
+		if (idDb is null)
+			return;
+		var order = Orders.First(order => order.IdDb == idDb);
+		Orders.Remove(order);
+		
+		using Context dbContext = new();
+		using var transaction = dbContext.Database.BeginTransaction();
+
+		try {
+			var orderDb = dbContext.OrderInfos.First(o => o.Id == idDb);
+			dbContext.OrderInfos.Remove(orderDb);
+			dbContext.SaveChanges();
+			transaction.Commit();
+		} catch (Exception ex) {
+			transaction.Rollback();
+			_dialogService.ShowMessage(
+				ex.Message,
+				DialogLevel.Error
+			);
+		}
+	}, null);
     
     RelayCommand? _setStatusDocConst;
     public RelayCommand SetStatusDocConst => _setStatusDocConst ??= new(_ => {
@@ -246,11 +271,126 @@ public class OrderManagerContext : PropertyChanger {
     
     // тут фильтры учитываем
     void GetData() {
-
-    }
+		using Context dbContext = new();
+		var data = dbContext.OrderInfos
+			.Select(x => new ViewOrder() {
+				IdDb = x.Id,
+				OrderMain = new() {
+					OrderNumber = x.OrderMain.OrderNumber,
+					IdUser = x.OrderMain.IdUser,
+					FIO = x.OrderMain?.User?.CaseName?.GetFullRecordName() ?? "",
+					FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.OrderMain.IdUser).CaseName
+						.GetFullRecordName()
+					OrderDate = x.OrderMain.OrderDate,
+					DeliveryDate = x.OrderMain.DeliveryDate,
+					Term = (int)x.OrderMain.Term,
+					ProductType = x.OrderMain.ProductType,
+					OrderAmount = x.OrderMain.OrderAmount,
+				},
+				DocConst = new() {
+					PlannedDate = x.DocConst.PlannedDate,
+					FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.DocConst.IdUser).CaseName
+						.GetFullRecordName(),
+					DateOfCompletion = x.DocConst.DateOfCompletion
+				},
+				DocTech = new() {
+					PlannedDate = x.DocTech.PlannedDate,
+					FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.DocTech.IdUser).CaseName
+						.GetFullRecordName(),
+					DateOfCompletion = x.DocTech.DateOfCompletion
+				},
+				Supply = new() {
+					PlannedDate = x.Supply.PlannedDate,
+					FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Supply.IdUser).CaseName.GetFullRecordName(),
+					DateOfCompletion = x.Supply.DateOfCompletion,
+					RequiredAmount = x.Supply.RequiredAmount
+				},
+				SawCenter = new() {
+					PlannedDate = x.SawCenter.PlannedDate,
+					FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.SawCenter.IdUser).CaseName
+						.GetFullRecordName(),
+					DateOfCompletion = x.SawCenter.DateOfCompletion,
+					AreaOfLCBOrMDF = x.SawCenter.AreaOfLCBOrMDF,
+					AreaOfLHDF = x.SawCenter.AreaOfLHDF
+				},
+				Edge = new() {
+					PlannedDate = x.Edge.PlannedDate,
+					FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Edge.IdUser).CaseName.GetFullRecordName(),
+					DateOfCompletion = x.Edge.DateOfCompletion,
+					AreaOfLCBOrMDF = x.Edge.AreaOfLCBOrMDF
+				},
+				Additive = new() {
+					PlannedDate = x.Additive.PlannedDate,
+					FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Additive.IdUser).CaseName
+						.GetFullRecordName(),
+					DateOfCompletion = x.Additive.DateOfCompletion,
+					AreaOfLCBOrMDF = x.Additive.AreaOfLCBOrMDF
+				},
+				Milling = new() {
+					PlannedDate = x.Milling.PlannedDate,
+					FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Milling.IdUser).CaseName
+						.GetFullRecordName(),
+					DateOfCompletion = x.Milling.DateOfCompletion,
+					AreaOfMDF = x.Milling.AreaOfMDF
+				},
+				Grinding = new() {
+					PlannedDate = x.Grinding.PlannedDate,
+					FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Grinding.IdUser).CaseName
+						.GetFullRecordName(),
+					DateOfCompletion = x.Grinding.DateOfCompletion,
+					AreaOfMDF = x.Grinding.AreaOfMDF
+				},
+				Press = new() {
+					PlannedDate = x.Press.PlannedDate,
+					FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Press.IdUser).CaseName.GetFullRecordName(),
+					DateOfCompletion = x.Press.DateOfCompletion,
+					AreaOfLCBOrMDF = x.Press.AreaOfLCBOrMDF
+				},
+				Assembling = new() {
+					PlannedDate = x.Assembling.PlannedDate,
+					FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Assembling.IdUser).CaseName
+						.GetFullRecordName(),
+					DateOfCompletion = x.Assembling.DateOfCompletion,
+					AreaOfLCBOrMDF = x.Assembling.AreaOfLCBOrMDF
+				},
+				Packing = new() {
+					PlannedDate = x.Packing.PlannedDate,
+					FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Packing.IdUser).CaseName
+						.GetFullRecordName(),
+					DateOfCompletion = x.Packing.DateOfCompletion,
+					AreaOfLCBOrMDF = x.Packing.AreaOfLCBOrMDF
+				},
+				Equipment = new() {
+					PlannedDate = x.Equipment.PlannedDate,
+					FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Equipment.IdUser).CaseName
+						.GetFullRecordName(),
+					DateOfCompletion = x.Equipment.DateOfCompletion,
+				},
+				Shipment = new() {
+					PlannedDate = x.Shipment.PlannedDate,
+					FIO = dbContext.UserInfos.FirstOrDefault(u => u.Id == x.Shipment.IdUser).CaseName
+						.GetFullRecordName(),
+					DateOfCompletion = x.Shipment.DateOfCompletion,
+				},
+				Note = x.Note,
+				Mounting = new() {
+					PlannedDate = x.Mounting.PlannedDate,
+					IsNeed = x.Mounting.IsNeed
+				},
+			})
+			.ToList();
+		SetNewOrders(data);
+	}
 
     void SetNewOrders(IEnumerable<ViewOrder> data) {
-        if (!data.Any())
-            Orders = new(data);
-    }
+		if (!data.Any())
+			return;
+		
+		Orders.Clear();
+		var index = 1;
+		data.ToList().ForEach(val => {
+			val.Id = index++;
+			Orders.Add(val);
+		});
+	}
 }

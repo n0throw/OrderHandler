@@ -6,16 +6,24 @@ using OrderHandler.UI.Model.Validation.Validators;
 
 namespace OrderHandler.UI.Model.ViewOrderAdd;
 
-public class ViewGrinding : PropertyChanger, IDataErrorInfo {
+public class ViewGrinding : MainPagePropertyChanger, IDataErrorInfo {
+    long _id;
     DateTime _plannedDate;
-    string _FIO;
+    long? _idUser;
+    string _fio;
     DateTime _dateOfCompletion;
     decimal _areaOfMDF;
         
     public string Error => throw new NotImplementedException();
     IViewGrindingValidator Validator { get; }
 
-    internal long Id { get; set; }
+    public long Id {
+        get => _id;
+        set {
+            _id = value;
+            OnPropertyChanged();
+        }
+    }
 
     public DateTime PlannedDate {
         get => _plannedDate;
@@ -24,12 +32,20 @@ public class ViewGrinding : PropertyChanger, IDataErrorInfo {
             OnPropertyChanged();
         }
     }
-    internal long? IdUser { get; set; }
+
+    public long? IdUser {
+        get => _idUser;
+        set {
+            _idUser = value;
+            FIO = "asd"; // todo add fio from DB
+            OnPropertyChanged();
+        }
+    }
 
     public string FIO {
-        get => _FIO;
+        get => _fio;
         set {
-            _FIO = value;
+            _fio = value;
             OnPropertyChanged();
         }
     }
@@ -48,8 +64,12 @@ public class ViewGrinding : PropertyChanger, IDataErrorInfo {
         }
     }
 
-    public ViewGrinding(IViewGrindingValidator validator) =>
+    public ViewGrinding() : this(new ViewGrindingValidator()) {}
+    
+    public ViewGrinding(IViewGrindingValidator validator)  {
         Validator = validator;
+        _fio = string.Empty;
+    }
     
     public bool Validate() =>
         Validator.Validate(this);

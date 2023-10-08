@@ -4,7 +4,7 @@ using OrderHandler.UI.Core;
 
 namespace OrderHandler.UI.Model.MainMenuAdd; 
 
-public class SubAppNode : PropertyChanger {
+public class SubAppNode : MainPagePropertyChanger {
 	int _id;
 	int _idParent;
 	string _name;

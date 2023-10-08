@@ -6,15 +6,23 @@ using OrderHandler.UI.Model.Validation.Validators;
 
 namespace OrderHandler.UI.Model.ViewOrderAdd;
 
-public class ViewDocTech : PropertyChanger, IDataErrorInfo {
+public class ViewDocTech : MainPagePropertyChanger, IDataErrorInfo {
+    long _id;
     DateTime _plannedDate;
-    string _FIO;
+    long? _idUser;
+    string _fio;
     DateTime _dateOfCompletion;
         
     public string Error => throw new NotImplementedException();
     IViewDocTechValidator Validator { get; }
 
-    internal long Id { get; set; }
+    public long Id {
+        get => _id;
+        set {
+            _id = value;
+            OnPropertyChanged();
+        }
+    }
 
     public DateTime PlannedDate {
         get => _plannedDate;
@@ -23,12 +31,20 @@ public class ViewDocTech : PropertyChanger, IDataErrorInfo {
             OnPropertyChanged();
         }
     }
-    internal long? IdUser { get; set; }
+
+    public long? IdUser {
+        get => _idUser;
+        set {
+            _idUser = value;
+            FIO = "asd"; // todo add fio from DB
+            OnPropertyChanged();
+        }
+    }
 
     public string FIO {
-        get => _FIO;
+        get => _fio;
         set {
-            _FIO = value;
+            _fio = value;
             OnPropertyChanged();
         }
     }
@@ -40,8 +56,12 @@ public class ViewDocTech : PropertyChanger, IDataErrorInfo {
         }
     }
 
-    public ViewDocTech(IViewDocTechValidator validator) =>
+    public ViewDocTech() : this(new ViewDocTechValidator()) {}
+    
+    public ViewDocTech(IViewDocTechValidator validator)  {
         Validator = validator;
+        _fio = string.Empty;
+    }
     
     public bool Validate() =>
         Validator.Validate(this);

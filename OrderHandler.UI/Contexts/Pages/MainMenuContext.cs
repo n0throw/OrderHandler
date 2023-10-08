@@ -8,7 +8,7 @@ using OrderHandler.UI.Model.MainMenuAdd;
 
 namespace OrderHandler.UI.Contexts.Pages; 
 
-public class MainMenuContext : PropertyChanger {
+public class MainMenuContext : MainPagePropertyChanger {
 	bool _isShowFavouritesSubAppSubApp;
 	bool _isShowGenericSubApp;
 
@@ -66,7 +66,7 @@ public class MainMenuContext : PropertyChanger {
 	public RelayCommand DoubleClickToSubApp =>
 		_doubleClickToSubApp ??= new(_ => {
 			string? subAppPageName = GetAllDescendants(MenuNodes)
-				.First(node => node.IsSelected).SubAppPageName;
+				.FirstOrDefault(node => node.IsSelected)?.SubAppPageName;
 			
 			if (subAppPageName is not null)
 				GoToPage(subAppPageName);

@@ -6,9 +6,11 @@ using OrderHandler.UI.Model.Validation.Validators;
 
 namespace OrderHandler.UI.Model.ViewOrderAdd;
 
-public class ViewOrderMain : PropertyChanger, IDataErrorInfo  {
+public class ViewOrderMain : MainPagePropertyChanger, IDataErrorInfo  {
+    long _id;
     string _orderNumber;
-    string _FIO;
+    long? _idUser;
+    string _fio;
     DateTime _orderDate;
     DateTime _deliveryDate;
     int _term;
@@ -18,7 +20,13 @@ public class ViewOrderMain : PropertyChanger, IDataErrorInfo  {
     public string Error => throw new NotImplementedException();
     IViewOrderMainValidator Validator { get; }
 
-    internal long Id { get; set; }
+    public long Id {
+        get => _id;
+        set {
+            _id = value;
+            OnPropertyChanged();
+        }
+    }
 
     public string OrderNumber {
         get => _orderNumber;
@@ -27,15 +35,22 @@ public class ViewOrderMain : PropertyChanger, IDataErrorInfo  {
             OnPropertyChanged();
         }
     }
-    internal long? IdUser { get; set; }
-
-    public string FIO {
-        get => _FIO;
+    public long? IdUser {
+        get => _idUser;
         set {
-            _FIO = value;
+            _idUser = value;
+            FIO = "asd"; // todo add fio from DB
             OnPropertyChanged();
         }
-}
+    }
+
+    public string FIO {
+        get => _fio;
+        set {
+            _fio = value;
+            OnPropertyChanged();
+        }
+    }
     public DateTime OrderDate {
         get => _orderDate;
         set {
@@ -72,9 +87,15 @@ public class ViewOrderMain : PropertyChanger, IDataErrorInfo  {
         }
     }
     
-    public ViewOrderMain(IViewOrderMainValidator validator) =>
-        Validator = validator;
+    public ViewOrderMain() : this(new ViewOrderMainValidator()) {}
     
+    public ViewOrderMain(IViewOrderMainValidator validator) {
+        Validator = validator;
+        _orderNumber = string.Empty;
+        _fio = string.Empty;
+        _productType = string.Empty;
+    }
+
     public bool Validate() =>
         Validator.Validate(this);
 

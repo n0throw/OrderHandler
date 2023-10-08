@@ -26,8 +26,7 @@
                           Command="{Binding CloseAppCommand}" />
             </MenuItem>
             <MenuItem Header="Утилиты" Height="20" ToolTip="Основные для данной страницы функции">
-                <MenuItem Header="Удалить"
-                          IsChecked="{Binding DelRoleOrUser}" />
+                <MenuItem Header="Удалить" IsChecked="{Binding DelRoleOrUser}" />
             </MenuItem>
             <MenuItem Header="Настройки" Height="20" ToolTip="Основные настройки приложения">
                 <MenuItem Header="Основные"
@@ -100,7 +99,7 @@
                           HorizontalAlignment="Center"
                           VerticalAlignment="Stretch" />
             <Grid Grid.Column="2">
-            <!-- todo тут Navigate на встраиваемый редактор роли или пользователя, в зависимости от выбора -->
+                <Frame Content="{Binding CurrentPage}"/>
             </Grid>
         </Grid>
     </Grid>

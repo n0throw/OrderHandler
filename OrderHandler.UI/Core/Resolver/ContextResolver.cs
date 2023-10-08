@@ -8,14 +8,14 @@ using OrderHandler.UI.Contexts.CommandsImpl;
 
 namespace OrderHandler.UI.Core.Resolver;
 
-public class ContextResolver : Resolver<PropertyChanger> {
+public class ContextResolver : Resolver<MainPagePropertyChanger> {
     const string DefaultContext = nameof(ErrorPageContext);
     const string PostfixAlias = "Context";
 
     protected override string DefaultInstance => DefaultContext;
     protected override string DefaultPostfixAlias => PostfixAlias;
 
-    public ContextResolver() : base(new Dictionary<string, Func<PropertyChanger>> {
+    public ContextResolver() : base(new Dictionary<string, Func<MainPagePropertyChanger>> {
         { nameof(LoginContext), () => new LoginContext() },
         { nameof(ErrorPageContext), () => new ErrorPageContext() },
         { nameof(OrderManagerContext), () => new OrderManagerContext(new TableOrderManagerCommandsImpl(new DialogService(), new ExcelOrderFileService())) },

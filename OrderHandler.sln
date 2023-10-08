@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderHandler.DB", "OrderHan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderHandler.DBConfigurator", "OrderHandler.DBConfigurator\OrderHandler.DBConfigurator.csproj", "{AD444908-E799-4264-871A-1A042B7DEEAE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDB", "TestDB\TestDB.csproj", "{1D5C18CD-DFCC-467F-A913-8942F0AE8865}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{AD444908-E799-4264-871A-1A042B7DEEAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD444908-E799-4264-871A-1A042B7DEEAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD444908-E799-4264-871A-1A042B7DEEAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D5C18CD-DFCC-467F-A913-8942F0AE8865}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D5C18CD-DFCC-467F-A913-8942F0AE8865}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D5C18CD-DFCC-467F-A913-8942F0AE8865}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D5C18CD-DFCC-467F-A913-8942F0AE8865}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -9,6 +9,7 @@ namespace OrderHandler.DB.Data.UserAdd;
 /// ФИО Пользователя.
 /// Модель БД.
 /// </summary>
+[Obsolete("Всё уже в CaseName")]
 public class GivenName : ICloneable {
     /// <summary>
     /// Id в БД. Ключ записи

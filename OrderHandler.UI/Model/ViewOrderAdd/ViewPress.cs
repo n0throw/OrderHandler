@@ -6,16 +6,24 @@ using OrderHandler.UI.Model.Validation.Validators;
 
 namespace OrderHandler.UI.Model.ViewOrderAdd;
 
-public class ViewPress : PropertyChanger, IDataErrorInfo {
+public class ViewPress : MainPagePropertyChanger, IDataErrorInfo {
+	long _id;
 	DateTime _plannedDate;
-	string _FIO;
+	long? _idUser;
+	string _fio;
 	DateTime _dateOfCompletion;
 	decimal _areaOfLCBOrMDF;
         
 	public string Error => throw new NotImplementedException();
 	IViewPressValidator Validator { get; }
 
-	internal long Id { get; set; }
+	long Id {
+		get => _id;
+		set {
+			_id = value;
+			OnPropertyChanged();
+		}
+	}
 
 	public DateTime PlannedDate {
 		get => _plannedDate;
@@ -24,12 +32,20 @@ public class ViewPress : PropertyChanger, IDataErrorInfo {
 			OnPropertyChanged();
 		}
 	}
-	internal long? IdUser { get; set; }
+
+	long? IdUser {
+		get => _idUser;
+		set {
+			_idUser = value;
+			FIO = "asd"; // todo add fio from DB
+			OnPropertyChanged();
+		}
+	}
 
 	public string FIO {
-		get => _FIO;
+		get => _fio;
 		set {
-			_FIO = value;
+			_fio = value;
 			OnPropertyChanged();
 		}
 	}
@@ -48,8 +64,12 @@ public class ViewPress : PropertyChanger, IDataErrorInfo {
 		}
 	}
 
-	public ViewPress(IViewPressValidator validator) =>
+	public ViewPress() : this(new ViewPressValidator()) {}
+	
+	public ViewPress(IViewPressValidator validator) {
 		Validator = validator;
+		_fio = string.Empty;
+	}
     
 	public bool Validate() =>
 		Validator.Validate(this);

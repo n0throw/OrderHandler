@@ -7,7 +7,7 @@ using OrderHandler.UI.Model;
 
 namespace OrderHandler.UI.Contexts.Windows; 
 
-public class DBConnectSettingsWindowContext : PropertyChanger {
+public class DBConnectSettingsWindowContext : MainPagePropertyChanger {
 	DBCombo _currentSelection;
 	readonly DBCombo _defaultDBCombo = new(-1, "Выберите БД", "None");
     

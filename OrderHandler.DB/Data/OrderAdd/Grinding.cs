@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OrderHandler.DB.Data.OrderAdd;
 
@@ -7,45 +8,49 @@ namespace OrderHandler.DB.Data.OrderAdd;
 /// шлифовка.
 /// Модель БД.
 /// </summary>
-public class Grinding : OrderGeneric {
+public class Grinding {
     /// <summary>
     /// Id в БД. Ключ записи
     /// </summary>
-    public override long Id { get; set; }
-    #region [ Basic Information ]
+    public long Id { get; set; }
+
     /// <summary>
     /// Плановая дата
     /// </summary>
+    [Column("dPlannedDate")]
     public DateTime PlannedDate { get; set; }
     /// <summary>
     /// Дата выполнения
     /// </summary>
+    [Column("dDateOfCompletion")]
     public DateTime DateOfCompletion { get; set; }
     /// <summary>
-    /// МДФ м^2
+    /// ЛДСП/МДФ м^2
     /// </summary>
+    [Column("nAreaOfMDF")]
     public decimal AreaOfMDF { get; set; }
-    #endregion [ Basic Information ]
-    #region [ Foreign Keys ]
+    
     /// <summary>
     /// Id Пользователя.
     /// Внешний ключ
     /// </summary>
-    public override long UserId { get; set; }
+    public long IdUser { get; set; }
     /// <summary>
     /// Выполнивший пользователь.
     /// Внешний ключ
     /// </summary>
-    public override User? User { get; set; }
+    [ForeignKey("IdUser")]
+    public UserInfo? User { get; set; }
+    
     /// <summary>
     /// Id Заказа.
     /// Внешний ключ
     /// </summary>
-    public override long OrderId { get; set; }
+    public long? IdOrder { get; set; }
     /// <summary>
     /// Заказ.
     /// Внешний ключ
     /// </summary>
-    public override Order? Order { get; set; }
-    #endregion [ Foreign Keys ]
+    [ForeignKey("IdOrder")]
+    public OrderInfo? Order { get; set; }
 }
